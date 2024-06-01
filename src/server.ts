@@ -15,7 +15,9 @@ import path from "path";
 
 const app = express();
 
-app.use(cors())
+app.use(cors({
+    origin: 'http://185.229.236.134:3000'
+}))
 
 const PORT = Number(process.env.PORT) || 3000;
 
