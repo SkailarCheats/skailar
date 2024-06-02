@@ -1,33 +1,41 @@
+'use client';
+
 import { MaxWidthWrapper } from '@/components/MaxWidthWrapper'
 import { ProductReel } from '@/components/product-reel'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { ArrowDownToLine, Headphones, RefreshCcw } from 'lucide-react'
 import Link from 'next/link'
+import { redirect, useRouter } from 'next/navigation'
 
 const perks = [
-  { name: "Instant Delivery", Icon: ArrowDownToLine, description: "Get your product delivered to your email in seconds and download them right away." },
-  { name: "Security Updates", Icon: RefreshCcw, description: "Stay ahead of the game with instant updates. Our cheats adapt swiftly to game patches, ensuring you experience uninterrupted gameplay." },
-  { name: "Customer Support", Icon: Headphones, description: "Gain access to a dedicated support channel, offering a premium support experience." },
+  { name: "Instant Delivery", Icon: ArrowDownToLine, description: "Receive your cheats immediately after purchase for uninterrupted gameplay." },
+  { name: "Secure Payments", Icon: RefreshCcw, description: "All transactions are encrypted to ensure your personal and payment information is safe." },
+  { name: "Customer Support", Icon: Headphones, description: "Our support team is available around the clock to assist you with any issues or questions." },
 ]
 
 export default function Home() {
+  const router = useRouter()
+
+  const joinDiscord = () => {
+    window.open('https://discord.gg/skailar', '_blank')
+  }
+
   return (
     <>
       <MaxWidthWrapper>
         <div className='py-20 mx-auto text-center flex flex-col items-center max-w-3xl'>
           <h1 className='text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-6xl'>
-            Your Marketplace for high-quality{' '}
-            <span className='text-purple-600'>cheats</span>.
+            Your one-stop shop for premium {' '}
+            <span className="text-purple-600">cheats</span>.
           </h1>
           <p className="mt-6 text-lg max-w-prose text-muted-foreground">
-            Welcome to Skailar. Every product on our
-            platform is verified by our team to ensure our
-            highest quality standards.
+            Welcome to Skailar. Our team rigorously tests 
+            each cheat to guarantee top-notch quality and reliability.
           </p>
 
           <div className='flex flex-col sm:flex-row gap-4 mt-6'>
-            <Link href='/products' className={buttonVariants()}>Browse Tranding</Link>
-            <Button variant='outline'>Our quality promise &rarr;</Button>
+            <Link href='/products' className={buttonVariants()}>Explore Popular Cheats</Link>
+            <Button onClick={() => joinDiscord()} variant='outline'>Connect on Discord &rarr;</Button>
           </div>
         </div>
 

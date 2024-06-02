@@ -79,7 +79,7 @@ export const ProductFile: CollectionConfig = {
                 condition: () => false
             },
             hasMany: false,
-            required: true,
+            required: false,
         }
     ]
 }

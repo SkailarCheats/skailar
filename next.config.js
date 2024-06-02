@@ -19,6 +19,18 @@ const nextConfig = {
                 hostname: 'localhost',
                 port: '3000',
                 pathname: '**'
+            },
+            {
+                protocol: 'http',
+                hostname: '185.229.236.134',
+                port: '3000',
+                pathname: '**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'skailar.com',
+                port: '',
+                pathname: '**'
             }
         ],
     },

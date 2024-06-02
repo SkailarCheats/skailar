@@ -75,7 +75,7 @@ export const Cart = () => {
                     <div className="flex h-full flex-col items-center justify-center space-y-1">
                         <div aria-hidden='true' className="relative mb-4 h-60 w-60 text-muted-foreground">
                             {/* TODO: Change Cart Empty Image */}
-                            <Image src='https://w7.pngwing.com/pngs/432/660/png-transparent-empty-cart-illustration.png' fill alt="Empty Shopping Cart" />
+                            <Image src='/cart.png' fill alt="Empty Shopping Cart" />
                         </div>
                         <div className="text-xl font-semibold">Your cart is Empty</div>
                         <SheetTrigger asChild>

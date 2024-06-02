@@ -16,7 +16,11 @@ export const Products: CollectionConfig = {
     admin: {
         useAsTitle: "name",
     },
-    access: {},
+    access: {
+        read: ({ req }) => req.user.role === 'admin',
+        update: ({ req }) => req.user.role === 'admin',
+        delete: ({ req }) => req.user.role === 'admin',
+    },
     hooks: {
         beforeChange: [
             addUser,

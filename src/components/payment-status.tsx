@@ -31,7 +31,7 @@ export const PaymentStatus = ({ orderEmail, orderId, isPaid }: PaymentStatusProp
 
             <div>
                 <p className="font-medium text-gray-900 dark:text-gray-100">Order Status</p>
-                <p>{isPaid ? "Payment Successful" : "Pending Payment"}</p>
+                <p className={isPaid ? 'text-green-500' : 'text-red-500'}>{isPaid ? "Payment Successful" : "Pending Payment"}</p>
             </div>
         </div>
     )

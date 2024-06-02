@@ -34,7 +34,7 @@ export const VerifyEmail = ({
             <Body style={main}>
                 <Container style={container}>
                     <Img
-                        src={`/logo.png`}
+                        src={`https://skailar.com/logo.png`}
                         width='150'
                         height='150'
                         alt='Skailar'

@@ -25,7 +25,6 @@ const VerifyEmailPage = ({ searchParams }: PageProps) => {
             <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                 {token && typeof token === "string" ? ( // If token exists and is a string, render VerifyEmail component
                     <div className="grid gap-6">
-                        {/* Render VerifyEmail component with token prop */}
                         <VerifyEmail token={token} />
                     </div>
                 ) : (
@@ -33,7 +32,7 @@ const VerifyEmailPage = ({ searchParams }: PageProps) => {
                         <div className="relative mb-4 h-60 w-60 text-muted-foreground">
                             {/* Display image indicating email sent */}
                             <Image
-                                src='https://e7.pngegg.com/pngimages/316/232/png-clipart-email-sendmail-computer-icons-bounce-address-email-miscellaneous-angle.png'
+                                src='/mail-sent.png'
                                 fill
                                 alt="Skailar email sent"
                             />

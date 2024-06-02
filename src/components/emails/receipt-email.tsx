@@ -47,7 +47,7 @@ export const ReceiptEmail = ({ date, email, orderId, products, licenseKey }: Rec
                     <Section>
                         <Column>
                             <Img
-                                src={`${process.env.NEXT_PUBLIC_SERVER_URL}/logo.png`}
+                                src={`https://skailar.com/logo.png`}
                                 width='100'
                                 height='100'
                                 alt="Skailar"
@@ -112,27 +112,18 @@ export const ReceiptEmail = ({ date, email, orderId, products, licenseKey }: Rec
                                     <Text style={productTitle}>
                                         {product.name}
                                     </Text>
-                                    {/* {product.description ? (
-                                        <Text style={productDescription}>
-                                            {product.description.length > 50
-                                                ? product.description?.slice(
-                                                    0,
-                                                    50
-                                                ) + '...'
-                                                : product.description}
-                                        </Text>
-                                    ) : null} */}
-                                    {description}
+                                    
+                                    <Text style={productDescription}>
+                                        License Key: {licenseKey}
+                                    </Text>
+
                                     <Link
-                                        href={`${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${orderId}`}
+                                        href={`https://skailar.com/thank-you?orderId=${orderId}`}
                                         style={productLink}>
                                         Download Loader
                                     </Link>
-                                    <Text>
-                                        <p>License Key: {licenseKey}</p>
-                                    </Text>
                                 </Column>
-
+                                
                                 <Column
                                     style={productPriceWrapper}
                                     align='right'>
@@ -143,27 +134,6 @@ export const ReceiptEmail = ({ date, email, orderId, products, licenseKey }: Rec
                             </Section>
                         )
                     })}
-
-                    <Section>
-                        <Column style={{ width: '64px' }}></Column>
-                        <Column
-                            style={{
-                                paddingLeft: '40px',
-                                paddingTop: 20,
-                            }}>
-                            <Text style={productTitle}>
-                                Transaction Fee
-                            </Text>
-                        </Column>
-
-                        <Column
-                            style={productPriceWrapper}
-                            align='right'>
-                            <Text style={productPrice}>
-                                Free
-                            </Text>
-                        </Column>
-                    </Section>
 
                     <Hr style={productPriceLine} />
                     <Section align='right'>
@@ -181,13 +151,13 @@ export const ReceiptEmail = ({ date, email, orderId, products, licenseKey }: Rec
                     <Hr style={productPriceLineBottom} />
 
                     <Text style={footerLinksWrapper}>
-                        <Link href='#'>Account Settings</Link> •{' '}
-                        <Link href='#'>Terms of Sale</Link> •{' '}
-                        <Link href='#'>Privacy Policy </Link>
+                        <Link href='https://discord.gg/skailar'>Discord</Link> •{' '}
+                        <Link href='https://skailar.com/legal/terms'>Terms</Link> •{' '}
+                        <Link href='https://skailar.com/legal/privacy'>Privacy Policy </Link>
                     </Text>
                     <Text style={footerCopyright}>
-                        &copy; {new Date().getFullYear()} Skailar. <br />{' '}
-                        <Link href='#'>All rights reserved</Link>
+                        &copy; {new Date().getFullYear()} <Link href="https://skailar.com">Skailar</Link>. <br />{' '}
+                        All Rights Reserved.
                     </Text>
                 </Container>
             </Body>
