@@ -10,6 +10,7 @@ import { AddToCartButton } from "@/components/add-to-cart-button"
 import { ImageSlider } from "@/components/image-slider"
 import { ProductReel } from "@/components/product-reel"
 import renderRichText, { RichTextNode } from "@/components/richText"
+import { buttonVariants } from "@/components/ui/button"
 import { PRODUCT_CATEGORY } from "@/config"
 import { getPayloadClient } from "@/get-payload"
 import { formatPrice } from "@/lib/utils"
@@ -134,7 +135,10 @@ const Page = async ({ params }: PageProps) => {
                             <div className="mt-6 text-center">
                                 <div className="group inline-flex text-sm font-medium">
                                     <Shield aria-hidden='true' className="mr-2 h-5 w-5 flex-shrink-0 text-gray-400 dark:text-gray-600" />
-                                    <span className="text-muted-foreground">No Refund Available</span>
+                                    <span className="text-muted-foreground">
+                                        By purchasing this product, you accept these{' '}
+                                        <Link className="underline text-purple-500 capitalize" target="_blank" href='/legal/terms'>terms</Link>.
+                                    </span>
                                 </div>
                             </div>
                         </div>

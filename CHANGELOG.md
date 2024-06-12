@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 - v1.0 Infinite stock with license key generation during purchase.
+- v1.0 Terms Page
 
 ### Changed
 - v1.0 Display of the license key on the Thank-you page instead of Order Confermation Email.
