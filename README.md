@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Skailar Store
+
+Welcome to Skailar, your go-to destination for premium game cheats and hacks. Our store offers a variety of tools and scripts designed to enhance your gaming experience by providing you with competitive advantages in various games.
+
+## Features
+
+- **Wide Range of Cheats**: Access cheats for popular games.
+- **User-Friendly Interface**: Easy to navigate and purchase cheats.
+- **Regular Updates**: Constantly updated to ensure compatibility and effectiveness.
+- **Secure Transactions**: Safe and secure payment methods.
 
 ## Getting Started
 
-First, run the development server:
+1. **Visit our Store**: Browse our selection of cheats.
+2. **Choose Your Cheats**: Select the cheats you want to purchase.
+3. **Make a Purchase**: Follow the checkout process for a secure transaction.
+4. **Enjoy**: Gain immediate access to your purchased cheats.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Support
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+For any questions or support, please contact our support team at [.gg/skailar](https://discord.gg/skailar)
