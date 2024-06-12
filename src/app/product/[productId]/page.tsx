@@ -1,7 +1,7 @@
 /*
  * This component represents a page for displaying details of a single product.
  * It fetches product data based on the productId from the URL params.
- * It also fetches warehouse information to check stock availability and displays
+ * It also fetches and displays
  * the product details, images, and an add-to-cart button.
  */
 
@@ -49,23 +49,6 @@ const Page = async ({ params }: PageProps) => {
 
     // Returning a not found page if no product is found
     if (!product) return notFound();
-
-    // Fetching warehouse information for the product
-    const { docs: warehouses } = await payload.find({
-        collection: 'warehouse',
-        limit: 1,
-        where: {
-            product: {
-                equals: productId
-            }
-        }
-    });
-
-    // Extracting the first warehouse from the fetched data
-    const warehouse = warehouses[0];
-
-    // Checking if the warehouse has license keys available
-    const hasLicenseKeys = warehouse?.stock?.split('\n').filter(key => key.trim() !== '').length > 0;
 
     // Breadcrumbs for navigation
     const BREADCRUMBS = [
@@ -146,7 +129,7 @@ const Page = async ({ params }: PageProps) => {
                     <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
                         <div>
                             <div className="mt-10">
-                                <AddToCartButton product={product} isDisabled={!hasLicenseKeys} />
+                                <AddToCartButton product={product} />
                             </div>
                             <div className="mt-6 text-center">
                                 <div className="group inline-flex text-sm font-medium">

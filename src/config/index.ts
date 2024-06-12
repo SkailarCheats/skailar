@@ -62,5 +62,15 @@ export const PRODUCT_CATEGORY = [
                 href: "",
             }
         ]
+    },
+    {
+        label: "Valorant",
+        value: "valorant" as const,
+        featured: [
+            {
+                name: "Skailar", // 3000 3000 3000 3000
+                href: "",
+            }
+        ]
     }
 ]

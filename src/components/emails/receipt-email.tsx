@@ -1,4 +1,4 @@
-import { Product } from "@/payload-types";
+import { Order, Product } from "@/payload-types";
 import { format } from 'date-fns'
 import {
     Html,
@@ -25,10 +25,9 @@ interface ReceiptEmailProps {
     date: Date;
     orderId: string;
     products: Product[];
-    licenseKey: string
 }
 
-export const ReceiptEmail = ({ date, email, orderId, products, licenseKey }: ReceiptEmailProps) => {
+export const ReceiptEmail = ({ date, email, orderId, products }: ReceiptEmailProps) => {
     const total = products.reduce((acc, curr) => acc + curr.price, 0) + 0
 
     const [product] = products;
@@ -111,10 +110,6 @@ export const ReceiptEmail = ({ date, email, orderId, products, licenseKey }: Rec
                                 <Column style={{ paddingLeft: '22px' }}>
                                     <Text style={productTitle}>
                                         {product.name}
-                                    </Text>
-                                    
-                                    <Text style={productDescription}>
-                                        License Key: {licenseKey}
                                     </Text>
 
                                     <Link

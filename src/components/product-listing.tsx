@@ -6,7 +6,7 @@ import Link from "next/link";
 import { cn, formatPrice } from "@/lib/utils";
 import { PRODUCT_CATEGORY } from "@/config";
 import { ImageSlider } from "./image-slider";
-import { Check, X } from "lucide-react";
+import { Check, InfinityIcon, X } from "lucide-react";
 
 interface ProductListingProps {
     product: Product | null;
@@ -15,15 +15,6 @@ interface ProductListingProps {
 
 export const ProductListing = ({ index, product }: ProductListingProps) => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
-    const [stockLicenses, setStockLicenses] = useState<Record<string, string[]>>({});
-
-    const { data: licensesData } = trpc.getStockLicenses.useQuery();
-
-    useEffect(() => {
-        if (licensesData) {
-            setStockLicenses(licensesData);
-        }
-    }, [licensesData]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -49,17 +40,11 @@ export const ProductListing = ({ index, product }: ProductListingProps) => {
                 <p className="mt-1 text-sm text-gray-500">{label}</p>
                 <p className="mt-1 font-medium text-sm text-gray-900 dark:text-gray-100">{formatPrice(product.price)}</p>
                 <span className="flex items-center justify-end">
-                    {stockLicenses[product.id]?.length ?? 0 > 0 ? (
-                        <>
-                            <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
-                            <p className="ml-1.5 text-sm text-muted-foreground">{stockLicenses[product.id]?.length} In Stock</p>
-                        </>
-                    ) : (
-                        <>
-                            <X className="h-5 w-5 flex-shrink-0 text-red-500" />
-                            <p className="ml-1.5 text-sm text-muted-foreground">{stockLicenses[product.id]?.length ?? 'Not in Stock'}</p>
-                        </>
-                    )}
+                    <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
+                    <p className="flex items-center ml-1.5 text-sm text-muted-foreground">
+                        <InfinityIcon className="h-5 w-5 mr-1 font-bold flex-shrink-0" />    
+                        In Stock
+                    </p>
                 </span>
             </div>
         </Link>

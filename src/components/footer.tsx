@@ -38,7 +38,7 @@ export const Footer = () => {
                                     <p className="mt-2 text-sm text-muted-foreground">
                                         If you&apos;d like to sell high-quality
                                         cheats, you can do so in minutes.{' '}
-                                        <Link href='/login?as=reseller' className="whitespace-nowrap font-medium text-black dark:text-white hover:text-zinc-900 dark:hover:text-zinc-100">
+                                        <Link href='https://reseller.skailar.com' className="whitespace-nowrap font-medium text-black dark:text-white hover:text-zinc-900 dark:hover:text-zinc-100">
                                             Get started &rarr;
                                         </Link>
                                     </p>

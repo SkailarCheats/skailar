@@ -13,7 +13,6 @@ export interface Config {
     media: Media;
     product_file: ProductFile;
     orders: Order;
-    warehouse: Warehouse;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -47,9 +46,13 @@ export interface Product {
   id: string;
   user?: (string | null) | User;
   name: string;
-  description?: string | null;
+  description?:
+    | {
+        [k: string]: unknown;
+      }[]
+    | null;
   price: number;
-  category: 'rainbow_six';
+  category: 'rainbow_six' | 'cs2' | 'eft' | 'apex' | 'rust' | 'fortnite';
   product_files: string | ProductFile;
   approvedForSale?: ('pending' | 'approved' | 'denied') | null;
   priceId?: string | null;
@@ -58,7 +61,6 @@ export interface Product {
     image: string | Media;
     id?: string | null;
   }[];
-  warehouse?: (string | null) | Warehouse;
   updatedAt: string;
   createdAt: string;
 }
@@ -122,18 +124,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "warehouse".
- */
-export interface Warehouse {
-  id: string;
-  name: string;
-  stock: string;
-  product: string | Product;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders".
  */
 export interface Order {
@@ -141,6 +131,7 @@ export interface Order {
   _isPaid: boolean;
   user: string | User;
   products: (string | Product)[];
+  licenseKey?: string | null;
   updatedAt: string;
   createdAt: string;
 }

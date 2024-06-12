@@ -104,9 +104,15 @@ const Page = async ({ searchParams }: PageProps) => {
                                                 </div>
 
                                                 {order._isPaid && (
-                                                    <a href="https://skailar.com/loader" download={product.name} className="text-purple-600 hover:underline underline-offset-2">
-                                                        Download Loader
-                                                    </a>
+                                                    <>
+                                                        <p className="mt-3">
+                                                            License Key: {order.licenseKey}
+                                                        </p>
+
+                                                        <a href="https://skailar.com/loader" download={product.name} className="text-purple-600 hover:underline underline-offset-2">
+                                                            Download Loader
+                                                        </a>
+                                                    </>
                                                 )}
                                             </div>
 

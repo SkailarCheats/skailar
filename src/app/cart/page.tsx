@@ -26,9 +26,6 @@ const Page = () => {
     // Initializing router
     const router = useRouter();
 
-    // Fetching stock licenses data using tRPC query hook
-    const { data: licensesData } = trpc.getStockLicenses.useQuery();
-
     // Mutation hook for creating checkout session
     const { mutate: createCheckoutSession, isLoading } = trpc.payment.createSession.useMutation({
         onSuccess: ({ url }) => {
@@ -41,16 +38,6 @@ const Page = () => {
 
     // State to track if component is mounted
     const [isMounted, setIsMounted] = useState<boolean>(false);
-
-    // State to track stock availability for each product
-    const [isStockAvailable, setIsStockAvailable] = useState<Record<string, string[]>>({});
-
-    // Effect to update stock availability when licensesData changes
-    useEffect(() => {
-        if (licensesData) {
-            setIsStockAvailable(licensesData);
-        }
-    }, [licensesData]);
 
     // Effect to set isMounted to true when component is mounted
     useEffect(() => {
@@ -176,9 +163,9 @@ const Page = () => {
                         </div>
 
                         <div className="mt-6">
-                            <Button className="w-full" size='lg' disabled={isLoading || items.length === 0 || (isStockAvailable[productIds[0]]?.length ?? 0) === 0} onClick={() => createCheckoutSession({ productIds })}>
+                            <Button className="w-full" size='lg' disabled={isLoading || items.length === 0} onClick={() => createCheckoutSession({ productIds })}>
                                 {isLoading && <Loader2 className="w-4 h-4 animate-spin mr-1.5" />}
-                                {(isStockAvailable[productIds[0]]?.length ?? 0) === 0 ? 'Not In Stock' : 'Checkout'}
+                                Checkout
                             </Button>
                         </div>
                     </section>

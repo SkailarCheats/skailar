@@ -6,8 +6,26 @@ import { getPayloadClient } from './get-payload';
 import { Resend } from 'resend';
 import { ReceiptEmailHtml } from './components/emails/receipt-email';
 import { Product } from './payload-types';
+import { getExpiryInDays, getLevel } from './lib/orders';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+const fetchLicenseKey = async (level: number, expiry: number): Promise<string> => {
+    const response = await fetch(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=add&expiry=${expiry}&mask=***************&level=${level}&amount=1&character=2&format=json`);
+    const licenseKey = await response.text();
+    return licenseKey;
+};
+
+const generateLicenseKeys = async (products: Product[]): Promise<{ [key: string]: string }> => {
+    const licenseKeys: { [key: string]: string } = {};
+    for (const product of products) {
+        const level = getLevel(product.name);
+        const expiryInDays = getExpiryInDays(product.name);
+        const licenseKey = await fetchLicenseKey(level, expiryInDays);
+        licenseKeys[product.id] = licenseKey;
+    }
+    return licenseKeys;
+};
 
 export const stripeWebhookHandler = async (req: express.Request, res: express.Response) => {
     const webhookRequest = req as any as WebhookRequest;
@@ -74,42 +92,20 @@ export const stripeWebhookHandler = async (req: express.Request, res: express.Re
             }
         });
 
-        const product = order.products[0];
-
-        // Verifica se il prodotto è un oggetto e contiene l'id
-        const productId = typeof product === 'string' ? product : product.id;
-
-        const { docs: warehouses } = await payload.find({
-            collection: 'warehouse',
-            where: {
-                product: {
-                    equals: productId
-                }
-            }
-        });
-
-        const [warehouse] = warehouses;
-
-        if (!warehouse) {
-            return res.status(404).json({ error: 'No such warehouse exists.' });
-        }
-
-        const licenseKeys = warehouse?.stock?.split('\n').filter(Boolean);
-        const licenseKey = licenseKeys.shift();
-
-        if (!licenseKey) {
-            return res.status(404).json({ error: 'No license keys available.' });
-        }
-
-        await payload.update({
-            collection: 'warehouse',
-            id: warehouse.id,
-            data: {
-                stock: licenseKeys.join('\n'),
-            },
-        });
+        const product = order.products[0] as Product;
 
         try {
+            const licenseKeys = await generateLicenseKeys(order.products as Product[]);
+            const licenseKeysResponse = JSON.parse(licenseKeys[product.id]);
+
+            await payload.update({
+                collection: 'orders',
+                id: session.metadata.orderId,
+                data: {
+                    licenseKey: licenseKeysResponse.key,
+                }
+            });
+
             const data = await resend.emails.send({
                 from: 'Skailar <no-reply@skailar.com>',
                 to: [user.email],
@@ -119,7 +115,6 @@ export const stripeWebhookHandler = async (req: express.Request, res: express.Re
                     email: user.email,
                     orderId: session.metadata.orderId,
                     products: order.products as Product[],
-                    licenseKey: licenseKey
                 })
             });
             res.status(200).json({ data });

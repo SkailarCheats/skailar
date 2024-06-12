@@ -51,6 +51,14 @@ export const Orders: CollectionConfig = {
             relationTo: "products",
             required: true,
             hasMany: true
+        },
+        {
+            name: "licenseKey",
+            type: "text",
+            required: false,
+            admin: {
+                hidden: false,
+            }
         }
     ]
 }

@@ -47,9 +47,17 @@ export const paymentRouter = router({
 
         try {
             const stripeSession = await stripe.checkout.sessions.create({
+                custom_fields: [
+                    {
+                        key: 'discord',
+                        label: { type: 'custom', custom: 'Discord Name' },
+                        type: 'text',
+                        optional: false,
+                    }
+                ],
                 success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
                 cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
-                payment_method_types: ['card', 'paypal'],
+                payment_method_types: ['card'],
                 mode: 'payment',
                 metadata: {
                     userId: user.id,

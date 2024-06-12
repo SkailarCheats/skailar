@@ -5,7 +5,7 @@ import { Button } from "./ui/button"
 import { useCart } from "@/hooks/use-cart"
 import { Product } from "@/payload-types"
 
-export const AddToCartButton = ({ product, isDisabled }: { product: Product, isDisabled: boolean }) => {
+export const AddToCartButton = ({ product, isDisabled }: { product: Product, isDisabled?: boolean }) => {
     const { addItem } = useCart();
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
@@ -27,9 +27,8 @@ export const AddToCartButton = ({ product, isDisabled }: { product: Product, isD
             className="w-full"
             disabled={isSuccess || isDisabled}
         >
-            {isDisabled && "Not in Stock"}
             {isSuccess && "Added!"}
-            {!isSuccess && !isDisabled && "Add to Cart"}
+            {!isSuccess && "Add to Cart"}
         </Button>
     )
 }

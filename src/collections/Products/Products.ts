@@ -3,7 +3,6 @@ import { PRODUCT_CATEGORY } from "../../config";
 import { CollectionConfig } from "payload/types";
 import { Product } from "../../payload-types";
 import { stripe } from "../../lib/stripe";
-import { Warehouse } from "../Warehouses"; // Importa la collezione Warehouse
 
 const addUser: BeforeChangeHook<Product> = async ({ req, data }) => {
     const user = req.user;
@@ -175,14 +174,6 @@ export const Products: CollectionConfig = {
                     required: true,
                 },
             ],
-        },
-        {
-            name: "warehouse",
-            label: "Warehouse",
-            type: "relationship",
-            relationTo: "warehouse",
-            hasMany: false,
-            required: false,
         },
     ],
 };
