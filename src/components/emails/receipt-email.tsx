@@ -19,6 +19,8 @@ import { format } from 'date-fns';
 import { formatPrice } from "../../lib/utils";
 import renderRichText, { RichTextNode } from "../richText";
 
+import * as React from 'react'
+
 interface ReceiptEmailProps {
     email: string;
     date: Date;

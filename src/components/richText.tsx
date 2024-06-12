@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { buttonVariants } from './ui/button';
 
+import React from 'react';
+
 export interface RichTextNode {
     type?: string;
     text?: string;

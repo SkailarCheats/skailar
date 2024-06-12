@@ -12,6 +12,7 @@ import {
     render,
 } from '@react-email/components'
 
+import * as React from "react"
 
 interface VerifyEmailProps {
     actionLabel: string
