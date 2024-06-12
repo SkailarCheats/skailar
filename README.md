@@ -19,3 +19,9 @@ Welcome to Skailar, your go-to destination for premium game cheats and hacks. Ou
 ## Support
 
 For any questions or support, please contact our support team at [.gg/skailar](https://discord.gg/skailar)
+
+## Changelog
+You can find the changelog [here](CHANGELOG.md).
+
+## License
+Our products are licensed under MIT License. You can find the license terms [here](LICENSE).
