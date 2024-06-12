@@ -1,7 +1,7 @@
-import { User } from "../payload-types";
 import { Access, CollectionConfig } from "payload/types";
+import { User } from "../payload-types";
 
-const isAdminOrHasAccessToImages = (): Access =>  async ({
+const isAdminOrHasAccessToImages = (): Access => async ({
     req
 }) => {
     const user = req.user as User | undefined
@@ -19,7 +19,7 @@ const isAdminOrHasAccessToImages = (): Access =>  async ({
 export const Media: CollectionConfig = {
     slug: "media",
     hooks: {
-        beforeChange: [({req, data}) => {
+        beforeChange: [({ req, data }) => {
             return { ...data, user: req.user.id }
         }]
     },
@@ -28,7 +28,7 @@ export const Media: CollectionConfig = {
             const referer = req.headers.referer
 
             if (!req.user || !referer?.includes("sell")) return true
-            
+
             return await isAdminOrHasAccessToImages()({ req });
         },
         delete: isAdminOrHasAccessToImages(),

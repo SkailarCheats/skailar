@@ -1,14 +1,14 @@
-import Link from "next/link"
-import { MaxWidthWrapper } from "./MaxWidthWrapper"
-import Image from "next/image"
-import { NavItems } from "./nav-items"
-import { buttonVariants } from "./ui/button"
-import { Cart } from "./cart"
 import { getServerSideUser } from "@/lib/payload-utils"
 import { cookies } from 'next/headers'
-import { UserAccountNav } from "./user-account-nav"
+import Image from "next/image"
+import Link from "next/link"
+import { MaxWidthWrapper } from "./MaxWidthWrapper"
+import { Cart } from "./cart"
 import { MobileNav } from "./mobile-nav"
+import { NavItems } from "./nav-items"
 import { ModeToggle } from "./toggle"
+import { buttonVariants } from "./ui/button"
+import { UserAccountNav } from "./user-account-nav"
 
 export const Navbar = async () => {
     const nextCookies = cookies();

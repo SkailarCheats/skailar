@@ -76,7 +76,7 @@ export const ReviewSlider = () => {
                     value={feedback.rating}
                     readonly
                     onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}                  
+                    onPointerLeaveCapture={undefined}
                   />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{feedback.title}</h3>

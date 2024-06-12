@@ -1,7 +1,7 @@
-import { cookies } from "next/headers"
-import { getServerSideUser } from "@/lib/payload-utils";
-import { redirect } from "next/navigation";
 import { ReviewTable } from "@/components/review-table";
+import { getServerSideUser } from "@/lib/payload-utils";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const ReviewsPage = async () => {
   const nextCookies = cookies();

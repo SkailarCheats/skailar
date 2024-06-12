@@ -1,11 +1,11 @@
 'use client';
 
-import { MaxWidthWrapper } from '@/components/MaxWidthWrapper'
-import { ProductReel } from '@/components/product-reel'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { ArrowDownToLine, Headphones, RefreshCcw } from 'lucide-react'
-import Link from 'next/link'
-import { redirect, useRouter } from 'next/navigation'
+import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
+import { ProductReel } from '@/components/product-reel';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { ArrowDownToLine, Headphones, RefreshCcw } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const perks = [
   { name: "Instant Delivery", Icon: ArrowDownToLine, description: "Receive your cheats immediately after purchase for uninterrupted gameplay." },
@@ -29,7 +29,7 @@ export default function Home() {
             <span className="text-purple-600">cheats</span>.
           </h1>
           <p className="mt-6 text-lg max-w-prose text-muted-foreground">
-            Welcome to Skailar. Our team rigorously tests 
+            Welcome to Skailar. Our team rigorously tests
             each cheat to guarantee top-notch quality and reliability.
           </p>
 
@@ -39,7 +39,7 @@ export default function Home() {
           </div>
         </div>
 
-        <ProductReel query={{sort: 'desc', limit: 4}} title='Brand New' href='/products' />
+        <ProductReel query={{ sort: 'desc', limit: 4 }} title='Brand New' href='/products' />
       </MaxWidthWrapper>
 
       <section className='border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950'>

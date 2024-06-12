@@ -1,16 +1,16 @@
-import express from "express"
-import cors from 'cors'
+import cors from 'cors';
+import express from "express";
 import { getPayloadClient } from "./get-payload";
 import { nextApp, nextHandler } from "./next-utils";
 
-import * as trpcExpress from '@trpc/server/adapters/express';
-import { appRouter } from "./trpc";
 import { inferAsyncReturnType } from "@trpc/server";
+import * as trpcExpress from '@trpc/server/adapters/express';
 import bodyParser from "body-parser";
 import { IncomingMessage } from "http";
+import { appRouter } from "./trpc";
 import { stripeWebhookHandler } from "./webhooks";
 
-import nextBuild from "next/dist/build"
+import nextBuild from "next/dist/build";
 import path from "path";
 
 const app = express();

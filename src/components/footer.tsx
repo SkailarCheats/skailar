@@ -1,9 +1,9 @@
 'use client';
 
-import { usePathname } from "next/navigation";
-import { MaxWidthWrapper } from "./MaxWidthWrapper";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { MaxWidthWrapper } from "./MaxWidthWrapper";
 
 export const Footer = () => {
     const pathname = usePathname()

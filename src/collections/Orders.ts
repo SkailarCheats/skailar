@@ -1,6 +1,6 @@
 import { Access, CollectionConfig } from "payload/types";
 
-const yourOwn: Access = ({ req: { user }}) => {
+const yourOwn: Access = ({ req: { user } }) => {
     if (user.role === "admin") return true
 
     return {

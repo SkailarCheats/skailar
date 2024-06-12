@@ -142,7 +142,7 @@ export const ReviewTable = () => {
                     </td>
                     <td className='p-4 align-middle [&:has([role=checkbox])]:pr-0'>{feedback.user}</td>
                     <td className='p-4 align-middle [&:has([role=checkbox])]:pr-0'>
-                      <Rating placeholder='' ratedColor="amber" unratedColor="amber" value={feedback.rating} readonly   onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                      <Rating placeholder='' ratedColor="amber" unratedColor="amber" value={feedback.rating} readonly onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
                     </td>
                     <td className='p-4 align-middle [&:has([role=checkbox])]:pr-0'>
                       {

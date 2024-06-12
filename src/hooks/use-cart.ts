@@ -18,15 +18,15 @@ export const useCart = create<CartState>()(
         (set) => ({
             items: [],
             addItem: (product) => set((state) => {
-                return { items: [...state.items, { product }]}
+                return { items: [...state.items, { product }] }
             }),
             removeItem: (id) => set((state) => ({
                 items: state.items.filter((item) => item.product.id !== id)
             })),
             clearCart: () => set({ items: [] })
         }), {
-            name: "cart-storage",
-            storage: createJSONStorage(() => localStorage),
-        }
+        name: "cart-storage",
+        storage: createJSONStorage(() => localStorage),
+    }
     )
 )

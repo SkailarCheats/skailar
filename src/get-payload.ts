@@ -1,10 +1,10 @@
-import dotenv from 'dotenv'
-import path from 'path'
+import dotenv from 'dotenv';
+import path from 'path';
 
-import type { InitOptions } from "payload/config";
 import payload, { Payload } from 'payload';
+import type { InitOptions } from "payload/config";
 
-import nodemail from "nodemailer"
+import nodemail from "nodemailer";
 
 dotenv.config({
     path: path.resolve(__dirname, "../.env")

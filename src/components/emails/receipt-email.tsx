@@ -1,12 +1,11 @@
-import { Order, Product } from "@/payload-types";
-import { format } from 'date-fns'
+import { Product } from "@/payload-types";
 import {
-    Html,
     Body,
-    Container,
     Column,
+    Container,
     Head,
     Hr,
+    Html,
     Img,
     Link,
     Preview,
@@ -14,8 +13,8 @@ import {
     Section,
     Text,
     render
-} from '@react-email/components'
-import * as React from 'react'
+} from '@react-email/components';
+import { format } from 'date-fns';
 
 import { formatPrice } from "../../lib/utils";
 import renderRichText, { RichTextNode } from "../richText";
@@ -33,8 +32,8 @@ export const ReceiptEmail = ({ date, email, orderId, products }: ReceiptEmailPro
     const [product] = products;
 
     const description = Array.isArray(product.description)
-    ? <Text style={productDescription}>{renderRichText(product.description as RichTextNode[])}</Text>
-    : <Text style={productDescription}>{product.description}</Text>
+        ? <Text style={productDescription}>{renderRichText(product.description as RichTextNode[])}</Text>
+        : <Text style={productDescription}>{product.description}</Text>
 
     return (
         <Html>
@@ -118,7 +117,7 @@ export const ReceiptEmail = ({ date, email, orderId, products }: ReceiptEmailPro
                                         Download Loader
                                     </Link>
                                 </Column>
-                                
+
                                 <Column
                                     style={productPriceWrapper}
                                     align='right'>

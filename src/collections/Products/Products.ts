@@ -1,8 +1,8 @@
 import { BeforeChangeHook } from "payload/dist/collections/config/types";
-import { PRODUCT_CATEGORY } from "../../config";
 import { CollectionConfig } from "payload/types";
-import { Product } from "../../payload-types";
+import { PRODUCT_CATEGORY } from "../../config";
 import { stripe } from "../../lib/stripe";
+import { Product } from "../../payload-types";
 
 const addUser: BeforeChangeHook<Product> = async ({ req, data }) => {
     const user = req.user;

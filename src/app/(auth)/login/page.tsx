@@ -21,9 +21,8 @@ import { useForm } from 'react-hook-form';
 import { AuthCredentialsValidator, TAuthCredentialsValidator } from "@/lib/validators/account-credentials-validator";
 import { trpc } from "@/trpc/client";
 
-import { toast } from "sonner";
-import { ZodError } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 // Define the Page component
 const Page = () => {
@@ -102,7 +101,7 @@ const Page = () => {
                         <Link href='/register' className={buttonVariants({ variant: 'link', className: "gap-1.5" })}>
                             Don&apos;t have an Account? Register
                             {/* Arrow icon for visual indication */}
-                            <ArrowRight className="h-4 w-4" /> 
+                            <ArrowRight className="h-4 w-4" />
                         </Link>
                     </div>
 
@@ -142,7 +141,7 @@ const Page = () => {
                                         <p className="text-sm text-red-500">{errors.password.message}</p>
                                     )}
                                 </div>
-                                
+
                                 {/* Login button */}
                                 <Button>Login</Button>
                             </div>

@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { Button } from "./ui/button"
 import { useCart } from "@/hooks/use-cart"
 import { Product } from "@/payload-types"
+import { useEffect, useState } from "react"
+import { Button } from "./ui/button"
 
 export const AddToCartButton = ({ product, isDisabled }: { product: Product, isDisabled?: boolean }) => {
     const { addItem } = useCart();

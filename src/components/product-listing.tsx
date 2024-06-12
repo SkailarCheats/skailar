@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { trpc } from "@/trpc/client";
-import { Product } from "@/payload-types";
-import { Skeleton } from "./ui/skeleton";
-import Link from "next/link";
-import { cn, formatPrice } from "@/lib/utils";
 import { PRODUCT_CATEGORY } from "@/config";
+import { cn, formatPrice } from "@/lib/utils";
+import { Product } from "@/payload-types";
+import { Check, InfinityIcon } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { ImageSlider } from "./image-slider";
-import { Check, InfinityIcon, X } from "lucide-react";
+import { Skeleton } from "./ui/skeleton";
 
 interface ProductListingProps {
     product: Product | null;
@@ -42,7 +41,7 @@ export const ProductListing = ({ index, product }: ProductListingProps) => {
                 <span className="flex items-center justify-end">
                     <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
                     <p className="flex items-center ml-1.5 text-sm text-muted-foreground">
-                        <InfinityIcon className="h-5 w-5 mr-1 font-bold flex-shrink-0" />    
+                        <InfinityIcon className="h-5 w-5 mr-1 font-bold flex-shrink-0" />
                         In Stock
                     </p>
                 </span>

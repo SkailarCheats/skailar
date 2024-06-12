@@ -1,5 +1,5 @@
 import { CollectionConfig } from "payload/types";
-import { VerifyEmailHtml } from '../components/emails/verify-email'
+import { VerifyEmailHtml } from '../components/emails/verify-email';
 
 export const Users: CollectionConfig = {
     slug: "users",

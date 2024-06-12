@@ -72,7 +72,7 @@ const Page = () => {
                     <div className="flex flex-col items-center space-y-2 text-center">
                         {/* Skailar logo */}
                         <Image src='/logo.png' height='80' width='80' alt="Skailar Logo" />
-                        
+
                         {/* Registration heading */}
                         <h1 className="text-2xl font-bold">Create an Account</h1>
 

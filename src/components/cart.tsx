@@ -1,16 +1,16 @@
 "use client"
 
-import { ShoppingBag } from "lucide-react"
-import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { Separator } from "./ui/separator";
-import { formatPrice } from "@/lib/utils";
-import Link from "next/link";
-import { buttonVariants } from "./ui/button";
-import Image from "next/image";
 import { useCart } from "@/hooks/use-cart";
-import { CartItem } from "./cart-item";
-import { ScrollArea } from "./ui/scroll-area";
+import { formatPrice } from "@/lib/utils";
+import { ShoppingBag } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { CartItem } from "./cart-item";
+import { buttonVariants } from "./ui/button";
+import { ScrollArea } from "./ui/scroll-area";
+import { Separator } from "./ui/separator";
+import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
 export const Cart = () => {
     const { items } = useCart()

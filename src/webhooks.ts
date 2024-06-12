@@ -1,12 +1,12 @@
 import express from 'express';
-import { WebhookRequest } from './server';
-import { stripe } from './lib/stripe';
-import Stripe from 'stripe';
-import { getPayloadClient } from './get-payload';
 import { Resend } from 'resend';
+import Stripe from 'stripe';
 import { ReceiptEmailHtml } from './components/emails/receipt-email';
-import { Product } from './payload-types';
+import { getPayloadClient } from './get-payload';
 import { getExpiryInDays, getLevel } from './lib/orders';
+import { stripe } from './lib/stripe';
+import { Product } from './payload-types';
+import { WebhookRequest } from './server';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

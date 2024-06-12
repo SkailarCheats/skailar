@@ -1,6 +1,6 @@
-import { User } from "../payload-types";
 import { BeforeChangeHook } from "payload/dist/collections/config/types";
 import { Access, CollectionConfig } from "payload/types";
+import { User } from "../payload-types";
 
 const addUser: BeforeChangeHook = ({ req, data }) => {
     const user = req.user as User | null
