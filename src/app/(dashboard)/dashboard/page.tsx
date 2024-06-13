@@ -1,6 +1,7 @@
 import { getServerSideUser } from "@/lib/payload-utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { MainDashboard } from "./_components/main-dashboard";
 
 export default async function Home() {
 	const nextCookies = cookies();
@@ -12,6 +13,7 @@ export default async function Home() {
 
 	return (
 		<>
+			<MainDashboard />
 		</>
 	)
 }

@@ -39,12 +39,12 @@ export default function RootLayout({
 					<main className='relative flex flex-col min-h-screen'>
 						<Providers>
 							<div className="flex-grow flex-1">
-								<div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+								<div className="grid min-h-screen h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
 									<div className="hidden border-r bg-muted/40 md:block">
 										<DashboardNav />
 									</div>
-									<div className="flex flex-col">
-										<header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+									<div className="flex flex-col h-screen">
+										<header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 fixed top-0 left-[220px] lg:left-[280px] right-0 z-10">
 											<DashboardMenuNav />
 											<div className="w-full flex-1">
 												<form>
@@ -60,7 +60,7 @@ export default function RootLayout({
 											</div>
 											<DashboardUserMenu />
 										</header>
-										<main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+										<main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 overflow-auto mt-14 lg:mt-[60px]">
 											{children}
 										</main>
 									</div>

@@ -9,7 +9,7 @@ export function formatPrice(price: number | string, options: { currency?: "USD" 
   const { currency = "EUR", notation = "compact" } = options;
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("it-IT", {
     style: "currency",
     currency,
     notation,

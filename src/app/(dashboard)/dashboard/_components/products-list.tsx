@@ -121,7 +121,7 @@ export default async function ProductsList() {
 									<TableCell className="hidden md:table-cell">{formatPrice(product.price)}</TableCell>
 									<TableCell className="hidden md:table-cell">{orders.length}</TableCell> {/* TODO: Make sure is correct */}
 									<TableCell className="hidden md:table-cell">
-										{format(parseISO(product.createdAt), 'dd MMMM yyyy hh:mm a')}
+										{format(parseISO(product.createdAt), 'dd MMMM yyyy HH:MM')}
 									</TableCell>
 									<TableCell>
 										<DropdownMenu>
@@ -145,7 +145,7 @@ export default async function ProductsList() {
 			</CardContent>
 			<CardFooter>
 				<div className="text-xs text-muted-foreground">
-					Showing <strong>1-10</strong> of <strong>{products.length}</strong> products
+					Showing <strong>1-10</strong> of <strong>24</strong> products
 				</div>
 			</CardFooter>
 		</Card>

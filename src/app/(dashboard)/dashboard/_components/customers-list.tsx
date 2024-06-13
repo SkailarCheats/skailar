@@ -30,32 +30,28 @@ import { getPayloadClient } from "@/get-payload"
 
 import { format, parseISO } from 'date-fns'
 
-export default async function OrdersList() {
+export default async function CustomersList() {
 	const payload = await getPayloadClient()
 
-	const { docs: orders } = await payload.find({
-		collection: "orders",
-		depth: 2
+	const { docs: customers } = await payload.find({
+		collection: "users",
 	})
 
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Orders</CardTitle>
+				<CardTitle>Customers</CardTitle>
 				<CardDescription>
-					Manage your orders.
+					Manage your customers and view their infos.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead>ID</TableHead>
+							<TableHead>Email</TableHead>
 							<TableHead>Status</TableHead>
-							<TableHead>License</TableHead>
-							<TableHead className="hidden md:table-cell">
-								Total Sales
-							</TableHead>
+							<TableHead>Role</TableHead>
 							<TableHead className="hidden md:table-cell">Created at</TableHead>
 							<TableHead>
 								<span className="sr-only">Actions</span>
@@ -63,34 +59,45 @@ export default async function OrdersList() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{orders.map(async (order, index) => {
-							let paid = '';
+						{customers.map(async (customer, index) => {
+							let role = '';
+							let verified = '';
 
-							switch (order._isPaid) {
-								case true:
-									paid = 'text-green-500'
+							switch (customer.role) {
+								case 'admin':
+									role = 'text-red-500'
 									break;
-								case false:
-									paid = 'text-red-500'
+								case 'reseller':
+									role = 'text-yellow-500'
+									break;
+								case 'user':
+									role = 'text-muted-foreground'
 									break;
 								default:
-									paid = ''
+									role = ''
 									break;
+							}
+
+							switch (customer._verified) {
+								case true:
+									verified = 'text-green-500'
+									break;
+								case false:
+									verified = 'text-red-500'
 							}
 
 							return (
 								<TableRow key={index}>
+									<TableCell className="hidden sm:table-cell">
+										{customer.email}
+									</TableCell>
 									<TableCell className="font-medium">
-										{order.id}
+										<Badge variant="outline" className={verified}>{customer._verified ? 'Verified' : 'Not Verified'}</Badge>
 									</TableCell>
 									<TableCell>
-										<Badge variant="outline" className={`${paid}`}>{order._isPaid ? 'Paid' : 'Not Paid'}</Badge>
+										<Badge variant="outline" className={role}>{customer.role?.toUpperCase()}</Badge> {/* ADMIN | RESELLER | USER */}
 									</TableCell>
-									<TableCell className="hidden md:table-cell">{order.licenseKey}</TableCell>
-									<TableCell className="hidden md:table-cell">{orders.length}</TableCell>
-									<TableCell className="hidden md:table-cell">
-										{format(parseISO(order.createdAt), 'dd MMMM yyyy hh:mm a')}
-									</TableCell>
+									<TableCell className="hidden md:table-cell">{format(parseISO(customer.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
 									<TableCell>
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>

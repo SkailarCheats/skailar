@@ -9,6 +9,9 @@ export const getLevel = (productName: string) => {
 		case 'Skailar Lite 30 Days R6':
 			return 1;
 
+		case 'Skailar Test 30 Days R6':
+			return 1;
+
 		case 'Skailar 1 Day Rust':
 			return 2;
 		case 'Skailar 3 Days Rust':
@@ -77,6 +80,9 @@ export const getExpiryInDays = (productName: string) => {
 		case 'Skailar Lite 7 Days R6':
 			return 7;
 		case 'Skailar Lite 30 Days R6':
+			return 30;
+
+		case 'Skailar Test 30 Days R6':
 			return 30;
 
 		case 'Skailar 1 Day Rust':

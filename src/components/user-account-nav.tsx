@@ -33,6 +33,12 @@ export const UserAccountNav = ({ user }: { user: User }) => {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem asChild>
+                    {user.role === 'admin' && (
+                        <Link href='/dashboard'>Admin Dashboard</Link>
+                    )}
+                </DropdownMenuItem>
+
+                <DropdownMenuItem asChild>
                     <Link href='/loader'>Download Loader</Link>
                 </DropdownMenuItem>
 
