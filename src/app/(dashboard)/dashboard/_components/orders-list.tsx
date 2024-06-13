@@ -29,13 +29,19 @@ import {
 import { getPayloadClient } from "@/get-payload"
 
 import { format, parseISO } from 'date-fns'
+import { Product, User } from "@/payload-types"
 
 export default async function OrdersList() {
 	const payload = await getPayloadClient()
 
 	const { docs: orders } = await payload.find({
 		collection: "orders",
-		depth: 2
+		depth: 2,
+		where: {
+			_isPaid: {
+				equals: true
+			}
+		}
 	})
 
 	return (
@@ -51,11 +57,14 @@ export default async function OrdersList() {
 					<TableHeader>
 						<TableRow>
 							<TableHead>ID</TableHead>
-							<TableHead>Status</TableHead>
-							<TableHead>License</TableHead>
 							<TableHead className="hidden md:table-cell">
-								Total Sales
+								User
 							</TableHead>
+							<TableHead>Status</TableHead>
+							<TableHead className="hidden md:table-cell">
+								Product
+							</TableHead>
+							<TableHead>License</TableHead>
 							<TableHead className="hidden md:table-cell">Created at</TableHead>
 							<TableHead>
 								<span className="sr-only">Actions</span>
@@ -83,11 +92,16 @@ export default async function OrdersList() {
 									<TableCell className="font-medium">
 										{order.id}
 									</TableCell>
+									<TableCell className="hidden md:table-cell">{(order.user as User).email}</TableCell>
 									<TableCell>
 										<Badge variant="outline" className={`${paid}`}>{order._isPaid ? 'Paid' : 'Not Paid'}</Badge>
 									</TableCell>
-									<TableCell className="hidden md:table-cell">{order.licenseKey}</TableCell>
-									<TableCell className="hidden md:table-cell">{orders.length}</TableCell>
+
+									{order.products.map((product, index) => (
+										<TableCell key={index} className="hidden md:table-cell">{(product as Product).name}</TableCell>
+									))}
+
+									<TableCell className="hidden md:table-cell">{order.licenseKey ? order.licenseKey : '[N/A]'}</TableCell>
 									<TableCell className="hidden md:table-cell">
 										{format(parseISO(order.createdAt), 'dd MMMM yyyy hh:mm a')}
 									</TableCell>

@@ -1,8 +1,7 @@
-import Image from "next/image"
-import { MoreHorizontal } from "lucide-react"
-
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import Image from "next/image";
+import { MoreHorizontal } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -10,14 +9,14 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
 	Table,
 	TableBody,
@@ -25,20 +24,34 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
-import { getPayloadClient } from "@/get-payload"
-import { formatPrice } from "@/lib/utils"
+import { getPayloadClient } from "@/get-payload";
+import { formatPrice } from "@/lib/utils";
 
 import { format, parseISO } from 'date-fns';
 
 export default async function ProductsList() {
-	const payload = await getPayloadClient()
+	const payload = await getPayloadClient();
 
 	const { docs: products } = await payload.find({
 		collection: "products",
-		depth: 2
-	})
+		depth: 2,
+	});
+
+	const productsWithOrders = await Promise.all(products.map(async (product) => {
+		const { docs: orders } = await payload.find({
+			collection: "orders",
+			where: {
+				products: {
+					equals: {
+						product,
+					},
+				},
+			},
+		});
+		return { ...product, orders };
+	}));
 
 	return (
 		<Card>
@@ -58,9 +71,7 @@ export default async function ProductsList() {
 							<TableHead>Name</TableHead>
 							<TableHead>Status</TableHead>
 							<TableHead className="hidden md:table-cell">Price</TableHead>
-							<TableHead className="hidden md:table-cell">
-								Total Sales
-							</TableHead>
+							<TableHead className="hidden md:table-cell">Total Sales</TableHead>
 							<TableHead className="hidden md:table-cell">Created at</TableHead>
 							<TableHead>
 								<span className="sr-only">Actions</span>
@@ -68,41 +79,30 @@ export default async function ProductsList() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{products.map(async (product, index) => {
-							const { image } = product.images[0]
+						{productsWithOrders.map((product, index) => {
+							const { image } = product.images[0];
 
-							let approved = ''
+							let approved = "";
 
 							switch (product.approvedForSale) {
-								case 'approved':
-									approved = 'text-green-500'
+								case "approved":
+									approved = "text-green-500";
 									break;
-								case 'pending':
-									approved = ''
+								case "pending":
+									approved = "";
 									break;
-								case 'denied':
-									approved = 'text-red-500'
+								case "denied":
+									approved = "text-red-500";
 									break;
 								default:
-									approved = ''
+									approved = "";
 									break;
 							}
-
-							const { docs: orders } = await payload.find({
-								collection: 'orders',
-								where: {
-									products: {
-										equals: {
-											product
-										}
-									}
-								}
-							})
 
 							return (
 								<TableRow key={index}>
 									<TableCell className="hidden sm:table-cell">
-										{typeof image !== 'string' && image.url && (
+										{typeof image !== "string" && image.url && (
 											<Image
 												alt="Product image"
 												className="aspect-square rounded-md object-cover"
@@ -116,12 +116,18 @@ export default async function ProductsList() {
 										{product.name}
 									</TableCell>
 									<TableCell>
-										<Badge variant="outline" className={`${approved}`}>{product.approvedForSale?.toUpperCase()}</Badge>
+										<Badge variant="outline" className={`${approved}`}>
+											{product.approvedForSale?.toUpperCase()}
+										</Badge>
 									</TableCell>
-									<TableCell className="hidden md:table-cell">{formatPrice(product.price)}</TableCell>
-									<TableCell className="hidden md:table-cell">{orders.length}</TableCell> {/* TODO: Make sure is correct */}
 									<TableCell className="hidden md:table-cell">
-										{format(parseISO(product.createdAt), 'dd MMMM yyyy HH:MM')}
+										{formatPrice(product.price)}
+									</TableCell>
+									<TableCell className="hidden md:table-cell">
+										{product.orders.length}
+									</TableCell>
+									<TableCell className="hidden md:table-cell">
+										{format(parseISO(product.createdAt), "dd MMMM yyyy HH:MM")}
 									</TableCell>
 									<TableCell>
 										<DropdownMenu>
@@ -138,7 +144,7 @@ export default async function ProductsList() {
 										</DropdownMenu>
 									</TableCell>
 								</TableRow>
-							)
+							);
 						})}
 					</TableBody>
 				</Table>
@@ -149,5 +155,5 @@ export default async function ProductsList() {
 				</div>
 			</CardFooter>
 		</Card>
-	)
+	);
 }

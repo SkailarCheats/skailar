@@ -1,5 +1,4 @@
 import {
-	Activity,
 	ArrowUpRight,
 	CreditCard,
 	DollarSign,
@@ -27,10 +26,13 @@ import {
 import { getPayloadClient } from "@/get-payload"
 import { getServerSideUser } from "@/lib/payload-utils"
 import { formatPrice } from "@/lib/utils"
-import { formatDistanceToNow, parseISO } from "date-fns"
+import { Product, User } from "@/payload-types"
+import { endOfMonth, formatDistanceToNow, parseISO, startOfMonth, subMonths } from "date-fns"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
-import { Product, User } from "@/payload-types"
+import { ActiveKeys } from "./active-keys"
+import { AllLicenses } from "./all-licenses"
+
 
 export async function MainDashboard() {
 	const nextCookies = cookies();
@@ -41,6 +43,60 @@ export async function MainDashboard() {
 	}
 
 	const payload = await getPayloadClient()
+
+	const currentMonthStart = startOfMonth(new Date())
+	const currentMonthEnd = endOfMonth(new Date())
+	const previousMonthStart = startOfMonth(subMonths(new Date(), 1))
+	const previousMonthEnd = endOfMonth(subMonths(new Date(), 1))
+
+	const { docs: currentMonthOrders } = await payload.find({
+		collection: "orders",
+		where: {
+			_isPaid: {
+				equals: true
+			},
+			createdAt: {
+				greater_than: currentMonthStart.toISOString(),
+				less_than: currentMonthEnd.toISOString(),
+			}
+		}
+	})
+
+	const { docs: previousMonthOrders } = await payload.find({
+		collection: "orders",
+		where: {
+			_isPaid: {
+				equals: true
+			},
+			createdAt: {
+				greater_than: previousMonthStart.toISOString(),
+				less_than: previousMonthEnd.toISOString(),
+			}
+		}
+	})
+
+	const totalRevenueCurrentMonth = currentMonthOrders.reduce((sum, order) => {
+		return sum + order.products.reduce((orderSum, product) => {
+			return orderSum + (product as Product).price
+		}, 0)
+	}, 0)
+
+	const totalRevenuePreviousMonth = previousMonthOrders.reduce((sum, order) => {
+		return sum + order.products.reduce((orderSum, product) => {
+			return orderSum + (product as Product).price
+		}, 0)
+	}, 0)
+
+	const revenueChangePercent = totalRevenuePreviousMonth === 0
+		? 0
+		: ((totalRevenueCurrentMonth - totalRevenuePreviousMonth) / totalRevenuePreviousMonth) * 100
+
+	const totalOrdersCurrentMonth = currentMonthOrders.length;
+	const totalOrdersPreviousMonth = previousMonthOrders.length;
+
+	const ordersChangePercent = totalOrdersPreviousMonth === 0
+		? 0
+		: ((totalOrdersCurrentMonth - totalOrdersPreviousMonth) / totalOrdersPreviousMonth) * 100
 
 	const { docs: orders } = await payload.find({
 		collection: "orders",
@@ -57,9 +113,9 @@ export async function MainDashboard() {
 		}, 0)
 	}, 0)
 
-	const numLicenses = orders.reduce((sum, order) => {
-		return sum + (order.licenseKey ? 1 : 0);
-	}, 0);
+	const keys = orders
+		.filter(order => order.licenseKey !== null && order.licenseKey !== undefined)
+		.map(order => order.licenseKey as string);
 
 	const { docs: customers } = await payload.find({
 		collection: 'users',
@@ -79,24 +135,11 @@ export async function MainDashboard() {
 					<CardContent>
 						<div className="text-2xl font-bold">{formatPrice(totalRevenue)}</div>
 						<p className="text-xs text-muted-foreground">
-							+0% from last month
+							{totalRevenuePreviousMonth === 0 ? "No data for last month" : `${revenueChangePercent >= 0 ? '+' : ''}${revenueChangePercent.toFixed(2)}% from last month`}
 						</p>
 					</CardContent>
 				</Card>
-				<Card x-chunk="dashboard-01-chunk-1">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">
-							Subscriptions
-						</CardTitle>
-						<Users className="h-4 w-4 text-muted-foreground" />
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold">+{numLicenses}</div>
-						<p className="text-xs text-muted-foreground">
-							+0% from last month
-						</p>
-					</CardContent>
-				</Card>
+				<AllLicenses />
 				<Card x-chunk="dashboard-01-chunk-2">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Sales</CardTitle>
@@ -105,22 +148,11 @@ export async function MainDashboard() {
 					<CardContent>
 						<div className="text-2xl font-bold">+{orders?.length ?? 0}</div>
 						<p className="text-xs text-muted-foreground">
-							+0% from last month
+							{totalOrdersPreviousMonth === 0 ? "No data for last month" : `${ordersChangePercent >= 0 ? '+' : ''}${ordersChangePercent.toFixed(2)}% from last month`}
 						</p>
 					</CardContent>
 				</Card>
-				<Card x-chunk="dashboard-01-chunk-3">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">Active Now</CardTitle>
-						<Activity className="h-4 w-4 text-muted-foreground" />
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold">+0</div>
-						<p className="text-xs text-muted-foreground">
-							+0 since last hour
-						</p>
-					</CardContent>
-				</Card>
+				<ActiveKeys />
 			</div>
 			<div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
 				<Card
