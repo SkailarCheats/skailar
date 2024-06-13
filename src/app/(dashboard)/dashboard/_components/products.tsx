@@ -37,6 +37,7 @@ export default async function Products() {
 
 	const { docs: products } = await payload.find({
 		collection: "products",
+		depth: 2
 	})
 
 	return (
@@ -67,7 +68,7 @@ export default async function Products() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{products.map(product => {
+						{products.map(async (product, index) => {
 							const { image } = product.images[0]
 
 							let approved = ''
@@ -87,8 +88,19 @@ export default async function Products() {
 									break;
 							}
 
+							const { docs: orders } = await payload.find({
+								collection: 'orders',
+								where: {
+									products: {
+										equals: {
+											product
+										}
+									}
+								}
+							})
+
 							return (
-								<TableRow>
+								<TableRow key={index}>
 									<TableCell className="hidden sm:table-cell">
 										{typeof image !== 'string' && image.url && (
 											<Image
@@ -107,7 +119,7 @@ export default async function Products() {
 										<Badge variant="outline" className={`${approved}`}>{product.approvedForSale?.toUpperCase()}</Badge>
 									</TableCell>
 									<TableCell className="hidden md:table-cell">{formatPrice(product.price)}</TableCell>
-									<TableCell className="hidden md:table-cell">25</TableCell>
+									<TableCell className="hidden md:table-cell">{orders.length}</TableCell> {/* TODO: Make sure is correct */}
 									<TableCell className="hidden md:table-cell">
 										{format(parseISO(product.createdAt), 'dd MMMM yyyy hh:mm a')}
 									</TableCell>

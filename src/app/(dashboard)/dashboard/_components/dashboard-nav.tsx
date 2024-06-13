@@ -33,9 +33,10 @@ export const DashboardNav = () => {
 
 			<div className="flex-1">
 				<nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-					{links.map(link => (
+					{links.map((link, index) => (
 						<Link
 							href={link.href}
+							key={index}
 							className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary", currentRoute === link.href ? active : 'text-muted-foreground')}
 						>
 							{<link.icon className="h-4 w-4" />}
