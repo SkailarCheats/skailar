@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -28,36 +27,32 @@ import {
 } from "@/components/ui/table"
 
 import { getPayloadClient } from "@/get-payload"
-import { formatPrice } from "@/lib/utils"
 
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'date-fns'
 
-export default async function Products() {
+export default async function OrdersList() {
 	const payload = await getPayloadClient()
 
-	const { docs: products } = await payload.find({
-		collection: "products",
+	const { docs: orders } = await payload.find({
+		collection: "orders",
 		depth: 2
 	})
 
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Products</CardTitle>
+				<CardTitle>Orders</CardTitle>
 				<CardDescription>
-					Manage your products and view their sales performance.
+					Manage your orders.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead className="hidden w-[100px] sm:table-cell">
-								<span className="sr-only">Image</span>
-							</TableHead>
-							<TableHead>Name</TableHead>
+							<TableHead>ID</TableHead>
 							<TableHead>Status</TableHead>
-							<TableHead className="hidden md:table-cell">Price</TableHead>
+							<TableHead>License</TableHead>
 							<TableHead className="hidden md:table-cell">
 								Total Sales
 							</TableHead>
@@ -68,60 +63,33 @@ export default async function Products() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{products.map(async (product, index) => {
-							const { image } = product.images[0]
+						{orders.map(async (order, index) => {
+							let paid = '';
 
-							let approved = ''
-
-							switch (product.approvedForSale) {
-								case 'approved':
-									approved = 'text-green-500'
+							switch (order._isPaid) {
+								case true:
+									paid = 'text-green-500'
 									break;
-								case 'pending':
-									approved = ''
-									break;
-								case 'denied':
-									approved = 'text-red-500'
+								case false:
+									paid = 'text-red-500'
 									break;
 								default:
-									approved = ''
+									paid = ''
 									break;
 							}
 
-							const { docs: orders } = await payload.find({
-								collection: 'orders',
-								where: {
-									products: {
-										equals: {
-											product
-										}
-									}
-								}
-							})
-
 							return (
 								<TableRow key={index}>
-									<TableCell className="hidden sm:table-cell">
-										{typeof image !== 'string' && image.url && (
-											<Image
-												alt="Product image"
-												className="aspect-square rounded-md object-cover"
-												height="64"
-												src={image.url}
-												width="64"
-											/>
-										)}
-									</TableCell>
 									<TableCell className="font-medium">
-										{product.name}
+										{order.id}
 									</TableCell>
 									<TableCell>
-										<Badge variant="outline" className={`${approved}`}>{product.approvedForSale?.toUpperCase()}</Badge>
+										<Badge variant="outline" className={`${paid}`}>{order._isPaid ? 'Paid' : 'Not Paid'}</Badge>
 									</TableCell>
-									<TableCell className="hidden md:table-cell">{formatPrice(product.price)}</TableCell>
-									<TableCell className="hidden md:table-cell">{orders.length}</TableCell> {/* TODO: Make sure is correct */}
+									<TableCell className="hidden md:table-cell">{order.licenseKey}</TableCell>
+									<TableCell className="hidden md:table-cell">{orders.length}</TableCell>
 									<TableCell className="hidden md:table-cell">
-										{format(parseISO(product.createdAt), 'dd MMMM yyyy hh:mm a')}
+										{format(parseISO(order.createdAt), 'dd MMMM yyyy hh:mm a')}
 									</TableCell>
 									<TableCell>
 										<DropdownMenu>
@@ -145,7 +113,7 @@ export default async function Products() {
 			</CardContent>
 			<CardFooter>
 				<div className="text-xs text-muted-foreground">
-					Showing <strong>1-10</strong> of <strong>32</strong> products
+					Showing <strong>1-10</strong> of <strong>{orders.length}</strong> products
 				</div>
 			</CardFooter>
 		</Card>
