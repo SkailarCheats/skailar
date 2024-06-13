@@ -70,7 +70,7 @@ export default async function CustomersList() {
 								case 'reseller':
 									role = 'text-yellow-500'
 									break;
-								case 'user':
+								case 'customer':
 									role = 'text-muted-foreground'
 									break;
 								default:

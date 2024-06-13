@@ -16,6 +16,11 @@ export default async function Home() {
 
 	const { docs: orders } = await payload.find({
 		collection: "orders",
+		where: {
+			_isPaid: {
+				equals: true
+			}
+		}
 	})
 
 	return (

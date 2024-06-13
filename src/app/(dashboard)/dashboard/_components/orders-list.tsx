@@ -31,6 +31,9 @@ import { getPayloadClient } from "@/get-payload"
 import { format, parseISO } from 'date-fns'
 import { Product, User } from "@/payload-types"
 
+import copy from "copy-to-clipboard";
+import { DropdownActions } from "./dropdown-actions"
+
 export default async function OrdersList() {
 	const payload = await getPayloadClient()
 
@@ -87,6 +90,11 @@ export default async function OrdersList() {
 									break;
 							}
 
+							const copyToClipboard = (text: string) => {
+								copy(text);
+								console.log(`Copied to clipboard: ${text}`);
+							};
+
 							return (
 								<TableRow key={index}>
 									<TableCell className="font-medium">
@@ -113,10 +121,8 @@ export default async function OrdersList() {
 													<span className="sr-only">Toggle menu</span>
 												</Button>
 											</DropdownMenuTrigger>
-											<DropdownMenuContent align="end">
-												<DropdownMenuLabel>Actions</DropdownMenuLabel>
-												<DropdownMenuItem>Delete</DropdownMenuItem>
-											</DropdownMenuContent>
+
+											<DropdownActions orderId={order.id} userEmail={(order.user as User).email} licenseKey={order.licenseKey ? order.licenseKey : '[N/A]'} />
 										</DropdownMenu>
 									</TableCell>
 								</TableRow>

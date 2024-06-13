@@ -30,6 +30,7 @@ import { getPayloadClient } from "@/get-payload";
 import { formatPrice } from "@/lib/utils";
 
 import { format, parseISO } from 'date-fns';
+import { DropdownActions } from "./dropdown-actions";
 
 export default async function ProductsList() {
 	const payload = await getPayloadClient();
@@ -137,10 +138,7 @@ export default async function ProductsList() {
 													<span className="sr-only">Toggle menu</span>
 												</Button>
 											</DropdownMenuTrigger>
-											<DropdownMenuContent align="end">
-												<DropdownMenuLabel>Actions</DropdownMenuLabel>
-												<DropdownMenuItem>Delete</DropdownMenuItem>
-											</DropdownMenuContent>
+											<DropdownActions productId={product.id} />
 										</DropdownMenu>
 									</TableCell>
 								</TableRow>

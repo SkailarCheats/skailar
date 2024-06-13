@@ -24,7 +24,7 @@ export interface Config {
  */
 export interface User {
   id: string;
-  role?: ('admin' | 'user' | 'reseller') | null;
+  role?: ('admin' | 'reseller' | 'customer') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -47,12 +47,12 @@ export interface Product {
   user?: (string | null) | User;
   name: string;
   description?:
-  | {
-    [k: string]: unknown;
-  }[]
-  | null;
+    | {
+        [k: string]: unknown;
+      }[]
+    | null;
   price: number;
-  category: 'rainbow_six' | 'cs2' | 'eft' | 'apex' | 'rust' | 'fortnite';
+  category: 'rainbow_six' | 'cs2' | 'eft' | 'apex' | 'rust' | 'fortnite' | 'valorant';
   product_files: string | ProductFile;
   approvedForSale?: ('pending' | 'approved' | 'denied') | null;
   priceId?: string | null;
@@ -147,14 +147,14 @@ export interface PayloadPreference {
   };
   key?: string | null;
   value?:
-  | {
-    [k: string]: unknown;
-  }
-  | unknown[]
-  | string
-  | number
-  | boolean
-  | null;
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -172,5 +172,5 @@ export interface PayloadMigration {
 
 
 declare module 'payload' {
-  export interface GeneratedTypes extends Config { }
+  export interface GeneratedTypes extends Config {}
 }
