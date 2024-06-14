@@ -23,14 +23,14 @@ export const DashboardMenuNav = () => {
 			</SheetTrigger>
 			<SheetContent side="left" className="flex flex-col">
 				<nav className="grid gap-2 text-lg font-medium">
-					<Link href="/" className="flex items-center gap-2 text-lg font-semibold" prefetch={false}>
+					<Link href="/" className="flex items-center gap-2 text-lg font-semibold cursor-pointer">
 						<Image src='/logo.png' width='24' height='24' alt="Skailar Logo" />
-						<span className="">Skailar</span>
+						<span>Skailar</span>
 					</Link>
 
 					{links.map((link, index) => (
 						<Link
-							href={link.href}
+							href={link.href ? link.href : ''}
 							key={index}
 							className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary", currentRoute === link.href ? active : 'text-muted-foreground')}
 						>

@@ -98,20 +98,20 @@ export default async function OrdersList() {
 							return (
 								<TableRow key={index}>
 									<TableCell className="font-medium">
-										{order.id}
+										{order.id ? order.id : '[N/A]'}
 									</TableCell>
-									<TableCell className="hidden md:table-cell">{(order.user as User).email}</TableCell>
+									<TableCell className="hidden md:table-cell">{(order.user as User).email ? (order.user as User).email : '[N/A]'}</TableCell>
 									<TableCell>
 										<Badge variant="outline" className={`${paid}`}>{order._isPaid ? 'Paid' : 'Not Paid'}</Badge>
 									</TableCell>
 
 									{order.products.map((product, index) => (
-										<TableCell key={index} className="hidden md:table-cell">{(product as Product).name}</TableCell>
+										<TableCell key={index} className="hidden md:table-cell">{(product as Product).name ? (product as Product).name : '[N/A]'}</TableCell>
 									))}
 
 									<TableCell className="hidden md:table-cell">{order.licenseKey ? order.licenseKey : '[N/A]'}</TableCell>
 									<TableCell className="hidden md:table-cell">
-										{format(parseISO(order.createdAt), 'dd MMMM yyyy hh:mm a')}
+										{order.createdAt ? format(parseISO(order.createdAt), 'dd MMMM yyyy hh:mm a') : '[N/A]'}
 									</TableCell>
 									<TableCell>
 										<DropdownMenu>
@@ -133,7 +133,7 @@ export default async function OrdersList() {
 			</CardContent>
 			<CardFooter>
 				<div className="text-xs text-muted-foreground">
-					Showing <strong>1-10</strong> of <strong>24</strong> products
+					Showing <strong>1-10</strong> of <strong>{orders ? orders.length : '[N/A]'}</strong> products
 				</div>
 			</CardFooter>
 		</Card>

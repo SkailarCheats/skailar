@@ -12,10 +12,7 @@ import {
 } from "@/components/ui/card"
 import {
 	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuTrigger,
+	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import {
 	Table,
@@ -31,14 +28,14 @@ import { getPayloadClient } from "@/get-payload"
 import { format, parseISO } from 'date-fns'
 import { DropdownActions } from "./dropdown-actions"
 
-export default async function CustomersList() {
+export default async function ResellersList() {
 	const payload = await getPayloadClient()
 
-	const { docs: customers } = await payload.find({
+	const { docs: resellers } = await payload.find({
 		collection: "users",
 		where: {
 			role: {
-				equals: 'customer'
+				equals: 'reseller'
 			}
 		}
 	})
@@ -46,9 +43,9 @@ export default async function CustomersList() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Customers</CardTitle>
+				<CardTitle>Resellers</CardTitle>
 				<CardDescription>
-					Manage your customers and view their infos.
+					Manage your resellers and view their infos.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -65,11 +62,11 @@ export default async function CustomersList() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{customers.map(async (customer, index) => {
+						{resellers.map(async (reseller, index) => {
 							let role = '';
 							let verified = '';
 
-							switch (customer.role) {
+							switch (reseller.role) {
 								case 'admin':
 									role = 'text-red-500'
 									break;
@@ -84,7 +81,7 @@ export default async function CustomersList() {
 									break;
 							}
 
-							switch (customer._verified) {
+							switch (reseller._verified) {
 								case true:
 									verified = 'text-green-500'
 									break;
@@ -95,15 +92,15 @@ export default async function CustomersList() {
 							return (
 								<TableRow key={index}>
 									<TableCell className="hidden sm:table-cell">
-										{customer.email}
+										{reseller.email}
 									</TableCell>
 									<TableCell className="font-medium">
-										<Badge variant="outline" className={verified}>{customer._verified ? 'Verified' : 'Not Verified'}</Badge>
+										<Badge variant="outline" className={verified}>{reseller._verified ? 'Verified' : 'Not Verified'}</Badge>
 									</TableCell>
 									<TableCell>
-										<Badge variant="outline" className={role}>{customer.role?.toUpperCase()}</Badge> {/* ADMIN | RESELLER | USER */}
+										<Badge variant="outline" className={role}>{reseller.role?.toUpperCase()}</Badge> {/* ADMIN | RESELLER | USER */}
 									</TableCell>
-									<TableCell className="hidden md:table-cell">{format(parseISO(customer.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
+									<TableCell className="hidden md:table-cell">{format(parseISO(reseller.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
 									<TableCell>
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
@@ -113,7 +110,7 @@ export default async function CustomersList() {
 												</Button>
 											</DropdownMenuTrigger>
 
-											<DropdownActions customerId={customer.id ? customer.id : ''} />
+											<DropdownActions customerId={reseller.id ? reseller.id : ''} />
 										</DropdownMenu>
 									</TableCell>
 								</TableRow>
@@ -124,7 +121,7 @@ export default async function CustomersList() {
 			</CardContent>
 			<CardFooter>
 				<div className="text-xs text-muted-foreground">
-					Showing <strong>1-10</strong> of <strong>{customers ? customers.length : '[N/A]'}</strong> customers
+					Showing <strong>1-10</strong> of <strong>{resellers ? resellers.length : '[N/A]'}</strong> customers
 				</div>
 			</CardFooter>
 		</Card>

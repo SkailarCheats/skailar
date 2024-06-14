@@ -25,7 +25,7 @@ export const UserAccountNav = ({ user }: { user: User }) => {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem asChild>
-                    {user.role === 'admin' ? (
+                    {user.role === 'admin' && (user.email === 'amtriix@skailar.com' || user.email === 'edoardo.bergamo03@gmail.com') ? (
                         <Link href='/sell'>Seller Dashboard</Link>
                     ) : (
                         <Link href='/' className="cursor-not-allowed">Reseller Dashboard</Link>

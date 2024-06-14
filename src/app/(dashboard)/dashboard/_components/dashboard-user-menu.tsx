@@ -18,7 +18,7 @@ export const DashboardUserMenu = async () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
+				<DropdownMenuLabel>{user?.email ? user?.email : '[N/A]'}</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem asChild>
 					{user?.role === 'admin' && <Link href='/sell'>Seller Dashboard</Link>}

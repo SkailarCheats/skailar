@@ -1,8 +1,7 @@
 import {
 	ArrowUpRight,
 	CreditCard,
-	DollarSign,
-	Users
+	Euro
 } from "lucide-react"
 import Link from "next/link"
 
@@ -119,6 +118,11 @@ export async function MainDashboard() {
 
 	const { docs: customers } = await payload.find({
 		collection: 'users',
+		where: {
+			role: {
+				equals: 'customer'
+			}
+		},
 		depth: 2
 	})
 
@@ -130,10 +134,10 @@ export async function MainDashboard() {
 						<CardTitle className="text-sm font-medium">
 							Total Revenue
 						</CardTitle>
-						<DollarSign className="h-4 w-4 text-muted-foreground" />
+						<Euro className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">{formatPrice(totalRevenue)}</div>
+						<div className="text-2xl font-bold">{totalRevenue ? formatPrice(totalRevenue) : '[N/A]'}</div>
 						<p className="text-xs text-muted-foreground">
 							{totalRevenuePreviousMonth === 0 ? "No data for last month" : `${revenueChangePercent >= 0 ? '+' : ''}${revenueChangePercent.toFixed(2)}% from last month`}
 						</p>
@@ -224,13 +228,13 @@ export async function MainDashboard() {
 							<div className="flex items-center gap-4" key={index}>
 								<div className="grid gap-1">
 									<p className="text-sm text-muted-foreground">
-										{(order.user as User).email}
+										{(order.user as User).email ? (order.user as User).email : '[N/A]'}
 									</p>
 								</div>
 								<div className="ml-auto font-medium">
 									{order.products.map((product, index) => (
 										<p key={index}>
-											{formatPrice((product as Product).price)}
+											{(product as Product).price ? formatPrice((product as Product).price) : '[N/A]'}
 										</p>
 									))}
 								</div>

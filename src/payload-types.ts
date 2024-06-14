@@ -13,6 +13,7 @@ export interface Config {
     media: Media;
     product_file: ProductFile;
     orders: Order;
+    reviews: Review;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -132,6 +133,19 @@ export interface Order {
   user: string | User;
   products: (string | Product)[];
   licenseKey?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: string;
+  user?: (string | null) | User;
+  rating: number;
+  timestamp: string;
+  description: string;
   updatedAt: string;
   createdAt: string;
 }

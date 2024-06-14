@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users } from "lucide-react";
+import { Key } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface LicenseKey {
@@ -78,7 +78,7 @@ export const AllLicenses = () => {
 				<CardTitle className="text-sm font-medium">
 					Licenses
 				</CardTitle>
-				<Users className="h-4 w-4 text-muted-foreground" />
+				<Key className="h-4 w-4 text-muted-foreground" />
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-bold">+{numLicenses}</div>
