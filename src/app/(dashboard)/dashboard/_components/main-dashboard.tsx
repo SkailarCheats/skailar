@@ -177,70 +177,82 @@ export async function MainDashboard() {
 						</Button>
 					</CardHeader>
 					<CardContent>
-						<Table>
-							<TableHeader>
-								<TableRow>
-									<TableHead>Customer</TableHead>
-									<TableHead className="hidden xl:table-column">
-										ID
-									</TableHead>
-									<TableHead className="hidden xl:table-column">
-										Status
-									</TableHead>
-									<TableHead className="hidden xl:table-column">
-										Role
-									</TableHead>
-									<TableHead className="text-right">Created</TableHead>
-								</TableRow>
-							</TableHeader>
-							<TableBody>
-								{customers?.map((customer, index) => (
-									<TableRow key={index}>
-										<TableCell>
-											<div className="hidden text-sm text-muted-foreground md:inline">
-												{customer.email}
-											</div>
-										</TableCell>
-										<TableCell className="hidden xl:table-column">
-											{customer.id}
-										</TableCell>
-										<TableCell className="hidden xl:table-column">
-											<Badge className="text-xs" variant="outline">
-												{customer._verified ? 'Verified' : 'Not Verified'}
-											</Badge>
-										</TableCell>
-										<TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-											{customer.role}
-										</TableCell>
-										<TableCell className="text-right">{formatDistanceToNow(parseISO(customer.createdAt), { addSuffix: true })}</TableCell>
+						{customers.length > 0 ? (
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead>Customer</TableHead>
+										<TableHead className="hidden xl:table-column">
+											ID
+										</TableHead>
+										<TableHead className="hidden xl:table-column">
+											Status
+										</TableHead>
+										<TableHead className="hidden xl:table-column">
+											Role
+										</TableHead>
+										<TableHead className="text-right">Created</TableHead>
 									</TableRow>
-								))}
-							</TableBody>
-						</Table>
+								</TableHeader>
+								<TableBody>
+									{customers?.map((customer, index) => (
+										<TableRow key={index}>
+											<TableCell>
+												<div className="hidden text-sm text-muted-foreground md:inline">
+													{customer.username}
+												</div>
+											</TableCell>
+											<TableCell className="hidden xl:table-column">
+												{customer.id}
+											</TableCell>
+											<TableCell className="hidden xl:table-column">
+												<Badge className="text-xs" variant="outline">
+													{customer._verified ? 'Verified' : 'Not Verified'}
+												</Badge>
+											</TableCell>
+											<TableCell className="hidden md:table-cell lg:hidden xl:table-column">
+												{customer.role}
+											</TableCell>
+											<TableCell className="text-right">{formatDistanceToNow(parseISO(customer.createdAt), { addSuffix: true })}</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						) : (
+							<Table>
+								<h1 className="text-center font-bold text-2xl">You have no Customers</h1>
+							</Table>
+						)}
 					</CardContent>
 				</Card>
 				<Card x-chunk="dashboard-01-chunk-5">
 					<CardHeader>
 						<CardTitle>Recent Sales</CardTitle>
 					</CardHeader>
-					<CardContent className="grid gap-8">
-						{orders.map((order, index) => (
-							<div className="flex items-center gap-4" key={index}>
-								<div className="grid gap-1">
-									<p className="text-sm text-muted-foreground">
-										{(order.user as User).email ? (order.user as User).email : '[N/A]'}
-									</p>
-								</div>
-								<div className="ml-auto font-medium">
-									{order.products.map((product, index) => (
-										<p key={index}>
-											{(product as Product).price ? formatPrice((product as Product).price) : '[N/A]'}
+					{orders.length > 0 ? (
+						<CardContent className="grid gap-8">
+							{orders.map((order, index) => (
+								<div className="flex items-center gap-4" key={index}>
+									<div className="grid gap-1">
+										<p className="text-sm text-muted-foreground">
+											{(order.user as User).username ? (order.user as User).username : '[N/A]'}
 										</p>
-									))}
+									</div>
+									<div className="ml-auto font-medium">
+										{order.products.map((product, index) => (
+											<p key={index}>
+												{(product as Product).price ? formatPrice((product as Product).price) : '[N/A]'}
+											</p>
+										))}
+									</div>
 								</div>
-							</div>
-						))}
-					</CardContent>
+							))}
+						</CardContent>
+					) : (
+						<CardContent>
+							<h1 className="text-center font-bold text-2xl mt-2">You have no recent Sales</h1>
+						</CardContent>
+					)}
 				</Card>
 			</div>
 		</>

@@ -20,6 +20,11 @@ export const Users: CollectionConfig = {
     },
     fields: [
         {
+            name: 'username',
+            required: true,
+            type: 'text'
+        },
+        {
             name: "role",
             defaultValue: 'customer',
             required: true,

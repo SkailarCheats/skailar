@@ -18,10 +18,10 @@ export const DashboardUserMenu = async () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuLabel>{user?.email ? user?.email : '[N/A]'}</DropdownMenuLabel>
+				<DropdownMenuLabel>{user?.username ? user?.username : '[N/A]'}</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem asChild>
-					{user?.role === 'admin' && <Link href='/sell'>Seller Dashboard</Link>}
+					{user?.role === 'admin' && user?.username === 'AmTriiX' && (user.email === 'amtriix@skailar.com') && <Link href='/sell'>Seller Dashboard</Link>}
 				</DropdownMenuItem>
 				<DropdownMenuItem asChild>
 					<Link href='https://discord.gg/skailar' target="_blank">

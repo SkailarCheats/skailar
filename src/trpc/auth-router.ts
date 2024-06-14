@@ -1,12 +1,12 @@
-import { AuthCredentialsValidator } from "../lib/validators/account-credentials-validator";
+import { AuthCredentialsValidator, AuthRegisterCredentialsValidator } from "../lib/validators/account-credentials-validator";
 import { publicProcedure, router } from "./trpc";
 import { getPayloadClient } from "../get-payload";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const authRouter = router({
-    createPayloadUser: publicProcedure.input(AuthCredentialsValidator).mutation(async ({ input }) => {
-        const { email, password } = input
+    createPayloadUser: publicProcedure.input(AuthRegisterCredentialsValidator).mutation(async ({ input }) => {
+        const { username, email, password } = input
         const payload = await getPayloadClient()
 
         // Check if user exists
@@ -24,6 +24,7 @@ export const authRouter = router({
         await payload.create({
             collection: "users",
             data: {
+                username,
                 email,
                 password,
                 role: 'customer'

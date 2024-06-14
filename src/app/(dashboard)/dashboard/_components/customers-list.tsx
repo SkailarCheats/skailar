@@ -55,6 +55,7 @@ export default async function CustomersList() {
 				<Table>
 					<TableHeader>
 						<TableRow>
+							<TableHead>Username</TableHead>
 							<TableHead>Email</TableHead>
 							<TableHead>Status</TableHead>
 							<TableHead>Role</TableHead>
@@ -94,6 +95,9 @@ export default async function CustomersList() {
 
 							return (
 								<TableRow key={index}>
+									<TableCell className="hidden sm:table-cell">
+										{customer.username}
+									</TableCell>
 									<TableCell className="hidden sm:table-cell">
 										{customer.email}
 									</TableCell>

@@ -52,6 +52,7 @@ export default async function ResellersList() {
 				<Table>
 					<TableHeader>
 						<TableRow>
+							<TableHead>Username</TableHead>
 							<TableHead>Email</TableHead>
 							<TableHead>Status</TableHead>
 							<TableHead>Role</TableHead>
@@ -91,6 +92,9 @@ export default async function ResellersList() {
 
 							return (
 								<TableRow key={index}>
+									<TableCell className="hidden sm:table-cell">
+										{reseller.username}
+									</TableCell>
 									<TableCell className="hidden sm:table-cell">
 										{reseller.email}
 									</TableCell>
