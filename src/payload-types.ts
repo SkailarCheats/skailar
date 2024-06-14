@@ -145,8 +145,8 @@ export interface Review {
   id: string;
   user?: (string | null) | User;
   rating: number;
-  timestamp: string;
   description: string;
+  featured?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }

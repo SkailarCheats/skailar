@@ -1,5 +1,4 @@
-import { Access, CollectionConfig } from "payload/types";
-import { User } from "../payload-types";
+import { CollectionConfig } from "payload/types";
 
 export const Reviews: CollectionConfig = {
 	slug: "reviews",
@@ -11,7 +10,7 @@ export const Reviews: CollectionConfig = {
 	access: {
 		create: () => true,
 		read: () => true,
-		update: () => false,
+		update: ({ req }) => req.user.role === 'admin',
 		delete: ({ req }) => req.user.role === 'admin',
 	},
 	admin: {
@@ -36,14 +35,14 @@ export const Reviews: CollectionConfig = {
 			required: true,
 		},
 		{
-			name: 'timestamp',
-			type: 'date',
-			required: true,
-		},
-		{
 			name: 'description',
 			type: 'text',
 			required: true,
+		},
+		{
+			name: 'featured',
+			type: 'checkbox',
+			defaultValue: false
 		}
 	]
 }

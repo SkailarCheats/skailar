@@ -7,7 +7,11 @@ const ReviewsPage = async () => {
 
     const { docs: reviews } = await payload.find({
         collection: 'reviews',
-        sort: '-timestamp'
+        where: {
+            featured: {
+                equals: true
+            }
+        }
     })
 
     return (
@@ -21,7 +25,7 @@ const ReviewsPage = async () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {reviews.map(review => (
-                        <AllReviews user={review.user ?? null} key={review.id} rating={review.rating} date={review.timestamp} description={review.description} />
+                        <AllReviews user={review.user ?? null} key={review.id} rating={review.rating} date={review.createdAt} description={review.description} />
                     ))}
                 </div>
             </section>
