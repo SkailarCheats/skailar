@@ -5,20 +5,24 @@ import copy from "copy-to-clipboard";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Clipboard, Gavel, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Keys } from "./licenses-list";
 
 type DropdownActionsProps = {
 	orderId?: string;
+
 	userEmail?: string;
 	licenseKey?: string | null;
 	productId?: string;
+
 	customerId?: string;
+	customerUser?: string;
+	customerEmail?: string;
+
 	license?: Keys;
 };
 
-export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, customerId, license }: DropdownActionsProps) => {
+export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, customerId, license, customerEmail, customerUser }: DropdownActionsProps) => {
 	const router = useRouter();
 
 	const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -188,7 +192,7 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 		);
 	}
 
-	if (customerId) {
+	if (customerId && customerEmail && customerUser) {
 		return (
 			<DropdownMenuContent align="end">
 				{isMounted && (
@@ -196,6 +200,8 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem onClick={deleteCustomer}>Delete</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => copyToClipboard(customerId)}>Copy ID</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => copyToClipboard(customerUser)}>Copy User</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => copyToClipboard(customerEmail)}>Copy Email</DropdownMenuItem>
 					</>
 				)}
 			</DropdownMenuContent>

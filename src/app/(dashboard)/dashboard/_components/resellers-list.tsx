@@ -114,7 +114,7 @@ export default async function ResellersList() {
 												</Button>
 											</DropdownMenuTrigger>
 
-											<DropdownActions customerId={reseller.id ? reseller.id : ''} />
+											<DropdownActions customerId={reseller.id ? reseller.id : ''} customerUser={reseller.username} customerEmail={reseller.email} />
 										</DropdownMenu>
 									</TableCell>
 								</TableRow>

@@ -12,10 +12,7 @@ import {
 } from "@/components/ui/card"
 import {
 	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuTrigger,
+	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import {
 	Table,
@@ -117,7 +114,7 @@ export default async function CustomersList() {
 												</Button>
 											</DropdownMenuTrigger>
 
-											<DropdownActions customerId={customer.id ? customer.id : ''} />
+											<DropdownActions customerId={customer.id ? customer.id : ''} customerUser={customer.username} customerEmail={customer.email} />
 										</DropdownMenu>
 									</TableCell>
 								</TableRow>
