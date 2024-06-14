@@ -1,9 +1,9 @@
 "use client";
 
-import { MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -11,11 +11,11 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
 	DropdownMenu,
 	DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
 	Table,
 	TableBody,
@@ -23,16 +23,11 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
-
-import { Product, User } from "@/payload-types"
-import { format, parseISO } from 'date-fns'
-
-import copy from "copy-to-clipboard"
-import { DropdownActions } from "./dropdown-actions"
-import { useEffect, useState } from "react";
 import { formatDate, formatExpires } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { DropdownActions } from "./dropdown-actions";
 
 export interface Keys {
 	id: string;
@@ -53,10 +48,13 @@ export interface ApiResponse {
 	keys: Keys[];
 }
 
+const ITEMS_PER_PAGE = 10;
+
 export const LicensesList = () => {
 	const [keys, setKeys] = useState<Keys[]>([])
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
+	const [currentPage, setCurrentPage] = useState<number>(1);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -78,6 +76,23 @@ export const LicensesList = () => {
 
 		fetchData();
 	}, []);
+
+	const totalPages = Math.ceil(keys.length / ITEMS_PER_PAGE);
+	const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+	const endIndex = startIndex + ITEMS_PER_PAGE;
+	const paginatedKeys = keys.slice(startIndex, endIndex);
+
+	const handleNextPage = () => {
+		if (currentPage < totalPages) {
+			setCurrentPage(currentPage + 1);
+		}
+	};
+
+	const handlePreviousPage = () => {
+		if (currentPage > 1) {
+			setCurrentPage(currentPage - 1);
+		}
+	};
 
 	return (
 		<Card>
@@ -104,7 +119,7 @@ export const LicensesList = () => {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{keys.map((key) => {
+						{paginatedKeys.map((key) => {
 							let game = ''
 							let status = ''
 
@@ -174,8 +189,7 @@ export const LicensesList = () => {
 													<span className="sr-only">Toggle menu</span>
 												</Button>
 											</DropdownMenuTrigger>
-
-											<DropdownActions licenseId={key.key} />
+											<DropdownActions license={key} />
 										</DropdownMenu>
 									</TableCell>
 								</TableRow>
@@ -185,10 +199,20 @@ export const LicensesList = () => {
 				</Table>
 			</CardContent>
 			<CardFooter>
-				<div className="text-xs text-muted-foreground">
-					Showing <strong>1-10</strong> of <strong>{keys ? keys.length : '[N/A]'}</strong> products
+				<div className="flex justify-between items-center w-full">
+					<div className="text-xs text-muted-foreground">
+						Showing <strong>{startIndex + 1}-{Math.min(endIndex, keys.length)}</strong> of <strong>{keys.length}</strong> products
+					</div>
+					<div className="flex">
+						<Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+							Previous
+						</Button>
+						<Button variant="outline" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+							Next
+						</Button>
+					</div>
 				</div>
 			</CardFooter>
-		</Card >
+		</Card>
 	)
 }

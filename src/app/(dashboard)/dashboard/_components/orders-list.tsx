@@ -12,10 +12,7 @@ import {
 } from "@/components/ui/card"
 import {
 	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuTrigger,
+	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import {
 	Table,
@@ -28,10 +25,10 @@ import {
 
 import { getPayloadClient } from "@/get-payload"
 
-import { format, parseISO } from 'date-fns'
 import { Product, User } from "@/payload-types"
+import { format, parseISO } from 'date-fns'
 
-import copy from "copy-to-clipboard";
+import copy from "copy-to-clipboard"
 import { DropdownActions } from "./dropdown-actions"
 
 export default async function OrdersList() {
@@ -89,11 +86,6 @@ export default async function OrdersList() {
 									paid = ''
 									break;
 							}
-
-							const copyToClipboard = (text: string) => {
-								copy(text);
-								console.log(`Copied to clipboard: ${text}`);
-							};
 
 							return (
 								<TableRow key={index}>

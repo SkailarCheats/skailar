@@ -1,12 +1,13 @@
 "use client"
 
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
-import { getPayloadClient } from "@/get-payload";
 import copy from "copy-to-clipboard";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { Clipboard, Gavel, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { Keys } from "./licenses-list";
 
 type DropdownActionsProps = {
 	orderId?: string;
@@ -14,10 +15,10 @@ type DropdownActionsProps = {
 	licenseKey?: string | null;
 	productId?: string;
 	customerId?: string;
-	licenseId?: string;
+	license?: Keys;
 };
 
-export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, customerId, licenseId }: DropdownActionsProps) => {
+export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, customerId, license }: DropdownActionsProps) => {
 	const router = useRouter();
 
 	const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -101,12 +102,12 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 	};
 
 	const banLicense = async () => {
-		const confirmed = window.confirm('Are your sure you wanto to ban this Keys?');
+		const confirmed = window.confirm('Are your sure you want to ban this Key?');
 
 		if (!confirmed) return;
 
 		try {
-			const response = await fetch(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=ban&key=${licenseId}&reason=Automatic%20Ban&userToo=false`)
+			const response = await fetch(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=ban&key=${license?.key}&reason=Automatic%20Ban&userToo=false`)
 
 			if (!response.ok) {
 				throw new Error('Failed to Ban key')
@@ -116,6 +117,44 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 			router.refresh();
 		} catch (error) {
 			toast.error('Failed to ban Key')
+		}
+	}
+
+	const unbanLicense = async () => {
+		const confirmed = window.confirm('Are your sure you want to unban this Key?');
+
+		if (!confirmed) return;
+
+		try {
+			const response = await fetch(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=unban&key=${license?.key}`)
+
+			if (!response.ok) {
+				throw new Error('Failed to Unban key')
+			}
+
+			toast.success('Successfully unbanned license')
+			router.refresh();
+		} catch (error) {
+			toast.error('Failed to unban Key')
+		}
+	}
+
+	const deleteLicense = async () => {
+		const confirmed = window.confirm('Are your sure you want to delete this Key?');
+
+		if (!confirmed) return;
+
+		try {
+			const response = await fetch(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=del&key=${license?.key}&userToo=false`)
+
+			if (!response.ok) {
+				throw new Error('Failed to delete key')
+			}
+
+			toast.success('Successfully deleted license')
+			router.refresh();
+		} catch (error) {
+			toast.error('Failed to delete Key')
 		}
 	}
 
@@ -163,15 +202,20 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 		)
 	}
 
-	if (licenseId) {
+	if (license) {
 		return (
 			<DropdownMenuContent align="end">
 				{isMounted && (
 					<>
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
-						<DropdownMenuItem>Delete</DropdownMenuItem>
-						<DropdownMenuItem onClick={banLicense}>Ban</DropdownMenuItem>
-						<DropdownMenuItem onClick={() => copyToClipboard(licenseId)}>Copy Key</DropdownMenuItem>
+						<DropdownMenuItem onClick={deleteLicense}>Delete</DropdownMenuItem>
+						{license.banned ? (
+							<DropdownMenuItem onClick={unbanLicense}>Unban</DropdownMenuItem>
+						) : (
+							<DropdownMenuItem onClick={banLicense}>Ban</DropdownMenuItem>
+						)}
+						<DropdownMenuItem onClick={() => copyToClipboard(license.id)}>Copy ID</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => copyToClipboard(license.key)}>Copy License</DropdownMenuItem>
 					</>
 				)}
 			</DropdownMenuContent>
