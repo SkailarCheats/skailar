@@ -40,6 +40,40 @@ export default async function ResellersList() {
 		}
 	})
 
+	const processedResellers = resellers.map(reseller => {
+		let roleClass = '';
+		let verifiedClass = '';
+
+		switch (reseller.role) {
+			case 'admin':
+				roleClass = 'text-red-500'
+				break;
+			case 'reseller':
+				roleClass = 'text-yellow-500'
+				break;
+			case 'customer':
+				roleClass = 'text-muted-foreground'
+				break;
+			default:
+				roleClass = ''
+				break;
+		}
+
+		switch (reseller._verified) {
+			case true:
+				verifiedClass = 'text-green-500'
+				break;
+			case false:
+				verifiedClass = 'text-red-500'
+		}
+
+		return {
+			...reseller,
+			roleClass,
+			verifiedClass,
+		};
+	});
+
 	return (
 		<Card>
 			<CardHeader>
@@ -53,73 +87,45 @@ export default async function ResellersList() {
 					<TableHeader>
 						<TableRow>
 							<TableHead>Username</TableHead>
-							<TableHead>Email</TableHead>
+							<TableHead className="hidden lg:table-cell">Email</TableHead>
 							<TableHead>Status</TableHead>
 							<TableHead>Role</TableHead>
-							<TableHead className="hidden md:table-cell">Created at</TableHead>
+							<TableHead>Created at</TableHead>
 							<TableHead>
 								<span className="sr-only">Actions</span>
 							</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{resellers.map(async (reseller, index) => {
-							let role = '';
-							let verified = '';
+						{processedResellers.map((reseller, index) => (
+							<TableRow key={index}>
+								<TableCell>
+									{reseller.username}
+								</TableCell>
+								<TableCell className="hidden lg:table-cell">
+									{reseller.email}
+								</TableCell>
+								<TableCell className="font-medium">
+									<Badge variant="outline" className={reseller.verifiedClass}>{reseller._verified ? 'Verified' : 'Not Verified'}</Badge>
+								</TableCell>
+								<TableCell>
+									<Badge variant="outline" className={reseller.roleClass}>{reseller.role?.toUpperCase()}</Badge>
+								</TableCell>
+								<TableCell>{format(parseISO(reseller.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
+								<TableCell>
+									<DropdownMenu>
+										<DropdownMenuTrigger asChild>
+											<Button aria-haspopup="true" size="icon" variant="ghost">
+												<MoreHorizontal className="h-4 w-4" />
+												<span className="sr-only">Toggle menu</span>
+											</Button>
+										</DropdownMenuTrigger>
 
-							switch (reseller.role) {
-								case 'admin':
-									role = 'text-red-500'
-									break;
-								case 'reseller':
-									role = 'text-yellow-500'
-									break;
-								case 'customer':
-									role = 'text-muted-foreground'
-									break;
-								default:
-									role = ''
-									break;
-							}
-
-							switch (reseller._verified) {
-								case true:
-									verified = 'text-green-500'
-									break;
-								case false:
-									verified = 'text-red-500'
-							}
-
-							return (
-								<TableRow key={index}>
-									<TableCell className="hidden sm:table-cell">
-										{reseller.username}
-									</TableCell>
-									<TableCell className="hidden sm:table-cell">
-										{reseller.email}
-									</TableCell>
-									<TableCell className="font-medium">
-										<Badge variant="outline" className={verified}>{reseller._verified ? 'Verified' : 'Not Verified'}</Badge>
-									</TableCell>
-									<TableCell>
-										<Badge variant="outline" className={role}>{reseller.role?.toUpperCase()}</Badge> {/* ADMIN | RESELLER | USER */}
-									</TableCell>
-									<TableCell className="hidden md:table-cell">{format(parseISO(reseller.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
-									<TableCell>
-										<DropdownMenu>
-											<DropdownMenuTrigger asChild>
-												<Button aria-haspopup="true" size="icon" variant="ghost">
-													<MoreHorizontal className="h-4 w-4" />
-													<span className="sr-only">Toggle menu</span>
-												</Button>
-											</DropdownMenuTrigger>
-
-											<DropdownActions customerId={reseller.id ? reseller.id : ''} customerUser={reseller.username} customerEmail={reseller.email} />
-										</DropdownMenu>
-									</TableCell>
-								</TableRow>
-							)
-						})}
+										<DropdownActions customerId={reseller.id ? reseller.id : ''} customerUser={reseller.username} customerEmail={reseller.email} />
+									</DropdownMenu>
+								</TableCell>
+							</TableRow>
+						))}
 					</TableBody>
 				</Table>
 			</CardContent>

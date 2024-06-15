@@ -28,7 +28,9 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" className='h-full'>
-			<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+			<head>
+				<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+			</head>
 			<body className={cn("relative h-full font-sans antialiased", inter.className)}>
 				<ThemeProvider
 					attribute="class"
@@ -44,11 +46,11 @@ export default function RootLayout({
 										<DashboardNav />
 									</div>
 									<div className="flex flex-col h-screen">
-										<header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 fixed top-0 left-[220px] lg:left-[280px] right-0 z-10">
+										<header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 fixed top-0 left-0 md:left-[220px] lg:left-[280px] right-0 z-10 w-full">
 											<DashboardMenuNav />
-											<div className="w-full flex-1">
+											<div className="flex-grow w-full">
 												<form>
-													<div className="relative sr-only">
+													<div className="relative">
 														<SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
 														<Input
 															type="search"

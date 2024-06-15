@@ -32,7 +32,6 @@ import { redirect } from "next/navigation"
 import { ActiveKeys } from "./active-keys"
 import { AllLicenses } from "./all-licenses"
 
-
 export async function MainDashboard() {
 	const nextCookies = cookies();
 	const { user } = await getServerSideUser(nextCookies)
@@ -48,7 +47,7 @@ export async function MainDashboard() {
 	const previousMonthStart = startOfMonth(subMonths(new Date(), 1))
 	const previousMonthEnd = endOfMonth(subMonths(new Date(), 1))
 
-	const { docs: currentMonthOrders } = await payload.find({
+	const { docs: currentMonthOrders = [] } = await payload.find({
 		collection: "orders",
 		where: {
 			_isPaid: {
@@ -61,7 +60,7 @@ export async function MainDashboard() {
 		}
 	})
 
-	const { docs: previousMonthOrders } = await payload.find({
+	const { docs: previousMonthOrders = [] } = await payload.find({
 		collection: "orders",
 		where: {
 			_isPaid: {
@@ -97,7 +96,7 @@ export async function MainDashboard() {
 		? 0
 		: ((totalOrdersCurrentMonth - totalOrdersPreviousMonth) / totalOrdersPreviousMonth) * 100
 
-	const { docs: orders } = await payload.find({
+	const { docs: orders = [] } = await payload.find({
 		collection: "orders",
 		where: {
 			_isPaid: {
@@ -116,7 +115,7 @@ export async function MainDashboard() {
 		.filter(order => order.licenseKey !== null && order.licenseKey !== undefined)
 		.map(order => order.licenseKey as string);
 
-	const { docs: customers } = await payload.find({
+	const { docs: customers = [] } = await payload.find({
 		collection: 'users',
 		where: {
 			role: {
@@ -182,13 +181,13 @@ export async function MainDashboard() {
 								<TableHeader>
 									<TableRow>
 										<TableHead>Customer</TableHead>
-										<TableHead className="hidden xl:table-column">
+										<TableHead>
 											ID
 										</TableHead>
-										<TableHead className="hidden xl:table-column">
+										<TableHead>
 											Status
 										</TableHead>
-										<TableHead className="hidden xl:table-column">
+										<TableHead>
 											Role
 										</TableHead>
 										<TableHead className="text-right">Created</TableHead>
@@ -202,10 +201,10 @@ export async function MainDashboard() {
 													{customer.username}
 												</div>
 											</TableCell>
-											<TableCell className="hidden xl:table-column">
+											<TableCell>
 												{customer.id}
 											</TableCell>
-											<TableCell className="hidden xl:table-column">
+											<TableCell>
 												<Badge className="text-xs" variant="outline">
 													{customer._verified ? 'Verified' : 'Not Verified'}
 												</Badge>
@@ -219,9 +218,7 @@ export async function MainDashboard() {
 								</TableBody>
 							</Table>
 						) : (
-							<Table>
-								<h1 className="text-center font-bold text-2xl">You have no Customers</h1>
-							</Table>
+							<h1 className="text-center font-bold text-2xl">You have no Customers</h1>
 						)}
 					</CardContent>
 				</Card>

@@ -1,5 +1,4 @@
 import { MoreHorizontal, Star } from "lucide-react"
-
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -24,7 +23,6 @@ import {
 } from "@/components/ui/table"
 
 import { getPayloadClient } from "@/get-payload"
-
 import { format, parseISO } from 'date-fns'
 import { DropdownActions } from "./dropdown-actions"
 import { User } from "@/payload-types"
@@ -34,6 +32,19 @@ export default async function ReviewsList() {
 
 	const { docs: reviews } = await payload.find({
 		collection: "reviews",
+	})
+
+	// Process the reviews data before rendering
+	const processedReviews = reviews.map(review => {
+		const user = review.user as User
+		return {
+			...review,
+			username: user.username,
+			email: user.email,
+			createdAtFormatted: format(parseISO(review.createdAt), 'dd/MM/yyyy hh:mm a'),
+			statusClass: review.featured ? 'text-green-500' : 'text-red-500',
+			statusText: review.featured ? 'Featured' : 'Not Featured',
+		}
 	})
 
 	return (
@@ -48,7 +59,7 @@ export default async function ReviewsList() {
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead>Review</TableHead>
+							<TableHead className="hidden lg:table-cell">Review</TableHead>
 							<TableHead>Rating</TableHead>
 							<TableHead>User</TableHead>
 							<TableHead>Email</TableHead>
@@ -60,41 +71,38 @@ export default async function ReviewsList() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{reviews.map(async (review, index) => {
+						{processedReviews.map((review, index) => (
+							<TableRow key={index}>
+								<TableCell className="hidden lg:table-cell">
+									{review.description}
+								</TableCell>
+								<TableCell>
+									{review.rating}
+								</TableCell>
+								<TableCell>
+									{review.username}
+								</TableCell>
+								<TableCell>
+									{review.email}
+								</TableCell>
+								<TableCell className="font-medium">
+									<Badge variant="outline" className={review.statusClass}>{review.statusText}</Badge>
+								</TableCell>
+								<TableCell>{review.createdAtFormatted}</TableCell>
+								<TableCell>
+									<DropdownMenu>
+										<DropdownMenuTrigger asChild>
+											<Button aria-haspopup="true" size="icon" variant="ghost">
+												<MoreHorizontal className="h-4 w-4" />
+												<span className="sr-only">Toggle menu</span>
+											</Button>
+										</DropdownMenuTrigger>
 
-							return (
-								<TableRow key={index}>
-									<TableCell className="hidden sm:table-cell">
-										{review.description}
-									</TableCell>
-									<TableCell className="hidden sm:table-cell">
-										{review.rating}
-									</TableCell>
-									<TableCell className="hidden sm:table-cell">
-										{(review.user as User).username}
-									</TableCell>
-									<TableCell className="hidden sm:table-cell">
-										{(review.user as User).email}
-									</TableCell>
-									<TableCell className="font-medium">
-										<Badge variant="outline" className={`${review.featured ? 'text-green-500' : 'text-red-500'}`}>{review.featured ? 'Featured' : 'Not Featured'}</Badge>
-									</TableCell>
-									<TableCell className="hidden md:table-cell">{format(parseISO(review.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
-									<TableCell>
-										<DropdownMenu>
-											<DropdownMenuTrigger asChild>
-												<Button aria-haspopup="true" size="icon" variant="ghost">
-													<MoreHorizontal className="h-4 w-4" />
-													<span className="sr-only">Toggle menu</span>
-												</Button>
-											</DropdownMenuTrigger>
-
-											{/* <DropdownActions customerId={reseller.id ? reseller.id : ''} customerUser={reseller.username} customerEmail={reseller.email} /> */}
-										</DropdownMenu>
-									</TableCell>
-								</TableRow>
-							)
-						})}
+										{/* <DropdownActions customerId={reseller.id ? reseller.id : ''} customerUser={reseller.username} customerEmail={reseller.email} /> */}
+									</DropdownMenu>
+								</TableCell>
+							</TableRow>
+						))}
 					</TableBody>
 				</Table>
 			</CardContent>
