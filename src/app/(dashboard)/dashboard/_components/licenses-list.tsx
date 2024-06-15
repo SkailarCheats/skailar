@@ -59,7 +59,7 @@ export const LicensesList = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const res = await fetch('https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=fetchallkeys&format=json')
+				const res = await fetch('/api/all-licenses')
 				const data: ApiResponse = await res.json();
 
 				if (data.success) {

@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express from "express";
+import express, { NextFunction } from "express";
 import { getPayloadClient } from "./get-payload";
 import { nextApp, nextHandler } from "./next-utils";
 
@@ -13,6 +13,8 @@ import { stripeWebhookHandler } from "./webhooks";
 import axios from 'axios';
 import nextBuild from "next/dist/build";
 import path from "path";
+import { cookies } from 'next/headers';
+import { getServerSideUser } from './lib/payload-utils';
 
 const app = express();
 
@@ -78,31 +80,90 @@ const start = async () => {
         }
     });
 
-    app.post('/api/reseller', async (req, res) => {
+    app.get('/api/create-reseller', async (req, res) => {
         const {
             username,
-            day,
-            week,
-            month,
-        } = req.body;
+            password,
+            level,
+            email
+        } = req.query;
 
-        if (!username) {
-            return res.status(400).json({ error: 'Seller key and username are required' });
+        if (!username || !password || !level || !email) {
+            return res.status(400).json({ error: 'Username, Password, Level and Email are required' });
         }
 
-        const params = new URLSearchParams({
-            type: 'setbalance',
-            username,
-            ...(day && { day }),
-            ...(week && { week }),
-            ...(month && { month }),
-        });
-
         try {
-            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&${params.toString()}`);
+            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${level}?email=${email}`);
             res.json(response.data);
         } catch (error) {
-            res.status(500).json({ error: 'Failed to set reseller balance' });
+            res.status(500).json({ error: 'Failed to create reseller account' });
+        }
+    });
+
+    app.get('/api/unban-license', async (req, res) => {
+        const { key } = req.query;
+
+        if (!key) {
+            return res.status(400).json({ error: 'License key is required' });
+        }
+
+        try {
+            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=unban&key=${key}`)
+            res.json(response.data);
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to unban license key' });
+        }
+    });
+
+    app.get('/api/delete-license', async (req, res) => {
+        const { key } = req.query;
+
+        if (!key) {
+            return res.status(400).json({ error: 'License key is required' });
+        }
+
+        try {
+            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=del&key=${key}&userToo=false`)
+            res.json(response.data);
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to delete license key' });
+        }
+    });
+
+    app.get('/api/create-license', async (req, res) => {
+        const { expiry, level } = req.query;
+
+        if (!expiry || !level)
+            return res.status(400).json({ error: 'key, expiry, level are required' })
+
+        try {
+            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=add&expiry=${expiry}&mask=***************&level=${level}&amount=1&character=2&format=json`)
+            res.json(response.data);
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to create license key' });
+        }
+    });
+
+    app.get('/api/all-licenses', async (req, res) => {
+        try {
+            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=fetchallkeys&format=json`)
+            res.json(response.data);
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to get license keys' });
+        }
+    });
+
+    app.get('/api/info-license', async (req, res) => {
+        const { key } = req.query;
+
+        if (!key)
+            return res.status(400).json({ error: 'key is required.' })
+
+        try {
+            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=info&key=${key}`)
+            res.json(response.data);
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to get license information' })
         }
     });
 

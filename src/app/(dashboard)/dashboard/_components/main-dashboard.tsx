@@ -231,9 +231,18 @@ export async function MainDashboard() {
 							{orders.map((order, index) => (
 								<div className="flex items-center gap-4" key={index}>
 									<div className="grid gap-1">
-										<p className="text-sm text-muted-foreground">
-											{(order.user as User).username ? (order.user as User).username : '[N/A]'}
-										</p>
+										<div className="text-sm flex">
+											{(order.user as User).username ? (
+												<>
+													<p className="text-white">
+														{(order.user as User).username}
+													</p>
+													<p className="text-muted-foreground">
+														&nbsp;-&nbsp;{(order.products as Product[]).map(product => product.name)}
+													</p>
+												</>
+											) : '[N/A]'}
+										</div>
 									</div>
 									<div className="ml-auto font-medium">
 										{order.products.map((product, index) => (

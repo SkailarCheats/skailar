@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { formatDate, formatExpires } from "@/lib/utils";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
@@ -15,10 +16,13 @@ export const CheckLicense: React.FC = () => {
 
 	const checkLicense = async () => {
 		try {
-			const response = await fetch(`/api/check-license?license=${license}`);
+			const response = await fetch(`/api/info-license?key=${license}`);
 			const data = await response.json();
 			if (data.success) {
-				toast.success("License is valid");
+				if (data.status === 'Used')
+					toast.error(`Key has been activated by ${data.usedby} on ${formatDate(data.usedon)}`)
+				else
+					toast.success(`Key has not been activated. Expires in ${formatExpires(data.duration)}`)
 				setLicense('');
 			} else {
 				toast.error("License is invalid");

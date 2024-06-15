@@ -21,7 +21,7 @@ export function formatPrice(price: number | string, options: { currency?: "USD" 
 export const formatDate = (timestamp: string): string => {
   const date = new Date(parseInt(timestamp, 10) * 1000);
 
-  return format(date, 'dd/MM/yyyy H:mm');
+  return format(date, 'yyyy-MM-dd H:mm:s');
 }
 
 export const formatExpires = (timestamp: string): string => {

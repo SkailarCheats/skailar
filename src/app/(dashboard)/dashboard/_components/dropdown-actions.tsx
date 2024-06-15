@@ -111,7 +111,7 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 		if (!confirmed) return;
 
 		try {
-			const response = await fetch(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=ban&key=${license?.key}&reason=Automatic%20Ban&userToo=false`)
+			const response = await fetch(`/api/ban-license?key=${license?.key}`)
 
 			if (!response.ok) {
 				throw new Error('Failed to Ban key')
@@ -130,7 +130,7 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 		if (!confirmed) return;
 
 		try {
-			const response = await fetch(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=unban&key=${license?.key}`)
+			const response = await fetch(`/api/unban-license?key=${license?.key}`)
 
 			if (!response.ok) {
 				throw new Error('Failed to Unban key')
@@ -149,7 +149,7 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 		if (!confirmed) return;
 
 		try {
-			const response = await fetch(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=del&key=${license?.key}&userToo=false`)
+			const response = await fetch(`/api/delete-license?key=${license?.key}`)
 
 			if (!response.ok) {
 				throw new Error('Failed to delete key')
