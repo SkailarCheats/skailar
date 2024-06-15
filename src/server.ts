@@ -10,6 +10,7 @@ import { IncomingMessage } from "http";
 import { appRouter } from "./trpc";
 import { stripeWebhookHandler } from "./webhooks";
 
+import axios from 'axios';
 import nextBuild from "next/dist/build";
 import path from "path";
 
@@ -60,6 +61,50 @@ const start = async () => {
         router: appRouter,
         createContext
     }))
+
+    // Seller and Reseller Endpoints
+    app.get('/api/check-license', async (req, res) => {
+        const license = req.query.license;
+
+        if (!license) {
+            return res.status(400).json({ error: 'License key is required' });
+        }
+
+        try {
+            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=verify&key=${license}`);
+            res.json(response.data);
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to verify license key' });
+        }
+    });
+
+    app.post('/api/reseller', async (req, res) => {
+        const {
+            username,
+            day,
+            week,
+            month,
+        } = req.body;
+
+        if (!username) {
+            return res.status(400).json({ error: 'Seller key and username are required' });
+        }
+
+        const params = new URLSearchParams({
+            type: 'setbalance',
+            username,
+            ...(day && { day }),
+            ...(week && { week }),
+            ...(month && { month }),
+        });
+
+        try {
+            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&${params.toString()}`);
+            res.json(response.data);
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to set reseller balance' });
+        }
+    });
 
     app.use((req, res) => nextHandler(req, res));
 

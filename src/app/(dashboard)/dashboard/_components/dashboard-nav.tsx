@@ -6,6 +6,7 @@ import { HomeIcon, Key, PackageIcon, ShoppingCartIcon, Star, UsersIcon } from "l
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CheckLicense } from "./check-license";
 
 export const links = [
 	{ title: 'Dashboard', icon: HomeIcon, href: '/dashboard' },
@@ -47,6 +48,9 @@ export const DashboardNav = () => {
 						</Link>
 					))}
 				</nav>
+			</div>
+			<div className="mt-auto p-4">
+				<CheckLicense />
 			</div>
 		</div>
 	)
