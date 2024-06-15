@@ -15,3 +15,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 - v1.0 In-stock products management.
+
+## [1.1] 06/15/2024 02:53
+
+### Added
+- v1.1 Admin Dashboard
+
+### Changed
+- v1.1 Registration Form
+
+### Removed
+- v1.1 /reviews/admin route
