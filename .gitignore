@@ -41,6 +41,8 @@ src/media
 # build
 dist/
 
+data/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -24,13 +24,14 @@ import {
 } from "@/components/ui/table"
 import { getPayloadClient } from "@/get-payload"
 import { getServerSideUser } from "@/lib/payload-utils"
-import { formatPrice } from "@/lib/utils"
+import { cn, formatPrice } from "@/lib/utils"
 import { Product, User } from "@/payload-types"
 import { endOfMonth, formatDistanceToNow, parseISO, startOfMonth, subMonths } from "date-fns"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { ActiveKeys } from "./active-keys"
 import { AllLicenses } from "./all-licenses"
+import { LineCharts } from "./line-chart"
 
 export async function MainDashboard() {
 	const nextCookies = cookies();
@@ -125,6 +126,30 @@ export async function MainDashboard() {
 		depth: 2
 	})
 
+	const now = new Date();
+	const last12Months = Array.from({ length: 12 }, (_, i) => {
+		const date = subMonths(now, i);
+		return date.toLocaleString('default', { month: 'short' });
+	}).reverse();
+
+	const revenueData = last12Months.reduce((acc, month) => {
+		acc[month] = 0;
+		return acc;
+	}, {} as { [key: string]: number });
+
+	orders.forEach(order => {
+		const month = new Date(order.createdAt).toLocaleString('default', { month: 'short' });
+		const revenue = order.products.reduce((sum, product) => sum + (product as Product).price, 0);
+		if (revenueData[month] !== undefined) {
+			revenueData[month] += revenue;
+		}
+	});
+
+	const revenueDataChart = Object.keys(revenueData).map(month => ({
+		name: month,
+		revenue: revenueData[month]
+	}));
+
 	return (
 		<>
 			<div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
@@ -140,6 +165,7 @@ export async function MainDashboard() {
 						<p className="text-xs text-muted-foreground">
 							{totalRevenuePreviousMonth === 0 ? "No data for last month" : `${revenueChangePercent >= 0 ? '+' : ''}${revenueChangePercent.toFixed(2)}% from last month`}
 						</p>
+						<LineCharts data={revenueDataChart} />
 					</CardContent>
 				</Card>
 				<AllLicenses />
@@ -187,9 +213,6 @@ export async function MainDashboard() {
 										<TableHead>
 											Status
 										</TableHead>
-										<TableHead>
-											Role
-										</TableHead>
 										<TableHead className="text-right">Created</TableHead>
 									</TableRow>
 								</TableHeader>
@@ -205,12 +228,9 @@ export async function MainDashboard() {
 												{customer.id}
 											</TableCell>
 											<TableCell>
-												<Badge className="text-xs" variant="outline">
+												<Badge className={cn("text-xs", customer._verified ? 'text-green-500' : 'text-red-500')} variant="outline">
 													{customer._verified ? 'Verified' : 'Not Verified'}
 												</Badge>
-											</TableCell>
-											<TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-												{customer.role}
 											</TableCell>
 											<TableCell className="text-right">{formatDistanceToNow(parseISO(customer.createdAt), { addSuffix: true })}</TableCell>
 										</TableRow>

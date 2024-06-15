@@ -72,3 +72,13 @@
   background: white !important;
   scale: 1 !important;
 }
+
+.question {
+  width: 100%;
+  height: 50px;
+}
+
+.question-container {
+  width: 100%;
+  height: 100%;
+}

@@ -46,7 +46,7 @@ export default function RootLayout({
 										<DashboardNav />
 									</div>
 									<div className="flex flex-col h-screen">
-										<header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 fixed top-0 left-0 md:left-[220px] lg:left-[280px] right-0 z-10 w-full">
+										<header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 fixed top-0 left-0 md:left-[220px] lg:left-[280px] right-0 z-10 ">
 											<DashboardMenuNav />
 											<div className="flex-grow w-full">
 												<form>

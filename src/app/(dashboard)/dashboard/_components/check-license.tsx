@@ -20,7 +20,7 @@ export const CheckLicense: React.FC = () => {
 			const data = await response.json();
 			if (data.success) {
 				if (data.status === 'Used')
-					toast.error(`Key has been activated by ${data.usedby} on ${formatDate(data.usedon)}`)
+					toast.warning(`Key has been activated by ${data.usedby} on ${formatDate(data.usedon)}`)
 				else
 					toast.success(`Key has not been activated. Expires in ${formatExpires(data.duration)}`)
 				setLicense('');
@@ -38,7 +38,7 @@ export const CheckLicense: React.FC = () => {
 			<CardHeader>
 				<CardTitle>Check License</CardTitle>
 				<CardDescription>
-					Enter your license key to verify its validity.
+					Check license's validity.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
