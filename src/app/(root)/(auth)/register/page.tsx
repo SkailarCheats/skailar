@@ -1,10 +1,24 @@
 "use client";
+
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 import { cn } from "@/lib/utils";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from 'react-hook-form';
@@ -12,12 +26,51 @@ import { useForm } from 'react-hook-form';
 import { AuthRegisterCredentialsValidator, TAuthRegisterCredentialsValidator } from "@/lib/validators/account-credentials-validator";
 import { trpc } from "@/trpc/client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { ZodError } from "zod";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const games = [
+    {
+        value: "1",
+        label: "Rainbow Lite",
+    },
+    {
+        value: "2",
+        label: "Rust",
+    },
+    {
+        value: "3",
+        label: "Fortnite",
+    },
+    {
+        value: "4",
+        label: "Apex Legends",
+    },
+    {
+        value: "5",
+        label: "Valorant",
+    },
+    {
+        value: "6",
+        label: "Counter-Strike 2",
+    },
+    {
+        value: "7",
+        label: "Rainbow Full",
+    },
+]
 
 const Page = () => {
     const router = useRouter();
+
+    const [open, setOpen] = useState(false)
+    const [value, setValue] = useState("")
+
+    const searchParams = useSearchParams()
+    const isReseller = searchParams.get("as") === "reseller"
 
     const {
         register,
@@ -42,22 +95,31 @@ const Page = () => {
             toast.error(`Something went wrong`);
         },
         onSuccess: ({ sentToEmail }) => {
-            toast.success(`Verification Email sent to ${sentToEmail}`);
-            router.push('/verify-email?to=' + sentToEmail);
+            if (!isReseller) {
+                toast.success(`Verification Email sent to ${sentToEmail}`);
+                router.push('/verify-email?to=' + sentToEmail);
+            } else {
+                toast.warning('Account created. Please wait for admin approval.');
+            }
         }
     });
 
-    const onSubmit = ({ username, email, password }: TAuthRegisterCredentialsValidator) => {
-        mutate({ username, email, password });
+    const onSubmit = async ({ username, email, password }: TAuthRegisterCredentialsValidator) => {
+        try {
+            await axios.get(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=addAccount&role=Reseller&user=${username}&pass${password}=&keylevels=${value}&email=${email}`)
+            mutate({ username, email, password });
+        } catch (error) {
+            toast.error('Internal Error')
+        }
     };
 
     return (
         <>
-            <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
+            <div className={cn("container relative flex flex-col items-center justify-center lg:px-0", isReseller ? 'pt-10' : 'pt-20')}>
                 <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                     <div className="flex flex-col items-center space-y-2 text-center">
                         <Image src='/logo.png' height='80' width='80' alt="Skailar Logo" />
-                        <h1 className="text-2xl font-bold">Create an Account</h1>
+                        <h1 className="text-2xl font-bold">{isReseller ? 'Create a Reseller Account' : 'Create an Account'}</h1>
                         <Link href='/login' className={buttonVariants({ variant: 'link', className: "gap-1.5" })}>
                             Already have an Account? Login
                             <ArrowRight className="h-4 w-4" />
@@ -67,13 +129,13 @@ const Page = () => {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="grid gap-2">
                                 <div className="grid gap-1 py-2">
-                                    <Label htmlFor="username">Name</Label>
+                                    <Label htmlFor="username">Username</Label>
                                     <Input
                                         {...register("username")}
                                         className={cn({
                                             "focus-visible:ring-red-500": errors.username
                                         })}
-                                        placeholder="John Doe"
+                                        placeholder="skailar"
                                         autoComplete="off"
                                     />
                                     {errors?.username && (
@@ -109,6 +171,56 @@ const Page = () => {
                                         <p className="text-sm text-red-500">{errors.password.message}</p>
                                     )}
                                 </div>
+
+                                {isReseller && (
+                                    <div className="grid gap-1 py-2">
+                                        <Label htmlFor="game">Game</Label>
+                                        <Popover open={open} onOpenChange={setOpen}>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    role="combobox"
+                                                    aria-expanded={open}
+                                                    className={cn("w-full justify-between", !value && 'text-muted-foreground')}
+                                                >
+                                                    {value
+                                                        ? games.find((game) => game.value === value)?.label
+                                                        : "Select game..."}
+                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-full p-0">
+                                                <Command>
+                                                    <CommandInput placeholder="Search Game..." />
+                                                    <CommandList>
+                                                        <CommandEmpty>No game found.</CommandEmpty>
+                                                        <CommandGroup>
+                                                            {games.map((game) => (
+                                                                <CommandItem
+                                                                    key={game.value}
+                                                                    value={game.value}
+                                                                    onSelect={(currentValue) => {
+                                                                        setValue(currentValue === value ? "" : currentValue)
+                                                                        setOpen(false)
+                                                                    }}
+                                                                >
+                                                                    <Check
+                                                                        className={cn(
+                                                                            "mr-2 h-4 w-4",
+                                                                            value === game.value ? "opacity-100" : "opacity-0"
+                                                                        )}
+                                                                    />
+                                                                    {game.label}
+                                                                </CommandItem>
+                                                            ))}
+                                                        </CommandGroup>
+                                                    </CommandList>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </div>
+
+                                )}
                                 <Button type="submit">Register</Button>
                             </div>
                         </form>

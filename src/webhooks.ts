@@ -8,7 +8,7 @@ import { stripe } from './lib/stripe';
 import { Product } from './payload-types';
 import { WebhookRequest } from './server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const resend = new Resend(process.env.RESEND_API_KEY);
 
 const fetchLicenseKey = async (level: number, expiry: number): Promise<string> => {
     const response = await fetch(`/api/create-license?expiry=${expiry}&level=${level}`);

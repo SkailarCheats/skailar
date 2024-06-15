@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Keys } from "./licenses-list";
 
+
 type DropdownActionsProps = {
 	orderId?: string;
 
@@ -18,11 +19,13 @@ type DropdownActionsProps = {
 	customerId?: string;
 	customerUser?: string;
 	customerEmail?: string;
+	customerRole?: string;
+	customerVerified?: boolean;
 
 	license?: Keys;
 };
 
-export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, customerId, license, customerEmail, customerUser }: DropdownActionsProps) => {
+export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, customerId, license, customerEmail, customerUser, customerRole, customerVerified }: DropdownActionsProps) => {
 	const router = useRouter();
 
 	const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -162,6 +165,116 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 		}
 	}
 
+	const verifyUser = async () => {
+		const confirmed = window.confirm('Are you sure you want to verify this user?');
+
+		if (!confirmed) return;
+
+		try {
+			const response = await fetch(`/api/users/${customerId}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					_verified: true,
+					_verificationToken: ""
+				})
+			});
+
+			if (!response.ok) {
+				throw new Error('Failed to verify user');
+			}
+
+			toast.success('Successfully Verified User')
+			router.refresh();
+		} catch (error) {
+			toast.error('Failed to verify user')
+		}
+	};
+
+	const unverifyUser = async () => {
+		const confirmed = window.confirm('Are you sure you want to unverify this user?');
+
+		if (!confirmed) return;
+
+		try {
+			const response = await fetch(`/api/users/${customerId}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					_verified: false,
+					_verificationToken: ""
+				})
+			});
+
+			if (!response.ok) {
+				throw new Error('Failed to unverify user');
+			}
+
+			toast.success('Successfully Unverified User')
+			router.refresh();
+		} catch (error) {
+			toast.error('Failed to unverify user')
+		}
+	};
+
+	const makeReseller = async () => {
+		const confirmed = window.confirm('Are you sure you want to make this user a Reseller?')
+
+		if (!confirmed) return;
+
+		try {
+			const response = await fetch(`/api/users/${customerId}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					role: "reseller"
+				})
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to make this user a reseller')
+			}
+
+			toast.success('This user is now a Reseller')
+			router.refresh();
+		} catch (error) {
+			toast.error('Failed to make this user a reseller')
+		}
+	}
+
+	const makeCustomer = async () => {
+		const confirmed = window.confirm('Are you sure you want to make this user a Customer?')
+
+		if (!confirmed) return;
+
+		try {
+			const response = await fetch(`/api/users/${customerId}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					role: "customer"
+				})
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to make this user a customer')
+			}
+
+			toast.success('This user is now a Customer')
+			router.refresh();
+		} catch (error) {
+			toast.error('Failed to make this user a customer')
+		}
+	}
+
 	if (orderId && userEmail && licenseKey) {
 		return (
 			<DropdownMenuContent align="end">
@@ -199,6 +312,16 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 					<>
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem onClick={deleteCustomer}>Delete</DropdownMenuItem>
+						{customerVerified ? (
+							<DropdownMenuItem onClick={unverifyUser}>Unverify</DropdownMenuItem>
+						) : (
+							<DropdownMenuItem onClick={verifyUser}>Verify</DropdownMenuItem>
+						)}
+						{customerRole === 'reseller' ? (
+							<DropdownMenuItem onClick={makeCustomer}>Make Customer</DropdownMenuItem>
+						) : (
+							<DropdownMenuItem onClick={makeReseller}>Make Reseller</DropdownMenuItem>
+						)}
 						<DropdownMenuItem onClick={() => copyToClipboard(customerId)}>Copy ID</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => copyToClipboard(customerUser)}>Copy User</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => copyToClipboard(customerEmail)}>Copy Email</DropdownMenuItem>
@@ -215,7 +338,7 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 					<>
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem onClick={deleteLicense}>Delete</DropdownMenuItem>
-						{license.banned ? (
+						{license?.banned ? (
 							<DropdownMenuItem onClick={unbanLicense}>Unban</DropdownMenuItem>
 						) : (
 							<DropdownMenuItem onClick={banLicense}>Ban</DropdownMenuItem>

@@ -40,6 +40,40 @@ export default async function CustomersList() {
 		}
 	})
 
+	const processedCustomers = customers.map(customer => {
+		let roleClass = '';
+		let verifiedClass = '';
+
+		switch (customer.role) {
+			case 'admin':
+				roleClass = 'text-red-500'
+				break;
+			case 'reseller':
+				roleClass = 'text-yellow-500'
+				break;
+			case 'customer':
+				roleClass = 'text-muted-foreground'
+				break;
+			default:
+				roleClass = ''
+				break;
+		}
+
+		switch (customer._verified) {
+			case true:
+				verifiedClass = 'text-green-500'
+				break;
+			case false:
+				verifiedClass = 'text-red-500'
+		}
+
+		return {
+			...customer,
+			roleClass,
+			verifiedClass,
+		};
+	});
+
 	return (
 		<Card>
 			<CardHeader>
@@ -53,73 +87,45 @@ export default async function CustomersList() {
 					<TableHeader>
 						<TableRow>
 							<TableHead>Username</TableHead>
-							<TableHead>Email</TableHead>
+							<TableHead className="hidden lg:table-cell">Email</TableHead>
 							<TableHead>Status</TableHead>
 							<TableHead>Role</TableHead>
-							<TableHead className="hidden md:table-cell">Created at</TableHead>
+							<TableHead>Created at</TableHead>
 							<TableHead>
 								<span className="sr-only">Actions</span>
 							</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{customers.map(async (customer, index) => {
-							let role = '';
-							let verified = '';
+						{processedCustomers.map((customer, index) => (
+							<TableRow key={index}>
+								<TableCell>
+									{customer.username}
+								</TableCell>
+								<TableCell className="hidden lg:table-cell">
+									{customer.email}
+								</TableCell>
+								<TableCell className="font-medium">
+									<Badge variant="outline" className={customer.verifiedClass}>{customer._verified ? 'Verified' : 'Not Verified'}</Badge>
+								</TableCell>
+								<TableCell>
+									<Badge variant="outline" className={customer.roleClass}>{customer.role?.toUpperCase()}</Badge>
+								</TableCell>
+								<TableCell>{format(parseISO(customer.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
+								<TableCell>
+									<DropdownMenu>
+										<DropdownMenuTrigger asChild>
+											<Button aria-haspopup="true" size="icon" variant="ghost">
+												<MoreHorizontal className="h-4 w-4" />
+												<span className="sr-only">Toggle menu</span>
+											</Button>
+										</DropdownMenuTrigger>
 
-							switch (customer.role) {
-								case 'admin':
-									role = 'text-red-500'
-									break;
-								case 'reseller':
-									role = 'text-yellow-500'
-									break;
-								case 'customer':
-									role = 'text-muted-foreground'
-									break;
-								default:
-									role = ''
-									break;
-							}
-
-							switch (customer._verified) {
-								case true:
-									verified = 'text-green-500'
-									break;
-								case false:
-									verified = 'text-red-500'
-							}
-
-							return (
-								<TableRow key={index}>
-									<TableCell className="hidden sm:table-cell">
-										{customer.username}
-									</TableCell>
-									<TableCell className="hidden sm:table-cell">
-										{customer.email}
-									</TableCell>
-									<TableCell className="font-medium">
-										<Badge variant="outline" className={verified}>{customer._verified ? 'Verified' : 'Not Verified'}</Badge>
-									</TableCell>
-									<TableCell>
-										<Badge variant="outline" className={role}>{customer.role?.toUpperCase()}</Badge> {/* ADMIN | RESELLER | USER */}
-									</TableCell>
-									<TableCell className="hidden md:table-cell">{format(parseISO(customer.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
-									<TableCell>
-										<DropdownMenu>
-											<DropdownMenuTrigger asChild>
-												<Button aria-haspopup="true" size="icon" variant="ghost">
-													<MoreHorizontal className="h-4 w-4" />
-													<span className="sr-only">Toggle menu</span>
-												</Button>
-											</DropdownMenuTrigger>
-
-											<DropdownActions customerId={customer.id ? customer.id : ''} customerUser={customer.username} customerEmail={customer.email} />
-										</DropdownMenu>
-									</TableCell>
-								</TableRow>
-							)
-						})}
+										<DropdownActions customerId={customer.id ? customer.id : ''} customerUser={customer.username} customerEmail={customer.email} customerRole={customer.role!} customerVerified={customer._verified!} />
+									</DropdownMenu>
+								</TableCell>
+							</TableRow>
+						))}
 					</TableBody>
 				</Table>
 			</CardContent>

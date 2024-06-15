@@ -38,7 +38,7 @@ export const CheckLicense: React.FC = () => {
 			<CardHeader>
 				<CardTitle>Check License</CardTitle>
 				<CardDescription>
-					Check license's validity.
+					Check license&apos;s validity.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>

@@ -167,6 +167,17 @@ const start = async () => {
         }
     });
 
+    app.get('/api/create-reseller', async (req, res) => {
+        const { user, pass, level, email } = req.query;
+
+        try {
+            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=addAccount&role=Reseller&user=${user}&pass=${pass}=&keylevels=${level}&email=${email}`)
+            res.json(response.data)
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to create reseller account' })
+        }
+    })
+
     app.use((req, res) => nextHandler(req, res));
 
     nextApp.prepare().then(() => {

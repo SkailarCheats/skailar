@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { format } from "date-fns";
+import { Resend } from "resend";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {

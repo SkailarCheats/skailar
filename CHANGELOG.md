@@ -20,9 +20,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 - v1.1 Admin Dashboard
+- v1.1 Account Dashboard
 
 ### Changed
 - v1.1 Registration Form
+- v1.1 Registration Reseller Accounts
 
 ### Removed
 - v1.1 /reviews/admin route
