@@ -34,6 +34,15 @@ export interface User {
   twoFASecret?: string | null;
   isTwoFAEnabled?: boolean | null;
   twoFAToggled?: string | null;
+  ip?: string | null;
+  hostname?: string | null;
+  city?: string | null;
+  region?: string | null;
+  country?: string | null;
+  loc?: string | null;
+  org?: string | null;
+  postal?: string | null;
+  timezone?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;

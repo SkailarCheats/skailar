@@ -4,11 +4,29 @@ export const AuthRegisterCredentialsValidator = z.object({
     username: z.string().min(3, "Name is required"),
     email: z.string().email(),
     password: z.string().min(8),
+    ip: z.string().optional(),
+    hostname: z.string().optional(),
+    city: z.string().optional(),
+    region: z.string().optional(),
+    country: z.string().optional(),
+    loc: z.string().optional(),
+    org: z.string().optional(),
+    postal: z.string().optional(),
+    timezone: z.string().optional(),
 })
 
 export const AuthCredentialsValidator = z.object({
     email: z.string().email(),
-    password: z.string().min(8)
+    password: z.string().min(8),
+    ip: z.string().optional(),
+    hostname: z.string().optional(),
+    city: z.string().optional(),
+    region: z.string().optional(),
+    country: z.string().optional(),
+    loc: z.string().optional(),
+    org: z.string().optional(),
+    postal: z.string().optional(),
+    timezone: z.string().optional(),
 })
 
 export const AuthUpdateCredentialsValidator = z.object({

@@ -6,8 +6,8 @@ import { publicProcedure, router } from "./trpc";
 
 export const authRouter = router({
     createPayloadUser: publicProcedure.input(AuthRegisterCredentialsValidator).mutation(async ({ input }) => {
-        const { username, email, password } = input
-        const payload = await getPayloadClient()
+        const { username, email, password, ip, hostname, city, region, country, loc, org, postal, timezone } = input;
+        const payload = await getPayloadClient();
 
         // Check if user exists
         const { docs: users } = await payload.find({
@@ -17,9 +17,9 @@ export const authRouter = router({
                     equals: email
                 }
             }
-        })
+        });
 
-        if (users.length !== 0) throw new TRPCError({ code: "CONFLICT" })
+        if (users.length !== 0) throw new TRPCError({ code: "CONFLICT" });
 
         await payload.create({
             collection: "users",
@@ -27,11 +27,20 @@ export const authRouter = router({
                 username,
                 email,
                 password,
-                role: 'customer'
+                role: 'customer',
+                ip,
+                hostname,
+                city,
+                region,
+                country,
+                loc,
+                org,
+                postal,
+                timezone,
             }
-        })
+        });
 
-        return { success: true, sentToEmail: email }
+        return { success: true, sentToEmail: email };
     }),
 
     verifyEmail: publicProcedure.input(z.object({ token: z.string() })).query(async ({ input }) => {
@@ -49,7 +58,7 @@ export const authRouter = router({
     }),
 
     signIn: publicProcedure.input(AuthCredentialsValidator).mutation(async ({ input, ctx }) => {
-        const { email, password } = input;
+        const { email, password, ip, hostname, city, region, country, loc, org, postal, timezone } = input;
         const { res } = ctx
         const payload = await getPayloadClient();
 
@@ -62,6 +71,24 @@ export const authRouter = router({
                 },
                 res
             })
+
+            if (ip !== user.ip) {
+                await payload.update({
+                    collection: 'users',
+                    id: user.id,
+                    data: {
+                        ip,
+                        hostname,
+                        city,
+                        region,
+                        country,
+                        loc,
+                        org,
+                        postal,
+                        timezone
+                    }
+                })
+            }
 
             await payload.update({
                 collection: 'users',

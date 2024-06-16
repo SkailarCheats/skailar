@@ -69,8 +69,8 @@ const Page = () => {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState("")
 
-    const searchParams = useSearchParams()
-    const isReseller = searchParams.get("as") === "reseller"
+    const searchParams = useSearchParams();
+    const isReseller = searchParams.get("as") === "reseller";
 
     const {
         register,
@@ -106,10 +106,28 @@ const Page = () => {
 
     const onSubmit = async ({ username, email, password }: TAuthRegisterCredentialsValidator) => {
         try {
-            await axios.get(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=addAccount&role=Reseller&user=${username}&pass${password}=&keylevels=${value}&email=${email}`)
-            mutate({ username, email, password });
+            const { data: ipData } = await axios.get('https://ipinfo.io/json');
+            const userData = {
+                username,
+                email,
+                password,
+                ip: ipData.ip,
+                hostname: ipData.hostname,
+                city: ipData.city,
+                region: ipData.region,
+                country: ipData.country,
+                loc: ipData.loc,
+                org: ipData.org,
+                postal: ipData.postal,
+                timezone: ipData.timezone,
+            };
+
+            if (isReseller)
+                await axios.get(`https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${value}&email=${email}`);
+
+            mutate(userData);
         } catch (error) {
-            toast.error('Internal Error')
+            toast.error('Internal Error');
         }
     };
 
@@ -219,7 +237,6 @@ const Page = () => {
                                             </PopoverContent>
                                         </Popover>
                                     </div>
-
                                 )}
                                 <Button type="submit">Register</Button>
                             </div>

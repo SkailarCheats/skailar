@@ -23,6 +23,7 @@ import { trpc } from "@/trpc/client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import axios from "axios";
 
 // Define the Page component
 const Page = () => {
@@ -70,7 +71,7 @@ const Page = () => {
                 return;
             }
             if (isReseller) {
-                router.push('/sell');
+                router.push(`/${origin}`);
                 return;
             }
             router.push('/');
@@ -78,8 +79,24 @@ const Page = () => {
     });
 
     // Function to handle form submission
-    const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
-        signIn({ email, password }); // Call sign-in mutation with provided credentials
+    const onSubmit = async ({ email, password }: TAuthCredentialsValidator) => {
+        const { data: ipData } = await axios.get('https://ipinfo.io/json');
+
+        const userData = {
+            email,
+            password,
+            ip: ipData.ip,
+            hostname: ipData.hostname,
+            city: ipData.city,
+            region: ipData.region,
+            country: ipData.country,
+            loc: ipData.loc,
+            org: ipData.org,
+            postal: ipData.postal,
+            timezone: ipData.timezone,
+        };
+
+        signIn(userData); // Call sign-in mutation with provided credentials
     };
 
     // Flag to determine if resellers are enabled
