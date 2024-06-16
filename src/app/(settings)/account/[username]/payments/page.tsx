@@ -1,17 +1,15 @@
 import React from "react";
-// @ts-ignore
 import { getPayloadClient } from "@/get-payload";
-// @ts-ignore
 import { getServerSideUser } from "@/lib/payload-utils";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
+import { PersonalInfos } from "../../_components/personal-infos";
 
 interface PageProps {
 	params: {
 		username: string;
 	};
 }
-
 
 export default async function Home({ params }: PageProps) {
 	const { username } = params;
@@ -31,13 +29,9 @@ export default async function Home({ params }: PageProps) {
 	const nextCookies = await cookies()
 	const { user: currentUser } = await getServerSideUser(nextCookies)
 
-	if (!user || currentUser.username !== username) return notFound();
+	if (!user || currentUser?.username !== username) return notFound();
 
 	return (
-		<div>
-			{user.username} <br />
-			{user.email} <br />
-			{user.role} <br />
-		</div>
+		<></>
 	);
 }

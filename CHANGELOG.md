@@ -28,3 +28,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 - v1.1 /reviews/admin route
+
+## [1.2] 06/16/2024 03:05
+
+### Added
+- v1.2 Support to Update Email
+- v1.2 Support to Update User
+- v1.2 Support to Update Password
+
+### Changed
+- v1.2 [N/A]
+
+### Removed
+- v1.2 [N/A]

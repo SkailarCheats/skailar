@@ -14,7 +14,9 @@ type DropdownActionsProps = {
 
 	userEmail?: string;
 	licenseKey?: string | null;
+
 	productId?: string;
+	productStatus?: string;
 
 	customerId?: string;
 	customerUser?: string;
@@ -25,7 +27,7 @@ type DropdownActionsProps = {
 	license?: Keys;
 };
 
-export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, customerId, license, customerEmail, customerUser, customerRole, customerVerified }: DropdownActionsProps) => {
+export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, customerId, license, customerEmail, customerUser, customerRole, customerVerified, productStatus }: DropdownActionsProps) => {
 	const router = useRouter();
 
 	const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -84,6 +86,62 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 			toast.error(`Failed to delete product`);
 		}
 	};
+
+	const archiveProduct = async () => {
+		const confirmed = window.confirm("Are you sure you want to archive this product");
+
+		if (!confirmed)
+			return;
+
+		try {
+			const response = await fetch(`/api/products/${productId}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					approvedForSale: 'pending'
+				})
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to archive product');
+			}
+
+			toast.success('Successfully archived product')
+			router.refresh();
+		} catch (error) {
+			toast.error("Failed to archive product");
+		}
+	}
+
+	const approveProduct = async () => {
+		const confirmed = window.confirm("Are you sure you want to approve this product");
+
+		if (!confirmed)
+			return;
+
+		try {
+			const response = await fetch(`/api/products/${productId}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					approvedForSale: 'approved'
+				})
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to approved product');
+			}
+
+			toast.success('Successfully approved product')
+			router.refresh();
+		} catch (error) {
+			toast.error("Failed to approve product");
+		}
+	}
 
 	const deleteCustomer = async () => {
 		const confirmed = window.confirm('Are you sure you want to delete this User?'); // TODO: Change with alert-dialog
@@ -297,7 +355,10 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 				{isMounted && (
 					<>
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
-						<DropdownMenuItem onClick={deleteProduct}>Delete</DropdownMenuItem>
+						{/* <DropdownMenuItem onClick={deleteProduct}>Delete</DropdownMenuItem> */}
+						<DropdownMenuItem onClick={productStatus === 'pending' ? approveProduct : archiveProduct}>
+							{productStatus === 'pending' ? 'Approve' : 'Archive'}
+						</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => copyToClipboard(productId)}>Copy ID</DropdownMenuItem>
 					</>
 				)}

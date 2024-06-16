@@ -89,7 +89,7 @@ export default async function ProductsList() {
 									approved = "text-green-500";
 									break;
 								case "pending":
-									approved = "";
+									approved = "text-yellow-500";
 									break;
 								case "denied":
 									approved = "text-red-500";
@@ -141,7 +141,7 @@ export default async function ProductsList() {
 													<span className="sr-only">Toggle menu</span>
 												</Button>
 											</DropdownMenuTrigger>
-											<DropdownActions productId={product.id ? product.id : ''} />
+											<DropdownActions productId={product.id ? product.id : ''} productStatus={product.approvedForSale!} />
 										</DropdownMenu>
 									</TableCell>
 								</TableRow>

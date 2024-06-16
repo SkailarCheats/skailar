@@ -5,7 +5,7 @@ import { CircleUserIcon } from "lucide-react"
 import { cookies } from "next/headers";
 import Link from "next/link";
 
-export const DashboardUserMenu = async () => {
+export const AccountdUserMenu = async () => {
 	const nextCookies = cookies();
 	const { user } = await getServerSideUser(nextCookies)
 
@@ -22,6 +22,9 @@ export const DashboardUserMenu = async () => {
 				<DropdownMenuSeparator />
 				<DropdownMenuItem asChild>
 					<Link href={`/account/${user?.username}`}>Settings</Link>
+				</DropdownMenuItem>
+				<DropdownMenuItem asChild>
+					<Link href={`/dashboard`}>Admin Dashboard</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem asChild>
 					<Link href='https://discord.gg/skailar' target="_blank">

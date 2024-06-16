@@ -18,18 +18,14 @@ export const UserAccountNav = ({ user }: { user: User }) => {
             <DropdownMenuContent className="bg-white dark:bg-black w-60" align="end">
                 <div className="flex items-center justify-start gap-2 p-2">
                     <div className="flex flex-col space-y-0.5 leading-none">
-                        <p className="font-medium text-sm text-black dark:text-white">{user.username}</p>
+                        <p className="font-medium text-sm text-black dark:text-white">{user?.username}</p>
                     </div>
                 </div>
 
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem asChild>
-                    {user.role === 'admin' && (user.email === 'amtriix@skailar.com' || user.email === 'edoardo.bergamo03@gmail.com') ? (
-                        <Link href='/sell'>Seller Dashboard</Link>
-                    ) : (
-                        <Link href='/' className="cursor-not-allowed">Reseller Dashboard</Link>
-                    )}
+                    <Link href={`/account/${user?.username}`}>Settings</Link>
                 </DropdownMenuItem>
 
                 <DropdownMenuItem asChild>
@@ -38,9 +34,7 @@ export const UserAccountNav = ({ user }: { user: User }) => {
                     )}
                 </DropdownMenuItem>
 
-                <DropdownMenuItem asChild>
-                    <Link href='/loader'>Download Loader</Link>
-                </DropdownMenuItem>
+                <DropdownMenuSeparator />
 
                 <DropdownMenuItem className="cursor-pointer" onClick={signOut}>
                     Logout
