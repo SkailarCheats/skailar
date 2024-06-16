@@ -40,6 +40,7 @@ const UpdateUserForm: React.FC<{ user: User }> = ({ user }) => {
 			if (result?.success) {
 				toast.success('User updated successfully.');
 				router.push(`/account/${username}`)
+				router.refresh()
 			}
 		} catch (error) {
 			if (error instanceof Error) {
