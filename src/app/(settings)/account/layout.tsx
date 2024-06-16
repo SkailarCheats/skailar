@@ -1,3 +1,4 @@
+import '../../globals.css'
 import Providers from '@/components/providers'
 import { ThemeProvider } from '@/components/theme-provider'
 import { getServerSideUser } from '@/lib/payload-utils'
@@ -5,17 +6,14 @@ import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
-import Image from 'next/image'
-import Link from "next/link"
 import { Toaster } from 'sonner'
-import '@/app/globals.css'
+import { AccountMenuNav } from './_components/account-menu-nav'
 import { AccountNav } from './_components/account-nav'
 import { AccountdUserMenu } from './_components/account-user-menu'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Skailar',
   description: '',
   icons: {
     icon: '/favicon.ico'
@@ -30,9 +28,14 @@ export default async function RootLayout({
   const nextCookies = await cookies()
   const { user } = await getServerSideUser(nextCookies);
 
+  const titleWithUser = `${user?.username}'s Settings | Skailar`
+
   return (
     <html lang="en" className='h-full'>
-      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      <head>
+        <title>{titleWithUser}</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      </head>
       <body className={cn("relative h-full font-sans antialiased", inter.className)}>
         <ThemeProvider
           attribute="class"
@@ -42,34 +45,27 @@ export default async function RootLayout({
         >
           <main className='relative flex flex-col min-h-screen'>
             <Providers>
-              <div className="grid min-h-screen w-full grid-cols-[280px_1fr] overflow-hidden">
-                <div className="hidden border-r bg-gray-100/40 dark:bg-gray-800/40 lg:block">
-                  <div className="flex h-full max-h-screen flex-col gap-2">
-                    <div className="flex h-[60px] items-center border-b px-6">
-                      <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
-                        <Image src='/logo.png' width={24} height={24} alt='logo' />
-                        <span>Skailar</span>
-                      </Link>
-                    </div>
-                    <div className="flex-1 overflow-auto py-2">
-                      <AccountNav user={user!} />
-                    </div>
+              <div className="flex-grow flex-1">
+                <div className="grid min-h-screen h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+                  <div className="hidden border-r bg-muted/40 md:block">
+                    <AccountNav user={user!} />
                   </div>
-                </div>
-                <div className="flex flex-col">
-                  <header className="flex h-14 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40 lg:h-[60px]">
-                    <Link href="#" className="lg:hidden" prefetch={false}>
-                      <UserIcon className="h-6 w-6" />
-                      <span className="sr-only">Account</span>
-                    </Link>
-                    <div className="w-full flex-1">
-                      <h1 className="text-lg font-semibold">Account Dashboard</h1>
-                    </div>
-                    <AccountdUserMenu />
-                  </header>
-                  <main className="flex-1 p-4 md:p-6 overflow-auto">
-                    {children}
-                  </main>
+                  <div className="flex flex-col h-screen">
+                    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 fixed top-0 left-0 md:left-[220px] lg:left-[280px] right-0 z-10">
+                      <AccountMenuNav user={user!} />
+                      <div className="flex-grow w-full">
+                        <form>
+                          <div className="relative">
+                            <h1 className="text-lg font-semibold">Account Dashboard</h1>
+                          </div>
+                        </form>
+                      </div>
+                      <AccountdUserMenu />
+                    </header>
+                    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 overflow-auto mt-14 lg:mt-[60px]">
+                      {children}
+                    </main>
+                  </div>
                 </div>
               </div>
             </Providers>

@@ -27,6 +27,13 @@ export interface User {
   id: string;
   username: string;
   role?: ('admin' | 'reseller' | 'customer') | null;
+  lastLogin?: string | null;
+  passwordChanged?: string | null;
+  usernameChanged?: string | null;
+  emailChanged?: string | null;
+  twoFASecret?: string | null;
+  isTwoFAEnabled?: boolean | null;
+  twoFAToggled?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;

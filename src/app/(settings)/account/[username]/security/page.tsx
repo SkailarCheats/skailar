@@ -4,6 +4,7 @@ import { getServerSideUser } from "@/lib/payload-utils";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { PersonalInfos } from "../../_components/personal-infos";
+import { Security } from "../../_components/security";
 
 interface PageProps {
 	params: {
@@ -32,6 +33,8 @@ export default async function Home({ params }: PageProps) {
 	if (!user || currentUser?.username !== username) return notFound();
 
 	return (
-		<></>
+		<>
+			<Security user={user} />
+		</>
 	);
 }

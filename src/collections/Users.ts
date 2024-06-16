@@ -38,6 +38,61 @@ export const Users: CollectionConfig = {
                 { label: "Reseller", value: 'reseller' },
                 { label: "Customer", value: 'customer' },
             ]
+        },
+        {
+            name: 'lastLogin',
+            type: 'date',
+            admin: {
+                readOnly: true,
+                position: 'sidebar',
+            },
+        },
+        {
+            name: 'passwordChanged',
+            type: 'date',
+            admin: {
+                readOnly: true,
+                position: 'sidebar'
+            },
+        },
+        {
+            name: 'usernameChanged',
+            type: 'date',
+            admin: {
+                readOnly: true,
+                position: 'sidebar'
+            },
+        },
+        {
+            name: 'emailChanged',
+            type: 'date',
+            admin: {
+                readOnly: true,
+                position: 'sidebar'
+            },
+        },
+        {
+            name: "twoFASecret",
+            type: 'text',
+            required: false,
+            admin: {
+                readOnly: true,
+            }
+        },
+        {
+            name: "isTwoFAEnabled",
+            type: "checkbox",
+            defaultValue: false,
+            admin: {
+                readOnly: true,
+            }
+        },
+        {
+            name: "twoFAToggled",
+            type: 'date',
+            admin: {
+                readOnly: true,
+            }
         }
     ]
 }

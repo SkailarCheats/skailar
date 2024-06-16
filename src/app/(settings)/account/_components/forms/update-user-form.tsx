@@ -60,7 +60,7 @@ const UpdateUserForm: React.FC<{ user: User }> = ({ user }) => {
 				</div>
 				<div className="space-y-2">
 					<Label htmlFor="email">Email</Label>
-					<Input id="email" {...register('email')} placeholder="Enter new email" type="email" />
+					<Input id="email" {...register('email')} placeholder="Enter new email" autoComplete='off' type="email" />
 				</div>
 			</CardContent>
 			<CardFooter>

@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { getPayloadClient } from "../get-payload";
-import { AuthCredentialsValidator, AuthRegisterCredentialsValidator, AuthUpdateCredentialsValidator, AuthUpdatePasswordValidator } from "../lib/validators/account-credentials-validator";
+import { AuthCredentialsValidator, AuthRegisterCredentialsValidator, AuthToggleTwoFactorAuth, AuthUpdateCredentialsValidator, AuthUpdatePasswordValidator } from "../lib/validators/account-credentials-validator";
 import { publicProcedure, router } from "./trpc";
 
 export const authRouter = router({
@@ -54,7 +54,7 @@ export const authRouter = router({
         const payload = await getPayloadClient();
 
         try {
-            await payload.login({
+            const { user } = await payload.login({
                 collection: 'users',
                 data: {
                     email,
@@ -62,6 +62,14 @@ export const authRouter = router({
                 },
                 res
             })
+
+            await payload.update({
+                collection: 'users',
+                id: user.id,
+                data: {
+                    lastLogin: new Date().toISOString(),
+                },
+            });
 
             return { success: true }
         } catch (error) {
@@ -81,6 +89,7 @@ export const authRouter = router({
         if (!user) throw new TRPCError({ code: "NOT_FOUND" });
 
         const updateData: { username?: string; email?: string } = {};
+        const updateFields: { emailChanged?: string; usernameChanged?: string } = {};
 
         if (newEmail && newEmail !== user.email) {
             const { docs: existingUsersWithEmail } = await payload.find({
@@ -96,16 +105,21 @@ export const authRouter = router({
                 throw new TRPCError({ code: "CONFLICT", message: "Email already in use" });
 
             updateData.email = newEmail;
+            updateFields.emailChanged = new Date().toISOString();
         }
 
-        if (newUsername) {
+        if (newUsername && newUsername !== user.username) {
             updateData.username = newUsername;
+            updateFields.usernameChanged = new Date().toISOString();
         }
 
         await payload.update({
             collection: "users",
             id: id,
-            data: updateData,
+            data: {
+                ...updateData,
+                ...updateFields
+            }
         });
 
         return { success: true, updatedFields: updateData };
@@ -132,10 +146,37 @@ export const authRouter = router({
             id: id,
             data: {
                 password: newPassword,
+                passwordChanged: new Date().toISOString(),
             },
         });
 
         return { success: true };
     }),
+
+    toggleTwoFA: publicProcedure.input(AuthToggleTwoFactorAuth).mutation(async ({ input }) => {
+        const { id, status } = input;
+        const payload = await getPayloadClient();
+
+        const user = await payload.findByID({
+            collection: "users",
+            id: id
+        });
+
+        if (!user)
+            throw new TRPCError({ code: 'NOT_FOUND' })
+
+        if (status !== null) {
+            await payload.update({
+                collection: "users",
+                id: id,
+                data: {
+                    isTwoFAEnabled: status,
+                    twoFAToggled: new Date().toISOString(),
+                }
+            })
+        }
+
+        return { success: true };
+    })
 
 })

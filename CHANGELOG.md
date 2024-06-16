@@ -35,9 +35,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - v1.2 Support to Update Email
 - v1.2 Support to Update User
 - v1.2 Support to Update Password
+- v1.2 Support to Check Account Security
+- v1.2 User Mobile Navbar
 
 ### Changed
-- v1.2 [N/A]
+- v1.2 Account Sidebar Design
 
 ### Removed
 - v1.2 [N/A]

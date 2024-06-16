@@ -22,6 +22,11 @@ export const AuthUpdatePasswordValidator = z.object({
     newPassword: z.string().min(8),
 })
 
+export const AuthToggleTwoFactorAuth = z.object({
+    id: z.string(),
+    status: z.boolean()
+});
+
 export type TAuthRegisterCredentialsValidator = z.infer<
     typeof AuthRegisterCredentialsValidator
 >;
@@ -36,4 +41,8 @@ export type TAuthUpdateCredentialsValidator = z.infer<
 
 export type TAuthUpdatePasswordValidator = z.infer<
     typeof AuthUpdatePasswordValidator
+>
+
+export type TAuthToggleTwoFactorAuth = z.infer<
+    typeof AuthToggleTwoFactorAuth
 >

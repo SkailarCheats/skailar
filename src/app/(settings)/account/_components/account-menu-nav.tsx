@@ -1,14 +1,15 @@
 'use client';
 
-import { ModeToggle } from "@/components/toggle";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { User } from "@/payload-types";
-import { CreditCardIcon, DollarSign, HomeIcon, Key, LockIcon, PackageIcon, SettingsIcon, ShoppingCartIcon, Star, UserIcon, UsersIcon } from "lucide-react";
+import { CreditCardIcon, LockIcon, MenuIcon, SettingsIcon, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export const AccountNav = ({ user }: { user: User }) => {
+export const AccountMenuNav = ({ user }: { user: User }) => {
 	const currentRoute = usePathname();
 	const active = 'bg-muted text-primary hover:text-primary'
 
@@ -20,23 +21,23 @@ export const AccountNav = ({ user }: { user: User }) => {
 	]
 
 	return (
-		<div className="flex h-full max-h-screen flex-col gap-2">
-			<div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-				<Link href="/" className="flex items-center gap-2 font-semibold" prefetch={false}>
-					<Image src='/logo.png' width='24' height='24' alt="Skailar Logo" />
-					<span className="">Skailar</span>
-				</Link>
+		<Sheet>
+			<SheetTrigger asChild>
+				<Button variant="outline" size="icon" className="shrink-0 md:hidden">
+					<MenuIcon className="h-5 w-5" />
+					<span className="sr-only">Toggle navigation menu</span>
+				</Button>
+			</SheetTrigger>
+			<SheetContent side="left" className="flex flex-col">
+				<nav className="grid gap-2 text-lg font-medium">
+					<Link href="/" className="flex items-center gap-2 text-lg font-semibold cursor-pointer">
+						<Image src='/logo.png' width='24' height='24' alt="Skailar Logo" />
+						<span>Skailar</span>
+					</Link>
 
-				<div className="ml-auto">
-					<ModeToggle />
-				</div>
-			</div>
-
-			<div className="flex-1">
-				<nav className="grid items-start px-2 text-sm font-medium lg:px-4">
 					{menu.map((link, index) => (
 						<Link
-							href={link.href}
+							href={link.href ? link.href : ''}
 							key={index}
 							className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary", currentRoute === link.href ? active : 'text-muted-foreground')}
 						>
@@ -45,7 +46,7 @@ export const AccountNav = ({ user }: { user: User }) => {
 						</Link>
 					))}
 				</nav>
-			</div>
-		</div>
+			</SheetContent>
+		</Sheet>
 	)
 }
