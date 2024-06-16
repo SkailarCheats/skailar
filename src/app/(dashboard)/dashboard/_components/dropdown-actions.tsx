@@ -87,6 +87,33 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 		}
 	};
 
+	const assignLicenseKey = async () => {
+		const keyToAssign = window.prompt('Insert License Key')
+
+		if (!keyToAssign)
+			return
+
+		try {
+			const response = await fetch(`/api/orders/${orderId}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					licenseKey: `${keyToAssign}`
+				})
+			})
+
+			if (!response.ok)
+				throw new Error('Failed to assign license')
+
+			toast.success('Successfully assigned license')
+			router.refresh();
+		} catch (error) {
+			toast.error('Failed to assign license')
+		}
+	}
+
 	const archiveProduct = async () => {
 		const confirmed = window.confirm("Are you sure you want to archive this product");
 
@@ -340,6 +367,7 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 					<>
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem onClick={deleteOrder}>Delete</DropdownMenuItem>
+						<DropdownMenuItem onClick={assignLicenseKey}>{licenseKey === '[N/A]' ? 'Assign' : 'Reassign'} License</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => copyToClipboard(orderId)}>Copy ID</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => copyToClipboard(userEmail)}>Copy Email</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => copyToClipboard(licenseKey ? licenseKey : '[N/A]')}>Copy License</DropdownMenuItem>

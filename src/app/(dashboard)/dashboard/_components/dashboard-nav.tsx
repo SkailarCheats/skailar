@@ -2,7 +2,7 @@
 
 import { ModeToggle } from "@/components/toggle";
 import { cn } from "@/lib/utils";
-import { HomeIcon, Key, PackageIcon, ShoppingCartIcon, Star, UsersIcon } from "lucide-react";
+import { DollarSign, HomeIcon, Key, PackageIcon, ShoppingCartIcon, Star, UsersIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,7 +13,7 @@ export const links = [
 	{ title: 'Orders', icon: ShoppingCartIcon, href: '/dashboard/orders' },
 	{ title: 'Products', icon: PackageIcon, href: '/dashboard/products' },
 	{ title: 'Customers', icon: UsersIcon, href: '/dashboard/customers' },
-	{ title: 'Resellers', icon: UsersIcon, href: '/dashboard/resellers' },
+	{ title: 'Resellers', icon: DollarSign, href: '/dashboard/resellers' },
 	{ title: 'Reviews', icon: Star, href: '/dashboard/reviews' },
 	{ title: 'Licenses', icon: Key, href: '/dashboard/licenses' }
 ]
