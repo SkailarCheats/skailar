@@ -15,6 +15,7 @@ import nextBuild from "next/dist/build";
 import path from "path";
 import { cookies } from 'next/headers';
 import { getServerSideUser } from './lib/payload-utils';
+import { Product, User } from './payload-types';
 
 const app = express();
 
@@ -175,6 +176,69 @@ const start = async () => {
             res.json(response.data)
         } catch (error) {
             res.status(500).json({ error: 'Failed to create reseller account' })
+        }
+    })
+
+    app.get('/api/get-license/:id', async (req, res) => {
+        const { id } = req.params
+
+        try {
+            const payload = await getPayloadClient()
+            const licenseKey = await payload.findByID({
+                collection: 'orders',
+                id: id
+            })
+
+            const user = licenseKey.user as User
+
+            if (!user) {
+                console.log('No User')
+            }
+
+            const response = {
+                licenseKey: licenseKey,
+                user: user
+            };
+
+            return res.json(response)
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to get License Key' })
+        }
+    })
+
+    app.get('/api/get-users/:username', async (req, res) => {
+        const { username } = req.params
+
+        try {
+            const payload = await getPayloadClient()
+            const users = await payload.find({
+                collection: 'users',
+                where: {
+                    username: {
+                        equals: username
+                    }
+                }
+            })
+
+            return res.json(users)
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to get Users' })
+        }
+    })
+
+    app.get('/api/product/:id/delete', async (req, res) => {
+        const { id } = req.params
+
+        try {
+            const payload = await getPayloadClient()
+            const product = await payload.delete({
+                collection: 'products',
+                id: id
+            })
+
+            return res.status(200).json({ success: 'Product Successfully Deleted' })
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to delete Product' })
         }
     })
 

@@ -21,24 +21,40 @@ export const authRouter = router({
 
         if (users.length !== 0) throw new TRPCError({ code: "CONFLICT" });
 
-        await payload.create({
+        const newUser = await payload.create({
             collection: "users",
             data: {
                 username,
                 email,
                 password,
                 role: 'customer',
-                ip,
-                hostname,
-                city,
-                region,
-                country,
-                loc,
-                org,
-                postal,
-                timezone,
             }
         });
+
+        if (ip) {
+            const userDetails = await payload.create({
+                collection: "user_details",
+                data: {
+                    ip,
+                    hostname,
+                    city,
+                    region,
+                    country,
+                    loc,
+                    org,
+                    postal,
+                    timezone
+                }
+            });
+
+            await payload.update({
+                collection: "users",
+                id: newUser.id,
+                data: {
+                    details: [userDetails.id]
+                }
+            });
+        }
 
         return { success: true, sentToEmail: email };
     }),
@@ -72,10 +88,11 @@ export const authRouter = router({
                 res
             })
 
-            if (ip !== user.ip) {
-                await payload.update({
-                    collection: 'users',
-                    id: user.id,
+            const latestUserDetails = user?.details?.[user.details.length - 1];
+
+            if (latestUserDetails && typeof latestUserDetails !== 'string' && ip !== latestUserDetails.ip) {
+                const userDetails = await payload.create({
+                    collection: 'user_details',
                     data: {
                         ip,
                         hostname,
@@ -88,6 +105,24 @@ export const authRouter = router({
                         timezone
                     }
                 })
+
+                try {
+                    if (!user.details) {
+                        user.details = []
+                    }
+
+                    if (userDetails.id) {
+                        await payload.update({
+                            collection: 'users',
+                            id: user.id,
+                            data: {
+                                details: [...user.details, userDetails.id]
+                            }
+                        });
+                    }
+                } catch (error) {
+                    throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' })
+                }
             }
 
             await payload.update({

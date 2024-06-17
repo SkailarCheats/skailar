@@ -14,6 +14,7 @@ export interface Config {
     product_file: ProductFile;
     orders: Order;
     reviews: Review;
+    user_details: UserDetail;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -34,15 +35,7 @@ export interface User {
   twoFASecret?: string | null;
   isTwoFAEnabled?: boolean | null;
   twoFAToggled?: string | null;
-  ip?: string | null;
-  hostname?: string | null;
-  city?: string | null;
-  region?: string | null;
-  country?: string | null;
-  loc?: string | null;
-  org?: string | null;
-  postal?: string | null;
-  timezone?: string | null;
+  details?: (string | UserDetail)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -55,6 +48,24 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user_details".
+ */
+export interface UserDetail {
+  id: string;
+  ip?: string | null;
+  hostname?: string | null;
+  city?: string | null;
+  region?: string | null;
+  country?: string | null;
+  loc?: string | null;
+  org?: string | null;
+  postal?: string | null;
+  timezone?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

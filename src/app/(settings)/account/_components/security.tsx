@@ -1,12 +1,21 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
-import { User } from "@/payload-types"
-import { formatDistanceToNow, parseISO } from "date-fns"
-import { ToggleTwoFAForm } from "./forms/toggle-twofa-form"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { User, UserDetail } from "@/payload-types"; // Assumendo che UserDetails sia il tipo degli oggetti in user.details
+import { formatDistanceToNow, parseISO } from "date-fns";
+import { ToggleTwoFAForm } from "./forms/toggle-twofa-form";
 
 interface SecurityProps {
 	user: User;
 }
+
+const maskIPAddress = (ip: string): string => {
+	const ipParts = ip.split('.');
+	if (ipParts.length === 4) {
+		return `${ipParts[0]}.xxx.xxx.${ipParts[3]}`;
+	} else {
+		return ip;
+	}
+};
 
 export const Security = ({ user }: SecurityProps) => {
 	return (
@@ -28,7 +37,9 @@ export const Security = ({ user }: SecurityProps) => {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm font-medium">Two-Factor Auth</p>
-								<p className={cn("text-sm font-semibold", user.isTwoFAEnabled ? 'text-green-500' : 'text-red-500')}>{user.isTwoFAEnabled ? 'Enabled' : 'Disabled'}</p>
+								<p className={cn("text-sm font-semibold", user.isTwoFAEnabled ? 'text-green-500' : 'text-red-500')}>
+									{user.isTwoFAEnabled ? 'Enabled' : 'Disabled'}
+								</p>
 							</div>
 						</div>
 						{false && (
@@ -54,30 +65,19 @@ export const Security = ({ user }: SecurityProps) => {
 						<CardTitle>Recent Security Events</CardTitle>
 					</CardHeader>
 					<CardContent className="grid gap-4">
-						{[user.lastLogin, user.twoFAToggled]
-							.filter(change => change)
-							.map(change => ({
-								type: change === user.lastLogin ? 'New Login' :
-									`Two-Factor ${user.isTwoFAEnabled ? "Enabled" : "Disabled"}`,
-								date: parseISO(change!),
-								text: change === user.lastLogin ? 'Logged in from a new device' :
-									`Two-factor Auth was ${user.isTwoFAEnabled ? 'Enabled' : 'Disabled'}`
-							}))
-							.sort((a, b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime())
-							.map(change => (
-								<div className="flex items-center justify-between" key={change.text}>
-									<div>
-										<p className="text-sm font-medium">{change.type}</p>
-										<p className="text-sm text-gray-500 dark:text-gray-400">
-											{change.text}
-										</p>
-									</div>
-									<div className="text-sm text-gray-500 dark:text-gray-400">
-										{formatDistanceToNow(change.date, { addSuffix: true })}
-									</div>
+						{user.details && (user.details as UserDetail[]).map((detail: UserDetail, index: number) => (
+							<div className="flex items-center justify-between" key={index}>
+								<div>
+									<p className="text-sm font-medium">New Login from IP</p>
+									<p className="text-sm text-gray-500 dark:text-gray-400">
+										Logged in from {maskIPAddress(detail.ip!)}
+									</p>
 								</div>
-							))
-						}
+								<div className="text-sm text-gray-500 dark:text-gray-400">
+									{formatDistanceToNow(parseISO(detail.createdAt), { addSuffix: true })}
+								</div>
+							</div>
+						))}
 					</CardContent>
 				</Card>
 			</div>
@@ -102,7 +102,7 @@ export const Security = ({ user }: SecurityProps) => {
 							<div className="flex items-center justify-between" key={change.text}>
 								<div>
 									<p className="text-sm font-medium">{change.type}</p>
-									<p className="text-sm text-gray-500 dark:text-gray-400">
+									<p className="text-xs text-gray-500 dark:text-gray-400">
 										{change.text}
 									</p>
 								</div>
@@ -116,3 +116,5 @@ export const Security = ({ user }: SecurityProps) => {
 		</>
 	)
 }
+
+export default Security;
