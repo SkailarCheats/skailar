@@ -75,7 +75,7 @@ export const authRouter = router({
 
     signIn: publicProcedure.input(AuthCredentialsValidator).mutation(async ({ input, ctx }) => {
         const { email, password, ip, hostname, city, region, country, loc, org, postal, timezone } = input;
-        const { res } = ctx
+        const { res } = ctx;
         const payload = await getPayloadClient();
 
         try {
@@ -86,9 +86,16 @@ export const authRouter = router({
                     password
                 },
                 res
-            })
+            });
+
+            console.log("Logged in user:", user);
+
+            if (!user) {
+                throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not found' });
+            }
 
             const latestUserDetails = user?.details?.[user.details.length - 1];
+            console.log("Latest user details:", latestUserDetails);
 
             if (latestUserDetails && typeof latestUserDetails !== 'string' && ip !== latestUserDetails.ip) {
                 const userDetails = await payload.create({
@@ -104,24 +111,30 @@ export const authRouter = router({
                         postal,
                         timezone
                     }
-                })
+                });
 
-                try {
-                    if (!user.details) {
-                        user.details = []
-                    }
+                console.log("New user details created:", userDetails);
 
-                    if (userDetails.id) {
-                        await payload.update({
-                            collection: 'users',
-                            id: user.id,
-                            data: {
-                                details: [...user.details, userDetails.id]
-                            }
-                        });
-                    }
-                } catch (error) {
-                    throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' })
+                if (!Array.isArray(user.details)) {
+                    user.details = [];
+                }
+
+                if (userDetails?.id) {
+                    const updatedDetails = user.details.map(detail =>
+                        typeof detail === 'string' ? detail : detail.id
+                    );
+                    updatedDetails.push(userDetails.id);
+
+                    console.log("Updated details array:", updatedDetails);
+
+                    await payload.update({
+                        collection: 'users',
+                        id: user.id,
+                        data: {
+                            details: updatedDetails
+                        }
+                    });
+                    console.log("User details updated successfully.");
                 }
             }
 
@@ -129,13 +142,16 @@ export const authRouter = router({
                 collection: 'users',
                 id: user.id,
                 data: {
-                    lastLogin: new Date().toISOString(),
-                },
+                    lastLogin: new Date().toISOString()
+                }
             });
 
-            return { success: true }
+            console.log("User last login time updated.");
+
+            return { success: true };
         } catch (error) {
-            throw new TRPCError({ code: 'UNAUTHORIZED' })
+            console.error("Error in sign-in process:", error);
+            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', cause: error });
         }
     }),
 

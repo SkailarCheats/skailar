@@ -4,6 +4,7 @@ import { getServerSideUser } from "@/lib/payload-utils";
 import { CircleUserIcon } from "lucide-react"
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { AccountLogoutMenu } from "./account-logout-menu";
 
 export const AccountdUserMenu = async () => {
 	const nextCookies = cookies();
@@ -32,7 +33,7 @@ export const AccountdUserMenu = async () => {
 					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>Logout</DropdownMenuItem>
+				<AccountLogoutMenu />
 			</DropdownMenuContent>
 		</DropdownMenu>
 	)

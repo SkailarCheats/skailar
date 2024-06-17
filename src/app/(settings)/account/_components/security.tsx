@@ -1,21 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { User, UserDetail } from "@/payload-types"; // Assumendo che UserDetails sia il tipo degli oggetti in user.details
+import { User } from "@/payload-types"; // Assumendo che UserDetails sia il tipo degli oggetti in user.details
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { ToggleTwoFAForm } from "./forms/toggle-twofa-form";
+import { LoginLogs } from "./login-logs";
 
 interface SecurityProps {
 	user: User;
 }
-
-const maskIPAddress = (ip: string): string => {
-	const ipParts = ip.split('.');
-	if (ipParts.length === 4) {
-		return `${ipParts[0]}.xxx.xxx.${ipParts[3]}`;
-	} else {
-		return ip;
-	}
-};
 
 export const Security = ({ user }: SecurityProps) => {
 	return (
@@ -28,7 +20,7 @@ export const Security = ({ user }: SecurityProps) => {
 					<CardContent className="grid gap-4">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm font-medium">Login Activity</p>
+								<p className="text-sm font-medium">Last Login</p>
 								<p className="text-sm text-gray-500 dark:text-gray-400">
 									Last login: {formatDistanceToNow(parseISO(user.lastLogin!), { addSuffix: true })}
 								</p>
@@ -42,11 +34,13 @@ export const Security = ({ user }: SecurityProps) => {
 								</p>
 							</div>
 						</div>
-						{false && (
+						{user.details !== undefined && user.details?.length! > 0 && (
 							<div className="flex items-center justify-between">
 								<div>
-									<p className="text-sm font-medium">Devices</p>
-									<p className="text-sm text-gray-500 dark:text-gray-400">3 devices connected</p>
+									<p className="text-sm font-medium">{user.details?.length === 1 ? 'Device' : 'Devices'}</p>
+									<p className="text-sm text-gray-500 dark:text-gray-400">
+										{user.details?.length} {user.details?.length === 1 ? 'device' : 'devices'} connected
+									</p>
 								</div>
 							</div>
 						)}
@@ -65,19 +59,33 @@ export const Security = ({ user }: SecurityProps) => {
 						<CardTitle>Recent Security Events</CardTitle>
 					</CardHeader>
 					<CardContent className="grid gap-4">
-						{user.details && (user.details as UserDetail[]).map((detail: UserDetail, index: number) => (
-							<div className="flex items-center justify-between" key={index}>
-								<div>
-									<p className="text-sm font-medium">New Login from IP</p>
-									<p className="text-sm text-gray-500 dark:text-gray-400">
-										Logged in from {maskIPAddress(detail.ip!)}
-									</p>
+						{[user.passwordChanged, user.usernameChanged, user.emailChanged, user.twoFAToggled]
+							.filter(change => change)
+							.map(change => ({
+								type: change === user.passwordChanged ? 'Password Changed' :
+									change === user.usernameChanged ? 'Username Changed' :
+										change === user.twoFAToggled ? `Two Factor Auth ${user.isTwoFAEnabled ? 'Enabled' : 'Disabled'}` :
+											'Email Changed',
+								date: parseISO(change!),
+								text: change === user.passwordChanged ? 'Your Password has been changed' :
+									change === user.usernameChanged ? 'Your Username has been changed' :
+										change === user.twoFAToggled ? `Your 2FA has been ${user.isTwoFAEnabled ? 'Enabled' : 'Disabled'}` :
+											'Your Email has been changed'
+							}))
+							.sort((a, b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime())
+							.map(change => (
+								<div className="flex items-center justify-between" key={change.text}>
+									<div>
+										<p className="text-sm font-medium">{change.type}</p>
+										<p className="text-sm text-gray-500 dark:text-gray-400">
+											{change.text}
+										</p>
+									</div>
+									<div className="text-sm text-gray-500 dark:text-gray-400">
+										{formatDistanceToNow(change.date, { addSuffix: true })}
+									</div>
 								</div>
-								<div className="text-sm text-gray-500 dark:text-gray-400">
-									{formatDistanceToNow(parseISO(detail.createdAt), { addSuffix: true })}
-								</div>
-							</div>
-						))}
+							))}
 					</CardContent>
 				</Card>
 			</div>
@@ -85,33 +93,7 @@ export const Security = ({ user }: SecurityProps) => {
 				<CardHeader>
 					<CardTitle>Change Logs</CardTitle>
 				</CardHeader>
-				<CardContent className="grid gap-4">
-					{[user.passwordChanged, user.usernameChanged, user.emailChanged]
-						.filter(change => change)
-						.map(change => ({
-							type: change === user.passwordChanged ? 'Password Changed' :
-								change === user.usernameChanged ? 'Username Changed' :
-									'Email Changed',
-							date: parseISO(change!),
-							text: change === user.passwordChanged ? 'Your account Password has been changed' :
-								change === user.usernameChanged ? 'Your account Username has been changed' :
-									'Your account Email has been changed'
-						}))
-						.sort((a, b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime())
-						.map(change => (
-							<div className="flex items-center justify-between" key={change.text}>
-								<div>
-									<p className="text-sm font-medium">{change.type}</p>
-									<p className="text-xs text-gray-500 dark:text-gray-400">
-										{change.text}
-									</p>
-								</div>
-								<div className="text-sm text-gray-500 dark:text-gray-400">
-									{formatDistanceToNow(change.date, { addSuffix: true })}
-								</div>
-							</div>
-						))}
-				</CardContent>
+				<LoginLogs user={user} />
 			</Card>
 		</>
 	)

@@ -1,8 +1,7 @@
-import React from "react";
 import { getPayloadClient } from "@/get-payload";
 import { getServerSideUser } from "@/lib/payload-utils";
-import { notFound, redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { notFound, redirect } from "next/navigation";
 import { PersonalInfos } from "../_components/personal-infos";
 
 interface PageProps {

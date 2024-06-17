@@ -203,7 +203,7 @@ export const LicensesList = () => {
 					<div className="text-xs text-muted-foreground">
 						Showing <strong>{startIndex + 1}-{Math.min(endIndex, keys.length)}</strong> of <strong>{keys.length}</strong> products
 					</div>
-					<div className="flex">
+					<div className="flex gap-2">
 						<Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
 							Previous
 						</Button>

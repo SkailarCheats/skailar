@@ -153,7 +153,7 @@ const Page = () => {
                                         className={cn({
                                             "focus-visible:ring-red-500": errors.username
                                         })}
-                                        placeholder="skailar"
+                                        placeholder="username"
                                         autoComplete="off"
                                     />
                                     {errors?.username && (
