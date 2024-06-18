@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { getPayloadClient } from "../get-payload";
 import { AuthCredentialsValidator, AuthRegisterCredentialsValidator, AuthToggleTwoFactorAuth, AuthUpdateCredentialsValidator, AuthUpdatePasswordValidator } from "../lib/validators/account-credentials-validator";
-import { generateOTP, sendOTPByEmail } from "../utils/emailUtils";
+import { generateOTP, sendEmail, validateOTP } from "../utils/emailUtils";
 import { publicProcedure, router } from "./trpc";
 
 export const authRouter = router({
@@ -75,110 +75,100 @@ export const authRouter = router({
     }),
 
     signIn: publicProcedure.input(AuthCredentialsValidator).mutation(async ({ input, ctx }) => {
-        const { email, otp, password, ip, hostname, city, region, country, loc, org, postal, timezone } = input;
+        const { email, password, ip, hostname, city, region, country, loc, org, postal, timezone, otp } = input;
         const { res } = ctx;
         const payload = await getPayloadClient();
 
         try {
-            const { user } = await payload.login({
-                collection: 'users',
-                data: {
-                    email,
-                    password
-                },
-                res
+            const { docs: users } = await payload.find({
+                collection: "users",
+                where: {
+                    email: {
+                        equals: email
+                    },
+                }
             });
 
-            console.log("Logged in user:", user);
+            const [user] = users
 
             if (!user) {
                 throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not found' });
             }
 
-            // Verifica se l'utente ha attivato il 2FA
             if (user.isTwoFAEnabled) {
-                const otp = generateOTP();
-
-                await payload.update({
-                    collection: 'users',
-                    id: user.id,
-                    data: {
-                        twoFASecret: otp,
-                        twoFAExpires: new Date(Date.now() + 5 * 60 * 1000).toISOString() // Imposta un timeout di 5 minuti per l'OTP
+                if (!otp) {
+                    const generatedOTP = generateOTP();
+                    await payload.update({
+                        collection: 'users',
+                        id: user.id,
+                        data: {
+                            twoFASecret: generatedOTP.code,
+                            twoFAExpires: generatedOTP.expiresAt
+                        }
+                    });
+                    await sendEmail({ to: user.email, subject: 'Your OTP Code', text: `Your OTP code is ${generatedOTP.code}. It will expire in 10 minutes.` });
+                    return { success: false, isTwoFAEnabled: true };
+                } else {
+                    const isOTPValid = validateOTP(otp, user.twoFASecret as string, user.twoFAExpires as string);
+                    if (!isOTPValid) {
+                        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid or expired OTP' });
+                    } else {
+                        await payload.login({
+                            collection: 'users',
+                            data: { email, password },
+                            res
+                        })
                     }
+                }
+            } else {
+                await payload.login({
+                    collection: 'users',
+                    data: { email, password },
+                    res
                 });
-
-                await sendOTPByEmail(email, otp);
             }
 
-            if (user.isTwoFAEnabled && (!otp || otp !== user.twoFASecret)) {
-                throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid OTP' });
+            if (user.isTwoFAEnabled && otp !== user.twoFASecret) {
+                throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid or expired OTP' });
             }
 
             await payload.update({
                 collection: 'users',
                 id: user.id,
-                data: {
-                    twoFASecret: null,
-                    twoFAExpires: null
-                }
+                data: { twoFASecret: null, twoFAExpires: null }
             });
 
             const latestUserDetails = user?.details?.[user.details.length - 1];
-            console.log("Latest user details:", latestUserDetails);
 
             if (latestUserDetails && typeof latestUserDetails !== 'string' && ip !== latestUserDetails.ip) {
                 const userDetails = await payload.create({
                     collection: 'user_details',
-                    data: {
-                        ip,
-                        hostname,
-                        city,
-                        region,
-                        country,
-                        loc,
-                        org,
-                        postal,
-                        timezone
-                    }
+                    data: { ip, hostname, city, region, country, loc, org, postal, timezone }
                 });
-
-                console.log("New user details created:", userDetails);
 
                 if (!Array.isArray(user.details)) {
                     user.details = [];
                 }
 
                 if (userDetails?.id) {
-                    const updatedDetails = user.details.map(detail =>
-                        typeof detail === 'string' ? detail : detail.id
-                    );
+                    const updatedDetails = user.details.map(detail => typeof detail === 'string' ? detail : detail.id);
                     updatedDetails.push(userDetails.id);
-
-                    console.log("Updated details array:", updatedDetails);
 
                     await payload.update({
                         collection: 'users',
                         id: user.id,
-                        data: {
-                            details: updatedDetails
-                        }
+                        data: { details: updatedDetails }
                     });
-                    console.log("User details updated successfully.");
                 }
             }
 
             await payload.update({
                 collection: 'users',
                 id: user.id,
-                data: {
-                    lastLogin: new Date().toISOString()
-                }
+                data: { lastLogin: new Date().toISOString() }
             });
 
-            console.log("User last login time updated.");
-
-            return { success: true };
+            return { success: true, isTwoFAEnabled: false };
         } catch (error) {
             console.error("Error in sign-in process:", error);
             throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', cause: error });

@@ -1,11 +1,3 @@
-/*
- * This component represents the login page.
- * It handles user authentication using email and password.
- * Additionally, it provides options to switch between
- * reseller and buyer accounts, and displays appropriate
- * error messages when authentication fails.
- */
-
 "use client";
 
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -24,6 +16,7 @@ import { trpc } from "@/trpc/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import axios from "axios";
+import { useState } from "react";
 
 // Define the Page component
 const Page = () => {
@@ -43,6 +36,9 @@ const Page = () => {
         router.replace("/login", undefined);
     }
 
+    // State to track if 2FA is enabled
+    const [isTwoFAEnabled, setIsTwoFAEnabled] = useState(false);
+
     // Form handling using react-hook-form
     const {
         register,
@@ -57,13 +53,22 @@ const Page = () => {
         // Handling errors during sign-in
         onError: (err) => {
             if (err.data?.code === "UNAUTHORIZED") {
-                toast.error('Invalid email or password'); // Display error message for invalid credentials
+                toast.error('Invalid email or password');
             }
-            if (err.data?.code === 'INTERNAL_SERVER_ERROR')
+            if (err.data?.code === 'INTERNAL_SERVER_ERROR') {
                 toast.error('Internal Server Error');
+            }
+            if (err.data?.code === 'UNAUTHORIZED') {
+                toast.error('Invalid or expired OTP');
+            }
         },
         // Handling successful sign-in
-        onSuccess: () => {
+        onSuccess: (data) => {
+            if (data.isTwoFAEnabled) {
+                setIsTwoFAEnabled(true); // Set 2FA enabled state if server indicates 2FA is enabled
+                toast.info('OTP sent to your email');
+                return;
+            }
             toast.success('Logged In Successfully'); // Display success message
             router.refresh(); // Refresh the page
 
@@ -87,7 +92,7 @@ const Page = () => {
         const userData = {
             email,
             password,
-            otp, // Include OTP in the user data
+            otp,
             ip: ipData.ip,
             hostname: ipData.hostname,
             city: ipData.city,
@@ -161,24 +166,28 @@ const Page = () => {
                                         <p className="text-sm text-red-500">{errors.password.message}</p>
                                     )}
                                 </div>
-                                <div className="grid gap-1 py-2">
-                                    <Label htmlFor="otp">OTP</Label>
-                                    <Input
-                                        {...register("otp")}
-                                        className={cn({
-                                            "focus-visible:ring-red-500": errors.otp
-                                        })}
-                                        placeholder="123456"
-                                        type="text"
-                                        autoComplete="off"
-                                    />
-                                    {errors?.otp && (
-                                        <p className="text-sm text-red-500">{errors.otp.message}</p>
-                                    )}
-                                </div>
+
+                                {/* Conditionally render OTP input if 2FA is enabled */}
+                                {isTwoFAEnabled && (
+                                    <div className="grid gap-1 py-2">
+                                        {/* Label for OTP input */}
+                                        <Label htmlFor="otp">OTP</Label>
+                                        <Input
+                                            {...register("otp")}
+                                            className={cn({
+                                                "focus-visible:ring-red-500": errors.otp // Dynamic class based on OTP input validation state
+                                            })}
+                                            placeholder="Enter your OTP"
+                                            autoComplete="off"
+                                        />
+                                        {errors?.otp && ( // Display error message for invalid OTP
+                                            <p className="text-sm text-red-500">{errors.otp.message}</p>
+                                        )}
+                                    </div>
+                                )}
 
                                 {/* Login button */}
-                                <Button>Login</Button>
+                                <Button type="submit" disabled={isLoading}>Login</Button>
                             </div>
                         </form>
 
