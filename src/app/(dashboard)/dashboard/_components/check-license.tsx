@@ -20,9 +20,11 @@ export const CheckLicense: React.FC = () => {
 			const data = await response.json();
 			if (data.success) {
 				if (data.status === 'Used')
-					toast.warning(`Key has been activated by ${data.usedby} on ${formatDate(data.usedon)}`)
-				else
+					toast.info(`Key has been activated by ${data.usedby} on ${formatDate(data.usedon)}`)
+				else if (data.status === 'Not Used')
 					toast.success(`Key has not been activated. Expires in ${formatExpires(data.duration)}`)
+				else if (data.status === 'Banned')
+					toast.error(`Key is banned`)
 				setLicense('');
 			} else {
 				toast.error("License is invalid");

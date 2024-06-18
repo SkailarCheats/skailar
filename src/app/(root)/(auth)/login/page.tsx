@@ -17,6 +17,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import axios from "axios";
 import { useState } from "react";
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
+
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
 
 // Define the Page component
 const Page = () => {
@@ -38,11 +41,13 @@ const Page = () => {
 
     // State to track if 2FA is enabled
     const [isTwoFAEnabled, setIsTwoFAEnabled] = useState(false);
+    const [email, setEmail] = useState('')
 
     // Form handling using react-hook-form
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm<TAuthCredentialsValidator>({
         resolver: zodResolver(AuthCredentialsValidator), // Using Zod schema for form validation
@@ -107,6 +112,11 @@ const Page = () => {
         signIn(userData);
     };
 
+    // Function to handle OTP change
+    const handleOtpChange = (otp: string) => {
+        setValue('otp', otp);
+    };
+
     // Flag to determine if resellers are enabled
     const resellers = false;
 
@@ -120,74 +130,85 @@ const Page = () => {
                         <Image src='/logo.png' height='80' width='80' alt="Skailar Logo" />
 
                         {/* Login heading with dynamic text based on user type */}
-                        <h1 className="text-2xl font-bold">Login to your {isReseller && 'reseller'} account</h1>
+                        <h1 className="text-2xl font-bold">
+                            {isTwoFAEnabled ? 'Insert Your OTP' : `Login to your ${isReseller ? 'reseller' : ''} account`}
+                        </h1>
 
-                        {/* Link to register page */}
-                        <Link href='/register' className={buttonVariants({ variant: 'link', className: "gap-1.5" })}>
-                            Don&apos;t have an Account? Register
-                            {/* Arrow icon for visual indication */}
-                            <ArrowRight className="h-4 w-4" />
-                        </Link>
+                        {!isTwoFAEnabled && (
+                            <Link href='/register' className={buttonVariants({ variant: 'link', className: "gap-1.5" })}>
+                                Don&apos;t have an Account? Register
+                                {/* Arrow icon for visual indication */}
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
+                        )}
                     </div>
 
                     <div className="grid gap-6">
                         {/* Form for login */}
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="grid gap-2">
-                                <div className="grid gap-1 py-2">
-                                    {/* Label for email input */}
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input
-                                        {...register("email")}
-                                        className={cn({
-                                            "focus-visible:ring-red-500": errors.email // Dynamic class based on email input validation state
-                                        })}
-                                        placeholder="you@example.com"
-                                        autoComplete="off"
-                                    />
-                                    {errors?.email && ( // Display error message for invalid email
-                                        <p className="text-sm text-red-500">{errors.email.message}</p>
-                                    )}
-                                </div>
+                                {!isTwoFAEnabled ? (
+                                    <>
+                                        <div className="grid gap-1 py-2">
+                                            {/* Label for email input */}
+                                            <Label htmlFor="email">Email</Label>
+                                            <Input
+                                                {...register("email")}
+                                                className={cn({
+                                                    "focus-visible:ring-red-500": errors.email // Dynamic class based on email input validation state
+                                                })}
+                                                placeholder="you@example.com"
+                                                autoComplete="off"
+                                            />
+                                            {errors?.email && ( // Display error message for invalid email
+                                                <p className="text-sm text-red-500">{errors.email.message}</p>
+                                            )}
+                                        </div>
 
-                                <div className="grid gap-1 py-2">
-                                    {/* Label for password input */}
-                                    <Label htmlFor="password">Password</Label>
-                                    <Input
-                                        {...register("password")}
-                                        className={cn({
-                                            "focus-visible:ring-red-500": errors.password // Dynamic class based on password input validation state
-                                        })}
-                                        placeholder="••••••••"
-                                        type="password"
-                                        autoComplete="off"
-                                    />
-                                    {errors?.password && ( // Display error message for invalid password
-                                        <p className="text-sm text-red-500">{errors.password.message}</p>
-                                    )}
-                                </div>
+                                        <div className="grid gap-1 py-2">
+                                            {/* Label for password input */}
+                                            <Label htmlFor="password">Password</Label>
+                                            <Input
+                                                {...register("password")}
+                                                className={cn({
+                                                    "focus-visible:ring-red-500": errors.password // Dynamic class based on password input validation state
+                                                })}
+                                                placeholder="••••••••"
+                                                type="password"
+                                                autoComplete="off"
+                                            />
+                                            {errors?.password && ( // Display error message for invalid password
+                                                <p className="text-sm text-red-500">{errors.password.message}</p>
+                                            )}
+                                        </div>
+                                        <Button type="submit" disabled={isLoading}>Login</Button>
 
-                                {/* Conditionally render OTP input if 2FA is enabled */}
-                                {isTwoFAEnabled && (
-                                    <div className="grid gap-1 py-2">
-                                        {/* Label for OTP input */}
-                                        <Label htmlFor="otp">OTP</Label>
-                                        <Input
-                                            {...register("otp")}
-                                            className={cn({
-                                                "focus-visible:ring-red-500": errors.otp // Dynamic class based on OTP input validation state
-                                            })}
-                                            placeholder="Enter your OTP"
-                                            autoComplete="off"
-                                        />
-                                        {errors?.otp && ( // Display error message for invalid OTP
-                                            <p className="text-sm text-red-500">{errors.otp.message}</p>
-                                        )}
-                                    </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="grid gap-1 py-2 justify-center">
+                                            <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS} onChange={handleOtpChange}>
+                                                <InputOTPGroup>
+                                                    <InputOTPSlot index={0} />
+                                                    <InputOTPSlot index={1} />
+                                                    <InputOTPSlot index={2} />
+                                                </InputOTPGroup>
+                                                <InputOTPSeparator />
+                                                <InputOTPGroup>
+                                                    <InputOTPSlot index={3} />
+                                                    <InputOTPSlot index={4} />
+                                                    <InputOTPSlot index={5} />
+                                                </InputOTPGroup>
+                                            </InputOTP>
+                                            {errors?.otp && (
+                                                <p className="text-sm text-red-500">{errors.otp.message}</p>
+                                            )}
+                                        </div>
+                                        <Button variant='link'>
+                                            Resend code
+                                        </Button>
+                                    </>
                                 )}
-
-                                {/* Login button */}
-                                <Button type="submit" disabled={isLoading}>Login</Button>
                             </div>
                         </form>
 

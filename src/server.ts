@@ -131,20 +131,6 @@ const start = async () => {
         }
     });
 
-    app.get('/api/create-license', async (req, res) => {
-        const { expiry, level } = req.query;
-
-        if (!expiry || !level)
-            return res.status(400).json({ error: 'key, expiry, level are required' })
-
-        try {
-            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=add&expiry=${expiry}&mask=***************&level=${level}&amount=1&character=2&format=json`)
-            res.json(response.data);
-        } catch (error) {
-            res.status(500).json({ error: 'Failed to create license key' });
-        }
-    });
-
     app.get('/api/all-licenses', async (req, res) => {
         try {
             const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=fetchallkeys&format=json`)

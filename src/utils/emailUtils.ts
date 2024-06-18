@@ -2,7 +2,7 @@ import { resend } from '../webhooks';
 import { randomBytes } from 'crypto';
 import { addMinutes } from 'date-fns';
 
-interface OTP {
+export interface OTP {
 	code: string;
 	expiresAt: string;
 }
@@ -38,7 +38,7 @@ export async function sendEmail({ to, subject, text }: SendEmailOptions): Promis
 	}
 }
 
-async function sendOTPEmail(email: string, otp: string): Promise<void> {
+export async function sendOTPEmail(email: string, otp: string): Promise<void> {
 	await sendEmail({
 		to: email,
 		subject: 'Your OTP Code',

@@ -24,9 +24,11 @@ export const AccountdUserMenu = async () => {
 				<DropdownMenuItem asChild>
 					<Link href={`/account/${user?.username}`}>Settings</Link>
 				</DropdownMenuItem>
-				<DropdownMenuItem asChild>
-					<Link href={`/dashboard`}>Admin Dashboard</Link>
-				</DropdownMenuItem>
+				{user?.role === 'admin' && (
+					<DropdownMenuItem asChild>
+						<Link href={`/dashboard`}>Admin Dashboard</Link>
+					</DropdownMenuItem>
+				)}
 				<DropdownMenuItem asChild>
 					<Link href='https://discord.gg/skailar' target="_blank">
 						Support

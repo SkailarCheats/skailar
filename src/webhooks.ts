@@ -10,8 +10,9 @@ import { WebhookRequest } from './server';
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
-const fetchLicenseKey = async (level: number, expiry: number): Promise<string> => {
-    const response = await fetch(`/api/create-license?expiry=${expiry}&level=${level}`);
+const fetchLicenseKey = async (level: string, expiry: string): Promise<string> => {
+    // const response = await fetch(`/api/create-license?expiry=${expiry}&level=${level}`);
+    const response = await fetch(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=add&format=json&expiry=${expiry}&mask=***************&level=${level}&amount=1&character=2&note=Generated%20From%20skailar`);
     const licenseKey = await response.text();
     return licenseKey;
 };
