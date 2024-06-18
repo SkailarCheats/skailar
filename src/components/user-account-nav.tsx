@@ -29,8 +29,10 @@ export const UserAccountNav = ({ user }: { user: User }) => {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem asChild>
-                    {user.role === 'admin' && (
+                    {user.role === 'admin' ? (
                         <Link href='/dashboard'>Admin Dashboard</Link>
+                    ) : user.role === 'reseller' && (
+                        <Link href='/resellers'>Reseller Dashboard</Link>
                     )}
                 </DropdownMenuItem>
 
