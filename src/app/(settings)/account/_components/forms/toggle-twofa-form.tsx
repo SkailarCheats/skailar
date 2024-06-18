@@ -50,7 +50,7 @@ export const ToggleTwoFAForm: React.FC<Props> = ({ userId, isTwoFactorEnabled })
 				<Label htmlFor="2fa">Two-Factor Authentication</Label>
 				<div className="grid gap-2">
 					<div className="flex items-center justify-between">
-						<p className="text-sm text-gray-500 dark:text-gray-400">
+						<p className="text-sm text-muted-foreground">
 							Two-factor authentication is currently {status ? 'enabled' : 'disabled'}.
 						</p>
 					</div>

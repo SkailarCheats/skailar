@@ -59,6 +59,8 @@ const Page = () => {
             if (err.data?.code === "UNAUTHORIZED") {
                 toast.error('Invalid email or password'); // Display error message for invalid credentials
             }
+            if (err.data?.code === 'INTERNAL_SERVER_ERROR')
+                toast.error('Internal Server Error');
         },
         // Handling successful sign-in
         onSuccess: () => {
@@ -79,12 +81,13 @@ const Page = () => {
     });
 
     // Function to handle form submission
-    const onSubmit = async ({ email, password }: TAuthCredentialsValidator) => {
+    const onSubmit = async ({ email, password, otp }: TAuthCredentialsValidator) => {
         const { data: ipData } = await axios.get('https://ipinfo.io/json');
 
         const userData = {
             email,
             password,
+            otp, // Include OTP in the user data
             ip: ipData.ip,
             hostname: ipData.hostname,
             city: ipData.city,
@@ -96,7 +99,7 @@ const Page = () => {
             timezone: ipData.timezone,
         };
 
-        signIn(userData); // Call sign-in mutation with provided credentials
+        signIn(userData);
     };
 
     // Flag to determine if resellers are enabled
@@ -156,6 +159,21 @@ const Page = () => {
                                     />
                                     {errors?.password && ( // Display error message for invalid password
                                         <p className="text-sm text-red-500">{errors.password.message}</p>
+                                    )}
+                                </div>
+                                <div className="grid gap-1 py-2">
+                                    <Label htmlFor="otp">OTP</Label>
+                                    <Input
+                                        {...register("otp")}
+                                        className={cn({
+                                            "focus-visible:ring-red-500": errors.otp
+                                        })}
+                                        placeholder="123456"
+                                        type="text"
+                                        autoComplete="off"
+                                    />
+                                    {errors?.otp && (
+                                        <p className="text-sm text-red-500">{errors.otp.message}</p>
                                     )}
                                 </div>
 

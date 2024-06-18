@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { getPayloadClient } from "../get-payload";
 import { AuthCredentialsValidator, AuthRegisterCredentialsValidator, AuthToggleTwoFactorAuth, AuthUpdateCredentialsValidator, AuthUpdatePasswordValidator } from "../lib/validators/account-credentials-validator";
+import { generateOTP, sendOTPByEmail } from "../utils/emailUtils";
 import { publicProcedure, router } from "./trpc";
 
 export const authRouter = router({
@@ -74,7 +75,7 @@ export const authRouter = router({
     }),
 
     signIn: publicProcedure.input(AuthCredentialsValidator).mutation(async ({ input, ctx }) => {
-        const { email, password, ip, hostname, city, region, country, loc, org, postal, timezone } = input;
+        const { email, otp, password, ip, hostname, city, region, country, loc, org, postal, timezone } = input;
         const { res } = ctx;
         const payload = await getPayloadClient();
 
@@ -93,6 +94,35 @@ export const authRouter = router({
             if (!user) {
                 throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not found' });
             }
+
+            // Verifica se l'utente ha attivato il 2FA
+            if (user.isTwoFAEnabled) {
+                const otp = generateOTP();
+
+                await payload.update({
+                    collection: 'users',
+                    id: user.id,
+                    data: {
+                        twoFASecret: otp,
+                        twoFAExpires: new Date(Date.now() + 5 * 60 * 1000).toISOString() // Imposta un timeout di 5 minuti per l'OTP
+                    }
+                });
+
+                await sendOTPByEmail(email, otp);
+            }
+
+            if (user.isTwoFAEnabled && (!otp || otp !== user.twoFASecret)) {
+                throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid OTP' });
+            }
+
+            await payload.update({
+                collection: 'users',
+                id: user.id,
+                data: {
+                    twoFASecret: null,
+                    twoFAExpires: null
+                }
+            });
 
             const latestUserDetails = user?.details?.[user.details.length - 1];
             console.log("Latest user details:", latestUserDetails);

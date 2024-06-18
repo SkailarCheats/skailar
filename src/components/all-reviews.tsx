@@ -47,7 +47,7 @@ export default async function AllReviews({ date, description, rating, user }: Al
 						/>
 					))}
 				</div>
-				<time dateTime={date} className="text-gray-500 dark:text-gray-400 text-sm">
+				<time dateTime={date} className="text-muted-foreground text-sm">
 					{formatDistanceToNow(parseISO(date), { addSuffix: true })}
 				</time>
 			</div>

@@ -36,7 +36,7 @@ export const ProductListing = ({ index, product }: ProductListingProps) => {
             <div className="flex flex-col w-full">
                 <ImageSlider urls={validUrls} />
                 <h3 className="mt-4 font-medium text-sm text-gray-700 dark:text-gray-300">{product.name}</h3>
-                <p className="mt-1 text-sm text-gray-500">{label}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{label}</p>
                 <p className="mt-1 font-medium text-sm text-gray-900 dark:text-gray-100">{formatPrice(product.price)}</p>
                 <span className="flex items-center justify-end">
                     <Check className="h-5 w-5 flex-shrink-0 text-green-500" />

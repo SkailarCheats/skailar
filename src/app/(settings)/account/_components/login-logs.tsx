@@ -2,6 +2,7 @@
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { User, UserDetail } from "@/payload-types";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import Link from "next/link";

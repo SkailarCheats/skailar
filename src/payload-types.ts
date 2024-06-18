@@ -33,6 +33,7 @@ export interface User {
   usernameChanged?: string | null;
   emailChanged?: string | null;
   twoFASecret?: string | null;
+  twoFAExpires?: string | null;
   isTwoFAEnabled?: boolean | null;
   twoFAToggled?: string | null;
   details?: (string | UserDetail)[] | null;

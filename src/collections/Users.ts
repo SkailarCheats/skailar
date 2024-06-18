@@ -80,6 +80,11 @@ export const Users: CollectionConfig = {
             }
         },
         {
+            name: "twoFAExpires",
+            type: 'date',
+            required: false
+        },
+        {
             name: "isTwoFAEnabled",
             type: "checkbox",
             defaultValue: false,

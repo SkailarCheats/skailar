@@ -21,7 +21,7 @@ export const Security = ({ user }: SecurityProps) => {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm font-medium">Last Login</p>
-								<p className="text-sm text-gray-500 dark:text-gray-400">
+								<p className="text-sm text-muted-foreground">
 									Last login: {formatDistanceToNow(parseISO(user.lastLogin!), { addSuffix: true })}
 								</p>
 							</div>
@@ -38,7 +38,7 @@ export const Security = ({ user }: SecurityProps) => {
 							<div className="flex items-center justify-between">
 								<div>
 									<p className="text-sm font-medium">{user.details?.length === 1 ? 'Device' : 'Devices'}</p>
-									<p className="text-sm text-gray-500 dark:text-gray-400">
+									<p className="text-sm text-muted-foreground">
 										{user.details?.length} {user.details?.length === 1 ? 'device' : 'devices'} connected
 									</p>
 								</div>
@@ -77,11 +77,11 @@ export const Security = ({ user }: SecurityProps) => {
 								<div className="flex items-center justify-between" key={change.text}>
 									<div>
 										<p className="text-sm font-medium">{change.type}</p>
-										<p className="text-sm text-gray-500 dark:text-gray-400">
+										<p className="text-sm text-muted-foreground">
 											{change.text}
 										</p>
 									</div>
-									<div className="text-sm text-gray-500 dark:text-gray-400">
+									<div className="text-sm text-muted-foreground">
 										{formatDistanceToNow(change.date, { addSuffix: true })}
 									</div>
 								</div>

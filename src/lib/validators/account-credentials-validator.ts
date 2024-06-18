@@ -27,6 +27,7 @@ export const AuthCredentialsValidator = z.object({
     org: z.string().optional(),
     postal: z.string().optional(),
     timezone: z.string().optional(),
+    otp: z.string().min(6).max(6).optional()
 })
 
 export const AuthUpdateCredentialsValidator = z.object({
