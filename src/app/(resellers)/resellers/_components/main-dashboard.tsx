@@ -16,7 +16,7 @@ import { LicensesList } from "./licenses-list"
 
 export async function MainDashboard() {
 	async function getBalance(username: string) {
-		const url = `https://keyauth.win/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=getbalance&username=${username}&appname=Skailar`;
+		const url = `https://api.skailar.com/api/seller/?sellerkey=5d9da464a2530837e8cefc57245e1644&type=getbalance&username=${username}&appname=Skailar`;
 
 		try {
 			const response = await fetch(url);

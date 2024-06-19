@@ -74,7 +74,7 @@ const start = async () => {
         }
 
         try {
-            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=verify&key=${license}`);
+            const response = await axios.get(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=verify&key=${license}`);
             res.json(response.data);
         } catch (error) {
             res.status(500).json({ error: 'Failed to verify license key' });
@@ -94,7 +94,7 @@ const start = async () => {
         }
 
         try {
-            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${level}?email=${email}`);
+            const response = await axios.get(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${level}?email=${email}`);
             res.json(response.data);
         } catch (error) {
             res.status(500).json({ error: 'Failed to create reseller account' });
@@ -109,7 +109,7 @@ const start = async () => {
         }
 
         try {
-            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=unban&key=${key}`)
+            const response = await axios.get(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=unban&key=${key}`)
             res.json(response.data);
         } catch (error) {
             res.status(500).json({ error: 'Failed to unban license key' });
@@ -124,7 +124,7 @@ const start = async () => {
         }
 
         try {
-            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=del&key=${key}&userToo=false`)
+            const response = await axios.get(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=del&key=${key}&userToo=false`)
             res.json(response.data);
         } catch (error) {
             res.status(500).json({ error: 'Failed to delete license key' });
@@ -133,7 +133,7 @@ const start = async () => {
 
     app.get('/api/all-licenses', async (req, res) => {
         try {
-            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=fetchallkeys&format=json`)
+            const response = await axios.get(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=fetchallkeys&format=json`)
             res.json(response.data);
         } catch (error) {
             res.status(500).json({ error: 'Failed to get license keys' });
@@ -147,7 +147,7 @@ const start = async () => {
             return res.status(400).json({ error: 'key is required.' })
 
         try {
-            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=info&key=${key}`)
+            const response = await axios.get(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=info&key=${key}`)
             res.json(response.data);
         } catch (error) {
             res.status(500).json({ error: 'Failed to get license information' })
@@ -158,7 +158,7 @@ const start = async () => {
         const { user, pass, level, email } = req.query;
 
         try {
-            const response = await axios.get(`https://keyauth.win/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=addAccount&role=Reseller&user=${user}&pass=${pass}=&keylevels=${level}&email=${email}`)
+            const response = await axios.get(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=addAccount&role=Reseller&user=${user}&pass=${pass}=&keylevels=${level}&email=${email}`)
             res.json(response.data)
         } catch (error) {
             res.status(500).json({ error: 'Failed to create reseller account' })
