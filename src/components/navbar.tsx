@@ -20,7 +20,7 @@ export const Navbar = async () => {
                 <MaxWidthWrapper>
                     <div className="border-b border-gray-200 dark:border-gray-800">
                         <div className="flex h-16 items-center">
-                            <MobileNav />
+                            <MobileNav user={user || null} />
 
                             <div className="ml-4 flex lg:ml-0">
                                 <Link href='/'>
