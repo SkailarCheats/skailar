@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button, buttonVariants } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { useAuth } from "@/hooks/use-auth";
 
 export const MobileNav = ({ user }: { user: User | null }) => {
     const navLinks = [
@@ -15,6 +16,8 @@ export const MobileNav = ({ user }: { user: User | null }) => {
         { title: 'Status', href: 'https://status.skailar.com/status/cheats', target: '_blank' },
         { title: 'Discord', href: 'https://discord.gg/skailar', target: '_blank' }
     ]
+
+    const { signOut } = useAuth()
 
     return (
         <div>
@@ -36,7 +39,7 @@ export const MobileNav = ({ user }: { user: User | null }) => {
                             <Link
                                 href={link.href ? link.href : ''}
                                 key={index}
-                                className={buttonVariants({ variant: 'ghost' })}
+                                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-accent hover:text-accent-foreground"
                                 target={link.target}
                             >
                                 {link.title}
@@ -47,15 +50,23 @@ export const MobileNav = ({ user }: { user: User | null }) => {
                         {!user && (
                             <Link
                                 href='/login'
-                                className={buttonVariants({ variant: 'ghost' })}
+                                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-accent hover:text-accent-foreground"
                             >
                                 Login
+                            </Link>
+                        )}
+                        {!user && (
+                            <Link
+                                href='/register'
+                                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-accent hover:text-accent-foreground"
+                            >
+                                Register
                             </Link>
                         )}
                         {user && (
                             <Link
                                 href={`/account/${user.username}`}
-                                className={buttonVariants({ variant: 'ghost' })}
+                                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-accent hover:text-accent-foreground"
                             >
                                 Settings
                             </Link>
@@ -64,7 +75,7 @@ export const MobileNav = ({ user }: { user: User | null }) => {
                         {user && user.role === 'admin' && (
                             <Link
                                 href={`/dashboard`}
-                                className={buttonVariants({ variant: 'ghost' })}
+                                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-accent hover:text-accent-foreground"
                             >
                                 Admin Dashboard
                             </Link>
@@ -77,6 +88,16 @@ export const MobileNav = ({ user }: { user: User | null }) => {
                             >
                                 Reseller Dashboard
                             </Link>
+                        )}
+
+                        <div className="mt-2"></div>
+
+                        {user && (
+                            <Button
+                                onClick={signOut}
+                            >
+                                Logout
+                            </Button>
                         )}
                     </nav>
                 </SheetContent>
