@@ -50,7 +50,7 @@ export interface ApiResponse {
 }
 
 
-export const LicensesList = ({ user, active }: { user: User, active: boolean }) => {
+export const LicensesList = ({ user, active }: { user: User, active?: boolean }) => {
 	const ITEMS_PER_PAGE = active ? 5 : 10;
 	const [keys, setKeys] = useState<Keys[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
