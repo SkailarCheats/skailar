@@ -24,7 +24,7 @@ export const GenerateForm = ({ user }: { user: User }) => {
 	const router = useRouter();
 
 	const fetchBalance = async () => {
-		const url = `https://api.skailar.com/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=getbalance&username=${user.username}&appname=Skailar`;
+		const url = `https://api.skailar.com/api/seller/?sellerkey=5d9da464a2530837e8cefc57245e1644&type=getbalance&username=${user.username}&appname=Skailar`;
 
 		try {
 			const response = await fetch(url);
@@ -45,7 +45,7 @@ export const GenerateForm = ({ user }: { user: User }) => {
 	}, []);
 
 	const updateBalance = async (usedBalance: { day: number, week: number, month: number }) => {
-		const url = `https://api.skailar.com/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=setbalance&username=${user.username}&day=${usedBalance.day}&week=${usedBalance.week}&month=${usedBalance.month}&threemonth=0&sixmonth=0&lifetime=0`;
+		const url = `https://api.skailar.com/api/seller/?sellerkey=5d9da464a2530837e8cefc57245e1644&type=setbalance&username=${user.username}&day=${usedBalance.day}&week=${usedBalance.week}&month=${usedBalance.month}&threemonth=0&sixmonth=0&lifetime=0`;
 
 		try {
 			const response = await fetch(url);
@@ -88,7 +88,7 @@ export const GenerateForm = ({ user }: { user: User }) => {
 			return;
 		}
 
-		const url = `https://api.skailar.com/api/seller/?sellerkey=53d4ed15dd0506aceef5b63a40bcc83f&type=add&format=json&expiry=${expiry}&mask=***************&level=1&amount=${amount}&owner=${user.username}&character=2&note=Generated%20By%20${user.username}`;
+		const url = `https://api.skailar.com/api/seller/?sellerkey=5d9da464a2530837e8cefc57245e1644&type=add&format=json&expiry=${expiry}&mask=***************&level=1&amount=${amount}&owner=${user.username}&character=2&note=Generated%20By%20${user.username}`;
 
 		try {
 			const response = await fetch(url);
@@ -103,7 +103,8 @@ export const GenerateForm = ({ user }: { user: User }) => {
 				};
 				await updateBalance(usedBalance);
 				fetchBalance();  // Fetch updated balance after key generation
-				router.push('/resellers/licenses')
+				router.refresh();
+				router.push('/resellers/licenses');
 			} else {
 				toast.error(data.message);
 			}
