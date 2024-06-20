@@ -1,6 +1,6 @@
 /*
  * This component represents the loader page for downloading Skailar Loader.
- * It redirects the user to '/loader.exe' route using Next.js router when mounted.
+ * It redirects the user to 'https://cdn.skailar.com/v1/assets/exe/Loader.exe' route using Next.js router when mounted.
  * The page includes a heading, a link to go back to the homepage, and styling
  * using Tailwind CSS classes.
  */
@@ -17,9 +17,9 @@ const LoaderPage = () => {
     // Initializing router
     const router = useRouter();
 
-    // Effect to redirect to '/Loader.exe' route when component is mounted
+    // Effect to redirect to 'https://cdn.skailar.com/v1/assets/exe/Loader.exe' route when component is mounted
     useEffect(() => {
-        router.replace('/Loader.exe');
+        router.replace('https://cdn.skailar.com/v1/assets/exe/Loader.exe');
     }, [router]); // Dependency array to run effect only once on component mount
 
     // Rendering the UI

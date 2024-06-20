@@ -54,7 +54,7 @@ const Page = async ({ searchParams }: PageProps) => {
                 {/* TODO: Change Image */}
                 <Image
                     fill
-                    src='/checkout-thank-you.jpg'
+                    src='https://cdn.skailar.com/v1/assets/img/checkout-thank-you.jpg'
                     className="h-full w-full object-cover object-center"
                     alt="Thank you for your Order"
                 />

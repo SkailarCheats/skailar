@@ -27,7 +27,7 @@ export default buildConfig({
         bundler: webpackBundler(),
         meta: {
             titleSuffix: "- Skailar",
-            favicon: '/logo.png',
+            favicon: 'https://cdn.skailar.com/favicon.ico',
         },
     },
     rateLimit: {

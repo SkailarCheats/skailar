@@ -127,7 +127,7 @@ const Page = () => {
                 <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                     <div className="flex flex-col items-center space-y-2 text-center">
                         {/* Skailar logo */}
-                        <Image src='/logo.png' height='80' width='80' alt="Skailar Logo" />
+                        <Image src='/https://cdn.skailar.com/v1/assets/img/logo.png' height='80' width='80' alt="Skailar Logo" />
 
                         {/* Login heading with dynamic text based on user type */}
                         <h1 className="text-2xl font-bold">

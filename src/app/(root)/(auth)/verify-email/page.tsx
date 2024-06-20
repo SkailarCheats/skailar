@@ -32,7 +32,7 @@ const VerifyEmailPage = ({ searchParams }: PageProps) => {
                         <div className="relative mb-4 h-60 w-60 text-muted-foreground">
                             {/* Display image indicating email sent */}
                             <Image
-                                src='/mail-sent.png'
+                                src='https://cdn.skailar.com/v1/assets/img/email-sent.png'
                                 fill
                                 alt="Skailar email sent"
                             />

@@ -3,32 +3,20 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: 'https',
-                hostname: 'w7.pngwing.com',
-                port: '',
-                pathname: '**',
-            },
-            {
-                protocol: 'https',
-                hostname: 'e7.pngegg.com',
-                port: '',
-                pathname: '**',
-            },
-            {
                 protocol: 'http',
                 hostname: 'localhost',
                 port: '3000',
                 pathname: '**'
             },
             {
-                protocol: 'http',
-                hostname: '185.229.236.134',
-                port: '3000',
+                protocol: 'https',
+                hostname: 'skailar.com',
+                port: '',
                 pathname: '**'
             },
             {
                 protocol: 'https',
-                hostname: 'skailar.com',
+                hostname: 'cdn.skailar.com',
                 port: '',
                 pathname: '**'
             }

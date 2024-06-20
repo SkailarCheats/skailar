@@ -16,7 +16,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   description: '',
   icons: {
-    icon: '/favicon.ico'
+    icon: 'https://cdn.skailar.com/favicon.ico'
   }
 }
 
@@ -34,7 +34,7 @@ export default async function RootLayout({
     <html lang="en" className='h-full'>
       <head>
         <title>{titleWithUser}</title>
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="https://cdn.skailar.com/favicon.ico" />
       </head>
       <body className={cn("relative h-full font-sans antialiased", inter.className)}>
         <ThemeProvider

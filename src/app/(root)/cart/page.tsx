@@ -67,7 +67,7 @@ const Page = () => {
                                 <div className="relative mb-4 h-40 w-40 text-muted-foreground" aria-hidden='true'>
                                     {/* TODO: Change Cart Empty Image */}
                                     <Image
-                                        src='/cart.png'
+                                        src='https://cdn.skailar.com/v1/assets/img/cart.png'
                                         fill
                                         loading="eager"
                                         alt="Skailar Empty Shopping Cart"

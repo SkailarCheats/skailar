@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: 'Skailar',
   description: '',
   icons: {
-    icon: '/favicon.ico'
+    icon: 'https://cdn.skailar.com/favicon.ico'
   }
 }
 
@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className='h-full'>
-      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      <link rel="icon" type="image/x-icon" href="https://cdn.skailar.com/favicon.ico" />
       <body className={cn("relative h-full font-sans antialiased", inter.className)}>
         <ThemeProvider
           attribute="class"
