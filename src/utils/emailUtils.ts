@@ -14,8 +14,7 @@ interface SendEmailOptions {
 }
 
 export function generateOTP(): OTP {
-	const otpNumber = Math.floor(100000 + Math.random() * 900000);
-	const otp = otpNumber.toString();
+	const otp = randomBytes(3).toString("hex").slice(0, 6).toUpperCase()
 	const expiresAt = addMinutes(new Date(), 10).toISOString(); // OTP expires in 10 minutes
 	return { code: otp, expiresAt };
 }
