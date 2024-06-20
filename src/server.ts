@@ -116,6 +116,21 @@ const start = async () => {
         }
     });
 
+    app.get('/api/ban-license', async (req, res) => {
+        const { key } = req.query;
+
+        if (!key) {
+            return res.status(400).json({ error: 'License Key is Required' })
+        }
+
+        try {
+            const response = await axios.get(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=ban&key=${key}&reason=Automated%20Ban&userToo=false`);
+            res.json(response.data)
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to ban license key' })
+        }
+    })
+
     app.get('/api/delete-license', async (req, res) => {
         const { key } = req.query;
 
