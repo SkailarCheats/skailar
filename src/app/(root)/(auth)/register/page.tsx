@@ -122,8 +122,11 @@ const Page = () => {
                 timezone: ipData.timezone,
             };
 
-            if (isReseller)
+            if (isReseller) {
                 await axios.get(`https://api.skailar.com/api/seller/?sellerkey=5d9da464a2530837e8cefc57245e1644&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${value}&email=${email}`);
+                router.refresh();
+                router.push('/login?as=reseller');
+            }
 
             mutate(userData);
         } catch (error) {
