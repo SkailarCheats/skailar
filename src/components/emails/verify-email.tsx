@@ -34,7 +34,7 @@ export const VerifyEmail = ({
             <Body style={main}>
                 <Container style={container}>
                     <Img
-                        src={`https://skailar.com/https://cdn.skailar.com/v1/assets/img/logo.png`}
+                        src={`https://cdn.skailar.com/v1/assets/img/logo.png`}
                         width='150'
                         height='150'
                         alt='Skailar'

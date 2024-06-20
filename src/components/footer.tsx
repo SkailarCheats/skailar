@@ -21,7 +21,7 @@ export const Footer = () => {
                     {pathsToMinimize.includes(pathname) ? null : (
                         <div className="pb-8 pt-16">
                             <div className="flex justify-center">
-                                <Image src='/https://cdn.skailar.com/v1/assets/img/logo.png' height='48' width='48' className="h-12 w-auto" alt="Skailar" />
+                                <Image src='https://cdn.skailar.com/v1/assets/img/logo.png' height='48' width='48' className="h-12 w-auto" alt="Skailar" />
                             </div>
                         </div>
                     )}

@@ -47,7 +47,7 @@ export const ReceiptEmail = ({ date, email, orderId, products }: ReceiptEmailPro
                     <Section>
                         <Column>
                             <Img
-                                src={`https://skailar.com/https://cdn.skailar.com/v1/assets/img/logo.png`}
+                                src={`https://cdn.skailar.com/v1/assets/img/logo.png`}
                                 width='100'
                                 height='100'
                                 alt="Skailar"

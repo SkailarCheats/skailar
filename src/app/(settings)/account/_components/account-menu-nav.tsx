@@ -31,7 +31,7 @@ export const AccountMenuNav = ({ user }: { user: User }) => {
 			<SheetContent side="left" className="flex flex-col">
 				<nav className="grid gap-2 text-lg font-medium">
 					<Link href="/" className="flex items-center gap-2 text-lg font-semibold cursor-pointer">
-						<Image src='/https://cdn.skailar.com/v1/assets/img/logo.png' width='24' height='24' alt="Skailar Logo" />
+						<Image src='https://cdn.skailar.com/v1/assets/img/logo.png' width='24' height='24' alt="Skailar Logo" />
 						<span>Skailar</span>
 					</Link>
 

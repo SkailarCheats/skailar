@@ -139,7 +139,7 @@ const Page = () => {
             <div className={cn("container relative flex flex-col items-center justify-center lg:px-0", isReseller ? 'pt-10' : 'pt-20')}>
                 <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                     <div className="flex flex-col items-center space-y-2 text-center">
-                        <Image src='/https://cdn.skailar.com/v1/assets/img/logo.png' height='80' width='80' alt="Skailar Logo" />
+                        <Image src='https://cdn.skailar.com/v1/assets/img/logo.png' height='80' width='80' alt="Skailar Logo" />
                         <h1 className="text-2xl font-bold">{isReseller ? 'Create a Reseller Account' : 'Create an Account'}</h1>
                         <Link href='/login' className={buttonVariants({ variant: 'link', className: "gap-1.5" })}>
                             Already have an Account? Login

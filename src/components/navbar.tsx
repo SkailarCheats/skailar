@@ -24,7 +24,7 @@ export const Navbar = async () => {
 
                             <div className="ml-4 flex lg:ml-0">
                                 <Link href='/'>
-                                    <Image src='/https://cdn.skailar.com/v1/assets/img/logo.png' width='40' height='40' alt="Skailar Logo" />
+                                    <Image src='https://cdn.skailar.com/v1/assets/img/logo.png' width='40' height='40' alt="Skailar Logo" />
                                 </Link>
                             </div>
 
