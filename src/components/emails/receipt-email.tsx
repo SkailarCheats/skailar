@@ -147,9 +147,9 @@ export const ReceiptEmail = ({ date, email, orderId, products }: ReceiptEmailPro
                     <Hr style={productPriceLineBottom} />
 
                     <Text style={footerLinksWrapper}>
-                        <Link href='https://discord.gg/skailar'>Discord</Link> •{' '}
                         <Link href='https://skailar.com/legal/terms'>Terms</Link> •{' '}
-                        <Link href='https://skailar.com/legal/privacy'>Privacy Policy </Link>
+                        <Link href='https://status.skailar.com/'>Status</Link> •{' '}
+                        <Link href='https://discord.gg/skailar'>Discord</Link>
                     </Text>
                     <Text style={footerCopyright}>
                         &copy; {new Date().getFullYear()} <Link href="https://skailar.com">Skailar</Link>. <br />{' '}

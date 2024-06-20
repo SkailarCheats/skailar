@@ -58,8 +58,8 @@ export const Footer = () => {
                     <div className="mt-4 flex items-center justify-center md:mt-0">
                         <div className="flex space-x-8">
                             <Link href='/legal/terms' className="text-sm text-muted-foreground hover:text-gray-600 dark:hover:text-gray-300">Terms</Link>
-                            <Link href='/legal/privacy' className="text-sm text-muted-foreground hover:text-gray-600 dark:hover:text-gray-300">Privacy Policy</Link>
-                            <Link href='/legal/cookies' className="text-sm text-muted-foreground hover:text-gray-600 dark:hover:text-gray-300">Cookie Policy</Link>
+                            <Link href='https://status.skailar.com/' className="text-sm text-muted-foreground hover:text-gray-600 dark:hover:text-gray-300">Status</Link>
+                            <Link href='https://discord.gg/skailar' className="text-sm text-muted-foreground hover:text-gray-600 dark:hover:text-gray-300">Discord</Link>
                         </div>
                     </div>
                 </div>
