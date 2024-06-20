@@ -7,7 +7,7 @@ export default async function Home() {
 	const nextCookies = cookies();
 	const { user } = await getServerSideUser(nextCookies)
 
-	if (!user || user.role === 'customer') {
+	if (!user || user.role !== 'reseller') {
 		return redirect('/')
 	}
 

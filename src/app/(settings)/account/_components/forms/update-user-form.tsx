@@ -4,17 +4,12 @@ import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { User } from '@/payload-types';
 import { trpc } from '@/trpc/client';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-
-interface User {
-	id: string;
-	username: string;
-	email: string;
-}
 
 interface FormData {
 	username?: string;
@@ -35,12 +30,14 @@ const UpdateUserForm: React.FC<{ user: User }> = ({ user }) => {
 
 	const onSubmit: SubmitHandler<FormData> = async (data) => {
 		try {
-			const { username, email } = data;
-			const result = await updateUserMutation.mutateAsync({ id: user.id, newUsername: username, newEmail: email });
-			if (result?.success) {
-				toast.success('User updated successfully.');
-				router.push(`/account/${username}`)
-				router.refresh()
+			if (user.role !== 'reseller') { // Make sure user is not a Reseller
+				const { username, email } = data;
+				const result = await updateUserMutation.mutateAsync({ id: user.id, newUsername: username, newEmail: email });
+				if (result?.success) {
+					toast.success('User updated successfully.');
+					router.push(`/account/${username}`)
+					router.refresh()
+				}
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -55,8 +52,9 @@ const UpdateUserForm: React.FC<{ user: User }> = ({ user }) => {
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<CardContent className="space-y-4">
 				<div className="space-y-2">
+					{/* Reseller cannot change username */}
 					<Label htmlFor="username">Username</Label>
-					<Input id="username" {...register('username')} placeholder="Choose a new Username" autoComplete="off" />
+					<Input id="username" disabled={user.role === 'reseller'} {...register('username')} placeholder="Choose a new Username" autoComplete="off" />
 				</div>
 				<div className="space-y-2">
 					<Label htmlFor="email">Email</Label>

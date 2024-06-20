@@ -36,15 +36,11 @@ export async function MainDashboard() {
 	const nextCookies = cookies();
 	const { user } = await getServerSideUser(nextCookies)
 
-	if (!user || user.role === 'customer') {
+	if (!user || user.role !== 'reseller') {
 		return redirect('/')
 	}
 
 	const balance = await getBalance(user.username);
-
-	if (!balance) {
-		return <div>[N/A]</div>
-	}
 
 	return (
 		<>
@@ -58,9 +54,9 @@ export async function MainDashboard() {
 						<Key className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">{balance.day}</div>
+						<div className="text-2xl font-bold">{balance ? balance.day : '[N/A]'}</div>
 						<p className="text-xs text-muted-foreground">
-							You can generate up to {balance.day} day keys.
+							You can generate up to {balance ? balance.day : '[N/A]'} day keys.
 						</p>
 					</CardContent>
 				</Card>
@@ -70,9 +66,9 @@ export async function MainDashboard() {
 						<Key className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">{balance.week}</div>
+						<div className="text-2xl font-bold">{balance ? balance.week : '[N/A]'}</div>
 						<p className="text-xs text-muted-foreground">
-							You can generate up to {balance.week} week keys.
+							You can generate up to {balance ? balance.week : '[N/A]'} week keys.
 						</p>
 					</CardContent>
 				</Card>
@@ -82,9 +78,9 @@ export async function MainDashboard() {
 						<Key className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">{balance.month}</div>
+						<div className="text-2xl font-bold">{balance ? balance.month : '[N/A]'}</div>
 						<p className="text-xs text-muted-foreground">
-							You can generate up to {balance.month} month keys.
+							You can generate up to {balance ? balance.month : '[N/A]'} month keys.
 						</p>
 					</CardContent>
 				</Card>

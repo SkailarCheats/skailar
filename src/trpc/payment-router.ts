@@ -63,7 +63,10 @@ export const paymentRouter = router({
                     userId: user.id,
                     orderId: order.id
                 },
-                line_items
+                line_items,
+                payment_intent_data: {
+                    setup_future_usage: 'off_session',
+                },
             })
 
             return { url: stripeSession.url }

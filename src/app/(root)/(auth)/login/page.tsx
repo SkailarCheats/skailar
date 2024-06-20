@@ -205,7 +205,7 @@ const Page = () => {
                                             )}
                                         </div>
                                         <Button variant='link'>
-                                            Resend code
+                                            Login
                                         </Button>
                                     </>
                                 )}

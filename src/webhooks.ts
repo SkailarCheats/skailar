@@ -12,7 +12,7 @@ export const resend = new Resend(process.env.RESEND_API_KEY);
 
 const fetchLicenseKey = async (level: string, expiry: string): Promise<string> => {
     // const response = await fetch(`/api/create-license?expiry=${expiry}&level=${level}`);
-    const response = await fetch(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=add&format=json&expiry=${expiry}&mask=***************&level=${level}&amount=1&character=2&note=Generated%20From%20skailar`);
+    const response = await fetch(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=add&format=json&expiry=${expiry}&mask=***************&level=${level}&amount=1&owner=Skailar&character=2&note=Generated%20From%20Skailar`);
     const licenseKey = await response.text();
     return licenseKey;
 };
