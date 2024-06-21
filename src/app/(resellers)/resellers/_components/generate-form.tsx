@@ -19,6 +19,7 @@ interface Balance {
 export const GenerateForm = ({ user }: { user: User }) => {
 	const [amount, setAmount] = useState<number>(1);
 	const [expiry, setExpiry] = useState<string>("1");
+	const [level, setLevel] = useState<string>("0")
 	const [balance, setBalance] = useState<Balance | null>(null);
 
 	const router = useRouter();
@@ -88,7 +89,7 @@ export const GenerateForm = ({ user }: { user: User }) => {
 			return;
 		}
 
-		const url = `https://api.skailar.com/api/seller/?sellerkey=5d9da464a2530837e8cefc57245e1644&type=add&format=json&expiry=${expiry}&mask=***************&level=1&amount=${amount}&owner=${user.username}&character=2&note=Generated%20By%20${user.username}`;
+		const url = `https://api.skailar.com/api/seller/?sellerkey=5d9da464a2530837e8cefc57245e1644&type=add&format=json&expiry=${expiry}&mask=***************&level=${level}&amount=${amount}&owner=${user.username}&character=2&note=Generated%20By%20${user.username}`;
 
 		try {
 			const response = await fetch(url);
@@ -151,6 +152,24 @@ export const GenerateForm = ({ user }: { user: User }) => {
 									<SelectItem value="1">1 day</SelectItem>
 									<SelectItem value="7">7 days</SelectItem>
 									<SelectItem value="30">30 days</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="grid gap-2">
+							<Label htmlFor="game">Game</Label>
+							<Select value={level} onValueChange={(value) => setLevel(value)}>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Select expiry" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="0">Select An Option</SelectItem>
+									<SelectItem value="1">Rainbow Lite</SelectItem>
+									<SelectItem value="2">Rust</SelectItem>
+									<SelectItem value="3">Fortnite</SelectItem>
+									<SelectItem value="4">Apex Legends</SelectItem>
+									<SelectItem value="5">Valorant</SelectItem>
+									<SelectItem value="6">Counter-Strike 2</SelectItem>
+									<SelectItem value="7">Rainbow Full</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>

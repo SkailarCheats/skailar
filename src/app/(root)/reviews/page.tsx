@@ -16,8 +16,6 @@ const ReviewsPage = async () => {
 
     return (
         <MaxWidthWrapper>
-
-
             <section className="bg-background text-foreground">
                 <div className="container mx-auto py-12 px-4 md:px-6 lg:px-8">
                     <div className="mb-8">
