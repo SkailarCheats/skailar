@@ -1,21 +1,5 @@
-import { Access, CollectionConfig } from "payload/types";
+import { CollectionConfig } from "payload/types";
 import { VerifyEmailHtml } from '../components/emails/verify-email'
-import { User } from "@/payload-types";
-
-const isAdminOrHasAccessToUsers = (): Access => async ({
-    req
-}) => {
-    const user = req.user as User | undefined
-
-    if (!user) return false;
-    if (user.role === "admin") return true;
-
-    return {
-        user: {
-            equals: req.user.id
-        }
-    }
-}
 
 export const Users: CollectionConfig = {
     slug: "users",
@@ -31,9 +15,7 @@ export const Users: CollectionConfig = {
         }
     },
     access: {
-        read: ({ req }) => {
-            return isAdminOrHasAccessToUsers()({ req })
-        },
+        read: () => true,
         create: () => true,
     },
     fields: [
