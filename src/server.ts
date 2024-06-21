@@ -257,52 +257,6 @@ const start = async () => {
         }
     })
 
-    app.post('/api/product/create', async (req, res) => {
-        try {
-            const productData = req.body;
-
-            if (!productData.name || !productData.description || !productData.price || !productData.category || !productData.user.username) {
-                return res.status(400).json({ error: 'Missing required fields' });
-            }
-
-            const payload = await getPayloadClient();
-
-            // Cerca l'utente basato sul nome utente
-            const { docs: users } = await payload.find({
-                collection: 'users',
-                where: {
-                    username: {
-                        equals: productData.user.username
-                    }
-                }
-            });
-
-            // Verifica se l'utente è stato trovato
-            if (!users || users.length === 0) {
-                return res.status(404).json({ error: 'User not found' });
-            }
-
-            // Estrai l'ID dell'utente trovato
-            const [user] = users;
-            const userId = user?.id;
-
-            // Crea il prodotto utilizzando solo l'ID dell'utente
-            const product = await payload.create({
-                collection: 'products',
-                data: {
-                    ...productData,
-                    user: userId
-                }
-            });
-
-            // Risposta di successo
-            res.status(201).json({ message: 'Product created successfully', product: product });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-    });
-
     app.use((req, res) => nextHandler(req, res));
 
     nextApp.prepare().then(() => {
