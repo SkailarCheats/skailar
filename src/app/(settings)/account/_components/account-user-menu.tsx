@@ -21,12 +21,14 @@ export const AccountdUserMenu = async () => {
 			<DropdownMenuContent align="end">
 				<DropdownMenuLabel>{user?.username ? user?.username : '[N/A]'}</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem asChild>
-					<Link href={`/account/${user?.username}`}>Settings</Link>
-				</DropdownMenuItem>
 				{user?.role === 'admin' && (
 					<DropdownMenuItem asChild>
 						<Link href={`/dashboard`}>Admin Dashboard</Link>
+					</DropdownMenuItem>
+				)}
+				{user?.role === 'reseller' && (
+					<DropdownMenuItem asChild>
+						<Link href={`/resellers`}>Reseller Dashboard</Link>
 					</DropdownMenuItem>
 				)}
 				<DropdownMenuItem asChild>
