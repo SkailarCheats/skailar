@@ -27,6 +27,7 @@ export const NavItems = () => {
             <NavItem text="Products" href="/products" />
             <NavItem text="Reviews" href="/reviews" />
             <NavItem text="Status" target="_blank" href="https://status.skailar.com/status/cheats" />
+            <NavItem text="Resellers" href="/verified-resellers" />
             <NavItem text="Discord" target="_blank" href="https://discord.gg/skailar" />
         </div>
     )

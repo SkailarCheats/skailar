@@ -15,6 +15,7 @@ export interface Config {
     orders: Order;
     reviews: Review;
     user_details: UserDetail;
+    resellers: Reseller;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -175,6 +176,28 @@ export interface Review {
   rating: number;
   description: string;
   featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resellers".
+ */
+export interface Reseller {
+  id: string;
+  logo: string;
+  name: string;
+  discord?: string | null;
+  telegram?: string | null;
+  website: string;
+  payments?:
+    | {
+        method: string;
+        icon: string;
+        color: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }

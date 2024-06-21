@@ -16,17 +16,18 @@ const ReviewsPage = async () => {
 
     return (
         <MaxWidthWrapper>
-            <section className="py-12">
-                <div className="md:flex md:items-center md:justify-between mb-4">
-                    <div className="max-w-2xl px-4 lg:max-w-4xl lg:px-0">
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 sm:text-3xl">Reviews</h1>
-                    </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {reviews.map(review => (
-                        <AllReviews user={review.user ?? null} key={review.id} rating={review.rating} date={review.createdAt} description={review.description} />
-                    ))}
+
+            <section className="bg-background text-foreground">
+                <div className="container mx-auto py-12 px-4 md:px-6 lg:px-8">
+                    <div className="mb-8">
+                        <h2 className="text-3xl font-bold md:text-4xl">Reviews</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {reviews.map(review => (
+                            <AllReviews user={review.user ?? null} key={review.id} rating={review.rating} date={review.createdAt} description={review.description} />
+                        ))}
+                    </div>
                 </div>
             </section>
         </MaxWidthWrapper>
