@@ -1,8 +1,6 @@
 "use client";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
     Command,
     CommandEmpty,
@@ -10,12 +8,14 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
@@ -26,42 +26,12 @@ import { useForm } from 'react-hook-form';
 import { AuthRegisterCredentialsValidator, TAuthRegisterCredentialsValidator } from "@/lib/validators/account-credentials-validator";
 import { trpc } from "@/trpc/client";
 
+import { games } from "@/config";
+import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
-import { useEffect, useState } from "react";
-import axios from "axios";
-
-const games = [
-    {
-        value: "1",
-        label: "Rainbow Lite",
-    },
-    {
-        value: "2",
-        label: "Rust",
-    },
-    {
-        value: "3",
-        label: "Fortnite",
-    },
-    {
-        value: "4",
-        label: "Apex Legends",
-    },
-    {
-        value: "5",
-        label: "Valorant",
-    },
-    {
-        value: "6",
-        label: "Counter-Strike 2",
-    },
-    {
-        value: "7",
-        label: "Rainbow Full",
-    },
-]
 
 const Page = () => {
     const router = useRouter();
@@ -141,8 +111,8 @@ const Page = () => {
                     <div className="flex flex-col items-center space-y-2 text-center">
                         <Image src='https://cdn.skailar.com/v1/assets/img/logo.png' height='80' width='80' alt="Skailar Logo" />
                         <h1 className="text-2xl font-bold">{isReseller ? 'Create a Reseller Account' : 'Create an Account'}</h1>
-                        <Link href='/login' className={buttonVariants({ variant: 'link', className: "gap-1.5" })}>
-                            Already have an Account? Login
+                        <Link href={`${isReseller ? '/login?as=reseller' : '/login'}`} className={buttonVariants({ variant: 'link', className: "gap-1.5" })}>
+                            {isReseller ? 'Already have a Reseller Account? Login' : 'Already have an Account? Login'}
                             <ArrowRight className="h-4 w-4" />
                         </Link>
                     </div>

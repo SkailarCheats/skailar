@@ -74,3 +74,34 @@ export const PRODUCT_CATEGORY = [
         ]
     }
 ]
+
+export const games = [
+    {
+        value: "1",
+        label: "Rainbow Lite",
+    },
+    {
+        value: "2",
+        label: "Rust",
+    },
+    {
+        value: "3",
+        label: "Fortnite",
+    },
+    {
+        value: "4",
+        label: "Apex Legends",
+    },
+    {
+        value: "5",
+        label: "Valorant",
+    },
+    {
+        value: "6",
+        label: "Counter-Strike 2",
+    },
+    {
+        value: "7",
+        label: "Rainbow Full",
+    },
+]

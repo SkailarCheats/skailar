@@ -14,6 +14,8 @@ export const Footer = () => {
         '/thank-you'
     ]
 
+    const year = new Date().getFullYear().toString()
+
     return (
         <footer className="bg-white dark:bg-black flex-grow-0">
             <MaxWidthWrapper>
@@ -51,7 +53,7 @@ export const Footer = () => {
                 <div className="py-10 md:flex md:items-center md:justify-between">
                     <div className="text-center md:text-left">
                         <p className="text-sm text-muted-foreground">
-                            &copy;{new Date().getFullYear()} All Rights Reserved.
+                            &copy;{year} All Rights Reserved.
                         </p>
                     </div>
 
