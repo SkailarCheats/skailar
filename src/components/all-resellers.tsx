@@ -5,8 +5,24 @@ import { Reseller } from "@/payload-types";
 import { FaBitcoin, FaCreditCard, FaPaypal } from "react-icons/fa";
 import { SiLitecoin } from "react-icons/si";
 import Image from "next/image";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 
 export const AllResellers = ({ resellers }: { resellers: Reseller[] }) => {
+	const renderIcon = (method: any) => {
+		switch (method) {
+			case 'PayPal':
+				return <FaPaypal className="h-5 w-5 text-white" />;
+			case 'Bitcoin':
+				return <FaBitcoin className="h-5 w-5 text-white" />;
+			case 'Litecoin':
+				return <SiLitecoin className="h-5 w-5 text-white" />;
+			case 'Credit Card':
+				return <FaCreditCard className="h-5 w-5 text-white" />;
+			default:
+				return null;
+		}
+	};
+
 	return (
 		<>
 			{resellers.map((reseller, index) => (
@@ -36,10 +52,16 @@ export const AllResellers = ({ resellers }: { resellers: Reseller[] }) => {
 					<div className="flex items-center gap-2">
 						{reseller.payments!.map(payment => (
 							<>
-								{payment.method === 'PayPal' && <FaPaypal className="h-5 w-5 text-white" />}
-								{payment.method === 'Bitcoin' && <FaBitcoin className="h-5 w-5 text-white" />}
-								{payment.method === 'Litecoin' && <SiLitecoin className="h-5 w-5 text-white" />}
-								{payment.method === 'Credit Card' && <FaCreditCard className="h-5 w-5 text-white" />}
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											{renderIcon(payment.method)}
+										</TooltipTrigger>
+										<TooltipContent>
+											<p>{payment.method}</p>
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
 							</>
 						))}
 					</div>
