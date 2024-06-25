@@ -93,7 +93,7 @@ const Page = () => {
             };
 
             if (isReseller) {
-                await axios.get(`https://api.skailar.com/api/seller/?sellerkey=5d9da464a2530837e8cefc57245e1644&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${value}&email=${email}`);
+                await axios.get(`https://api.skailar.com/api/seller/?sellerkey=d34917b1460d7d8b14678b10a706590d&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${value}&email=${email}`);
                 router.refresh();
                 router.push('/login?as=reseller');
             }

@@ -40,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - v1.2 Account Sidebar Design
+- v1.2 On Thank-you page, is order is paid, remove the cart items
 
 ### Removed
 - v1.2 [N/A]

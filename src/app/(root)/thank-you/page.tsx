@@ -1,3 +1,4 @@
+import { ClearCartEffect } from "@/components/clear-cart"
 import { PaymentStatus } from "@/components/payment-status"
 import { PRODUCT_CATEGORY } from "@/config"
 import { getPayloadClient } from "@/get-payload"
@@ -105,9 +106,10 @@ const Page = async ({ searchParams }: PageProps) => {
 
                                                 {order._isPaid && (
                                                     <>
-                                                        <p className="mt-3">
-                                                            License Key: {order.licenseKey}
-                                                        </p>
+                                                        <div className="flex">
+                                                            <p className="mt-3">License Key:</p>
+                                                            <p className="mt-3 ml-2 text-white">{order.licenseKey}</p>
+                                                        </div>
 
                                                         <a href="https://skailar.com/loader" download={product.name} className="text-purple-600 hover:underline underline-offset-2">
                                                             Download Loader
@@ -149,6 +151,8 @@ const Page = async ({ searchParams }: PageProps) => {
                     </div>
                 </div>
             </div>
+
+            <ClearCartEffect isPaid={order._isPaid} />
         </main>
     )
 }
