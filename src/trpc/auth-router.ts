@@ -75,103 +75,24 @@ export const authRouter = router({
     }),
 
     signIn: publicProcedure.input(AuthCredentialsValidator).mutation(async ({ input, ctx }) => {
-        const { email, password, ip, hostname, city, region, country, loc, org, postal, timezone, otp } = input;
-        const { res } = ctx;
-        const payload = await getPayloadClient();
+        const { email, password } = input
+        const { res } = ctx
+
+        const payload = await getPayloadClient()
 
         try {
-            const { docs: users } = await payload.find({
-                collection: "users",
-                where: {
-                    email: {
-                        equals: email
-                    },
-                }
-            });
-
-            const [user] = users
-
-            if (!user) {
-                throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not found' });
-            }
-
-            if (user.isTwoFAEnabled) {
-                if (!otp) {
-                    const generatedOTP = generateOTP();
-                    await payload.update({
-                        collection: 'users',
-                        id: user.id,
-                        data: {
-                            twoFASecret: generatedOTP.code,
-                            twoFAExpires: generatedOTP.expiresAt
-                        }
-                    });
-                    await sendEmail({ to: user.email, subject: 'Your OTP Code', text: `Your OTP code is ${generatedOTP.code}. It will expire in 10 minutes.` });
-                    return { success: false, isTwoFAEnabled: true };
-                } else {
-                    const isOTPValid = validateOTP(otp, user.twoFASecret as string, user.twoFAExpires as string);
-                    if (!isOTPValid) {
-                        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid or expired OTP' });
-                    } else {
-                        await payload.login({
-                            collection: 'users',
-                            data: { email, password },
-                            res
-                        })
-                    }
-                }
-            } else {
-                await payload.login({
-                    collection: 'users',
-                    data: { email, password },
-                    res
-                });
-            }
-
-            if (user.isTwoFAEnabled && otp !== user.twoFASecret) {
-                throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid or expired OTP' });
-            }
-
-            await payload.update({
+            await payload.login({
                 collection: 'users',
-                id: user.id,
-                data: { twoFASecret: null, twoFAExpires: null }
-            });
+                data: {
+                    email,
+                    password,
+                },
+                res,
+            })
 
-            const latestUserDetails = user?.details?.[user.details.length - 1];
-
-            if (latestUserDetails && typeof latestUserDetails !== 'string' && ip !== latestUserDetails.ip) {
-                const userDetails = await payload.create({
-                    collection: 'user_details',
-                    data: { ip, hostname, city, region, country, loc, org, postal, timezone }
-                });
-
-                if (!Array.isArray(user.details)) {
-                    user.details = [];
-                }
-
-                if (userDetails?.id) {
-                    const updatedDetails = user.details.map(detail => typeof detail === 'string' ? detail : detail.id);
-                    updatedDetails.push(userDetails.id);
-
-                    await payload.update({
-                        collection: 'users',
-                        id: user.id,
-                        data: { details: updatedDetails }
-                    });
-                }
-            }
-
-            await payload.update({
-                collection: 'users',
-                id: user.id,
-                data: { lastLogin: new Date().toISOString() }
-            });
-
-            return { success: true, isTwoFAEnabled: false };
-        } catch (error) {
-            console.error("Error in sign-in process:", error);
-            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', cause: error });
+            return { success: true }
+        } catch (err) {
+            throw new TRPCError({ code: 'UNAUTHORIZED' })
         }
     }),
 

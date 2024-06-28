@@ -19,7 +19,7 @@ import { notFound } from "next/navigation"
 
 interface PageProps {
     params: {
-        productId: string
+        productId: string,
     }
 }
 

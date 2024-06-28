@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { trpc } from "@/trpc/client"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
@@ -54,7 +55,18 @@ export const ToggleTwoFAForm: React.FC<Props> = ({ userId, isTwoFactorEnabled })
 							Two-factor authentication is currently {status ? 'enabled' : 'disabled'}.
 						</p>
 					</div>
-					<Button type="submit" variant="outline">{status ? 'Disable' : 'Enable'} Two-Factor Auth</Button>
+					<Popover>
+						<PopoverTrigger asChild>
+							<div>
+								<Button type="submit" disabled className="w-full" variant="outline">
+									{status ? 'Disable' : 'Enable'} Two-Factor Auth
+								</Button>
+							</div>
+						</PopoverTrigger>
+						<PopoverContent className="w-full">
+							<p>This feature is currently unavailable. Please try again later.</p>
+						</PopoverContent>
+					</Popover>
 				</div>
 			</div>
 		</form>

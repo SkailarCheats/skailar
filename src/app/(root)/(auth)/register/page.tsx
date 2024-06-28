@@ -42,6 +42,14 @@ const Page = () => {
     const searchParams = useSearchParams();
     const isReseller = searchParams.get("as") === "reseller";
 
+    const continueAsBuyer = () => {
+        router.replace('/register', undefined)
+    }
+
+    const continueAsReeller = () => {
+        router.push('?as=reseller')
+    }
+
     const {
         register,
         handleSubmit,
@@ -106,7 +114,7 @@ const Page = () => {
 
     return (
         <>
-            <div className={cn("container relative flex flex-col items-center justify-center lg:px-0", isReseller ? 'pt-10' : 'pt-20')}>
+            <div className={cn("container pb-16 relative flex flex-col items-center justify-center lg:px-0", isReseller ? 'pt-10' : 'pt-20')}>
                 <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                     <div className="flex flex-col items-center space-y-2 text-center">
                         <Image src='https://cdn.skailar.com/v1/assets/img/logo.png' height='80' width='80' alt="Skailar Logo" />
@@ -214,6 +222,35 @@ const Page = () => {
                                 <Button type="submit">Register</Button>
                             </div>
                         </form>
+
+                        <div className='relative'>
+                            <div
+                                aria-hidden='true'
+                                className='absolute inset-0 flex items-center'>
+                                <span className='w-full border-t' />
+                            </div>
+                            <div className='relative flex justify-center text-xs uppercase'>
+                                <span className='bg-background px-2 text-muted-foreground'>
+                                    or
+                                </span>
+                            </div>
+                        </div>
+
+                        {isReseller ? (
+                            <Button
+                                onClick={continueAsBuyer}
+                                variant='secondary'
+                                disabled={isLoading}>
+                                Continue as customer
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={continueAsReeller}
+                                variant='secondary'
+                                disabled={isLoading}>
+                                Continue as reseller
+                            </Button>
+                        )}
                     </div>
                 </div>
             </div>
