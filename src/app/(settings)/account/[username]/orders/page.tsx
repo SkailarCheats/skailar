@@ -3,7 +3,7 @@ import { getPayloadClient } from "@/get-payload";
 import { getServerSideUser } from "@/lib/payload-utils";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
-import { PersonalInfos } from "../../_components/personal-infos";
+import { OrderList } from "../../_components/orders-list";
 
 interface PageProps {
 	params: {
@@ -24,14 +24,31 @@ export default async function Home({ params }: PageProps) {
 		}
 	});
 
+	if (users.length === 0) {
+		return notFound();
+	}
+
 	const [user] = users;
 
-	const nextCookies = await cookies()
-	const { user: currentUser } = await getServerSideUser(nextCookies)
+	const { docs: orders } = await payload.find({
+		collection: 'orders',
+		where: {
+			user: {
+				equals: user.id
+			}
+		}
+	})
 
-	if (!user || currentUser?.username !== username) return notFound();
+	const nextCookies = await cookies();
+	const { user: currentUser } = await getServerSideUser(nextCookies);
+
+	if (!user || currentUser?.username !== username) {
+		return notFound();
+	}
 
 	return (
-		<></>
+		<>
+			<OrderList user={user} orders={orders} />
+		</>
 	);
 }

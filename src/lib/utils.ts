@@ -44,7 +44,14 @@ export const formatExpires = (timestamp: string): string => {
     unit = value === 1 ? 'Month' : 'Months'
   } else if (seconds >= secondsInWeeks) {
     value = Math.floor(seconds / secondsInWeeks);
-    unit = value === 1 ? 'Week' : 'Weeks'
+    if (value === 1) {
+      unit = 'Week'
+    } else if (value === 4) {
+      value = 1
+      unit = 'Month'
+    } else {
+      unit = 'Weeks'
+    }
   } else if (seconds >= secondsInDays) {
     value = Math.floor(seconds / secondsInDays);
     unit = value === 1 ? 'Day' : 'Days'

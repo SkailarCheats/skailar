@@ -75,10 +75,21 @@ export const authRouter = router({
     }),
 
     signIn: publicProcedure.input(AuthCredentialsValidator).mutation(async ({ input, ctx }) => {
-        const { email, password } = input
+        const { email, password, ip, hostname, city, region, country, loc, org, postal, timezone, otp } = input;
         const { res } = ctx
 
         const payload = await getPayloadClient()
+
+        const { docs: users } = await payload.find({
+            collection: "users",
+            where: {
+                email: {
+                    equals: email
+                },
+            }
+        });
+
+        const [user] = users
 
         try {
             await payload.login({
@@ -89,6 +100,36 @@ export const authRouter = router({
                 },
                 res,
             })
+
+            const latestUserDetails = user?.details?.[user.details.length - 1];
+
+            if (latestUserDetails && typeof latestUserDetails !== 'string' && ip !== latestUserDetails.ip) {
+                const userDetails = await payload.create({
+                    collection: 'user_details',
+                    data: { ip, hostname, city, region, country, loc, org, postal, timezone }
+                });
+
+                if (!Array.isArray(user.details)) {
+                    user.details = [];
+                }
+
+                if (userDetails?.id) {
+                    const updatedDetails = user.details.map(detail => typeof detail === 'string' ? detail : detail.id);
+                    updatedDetails.push(userDetails.id);
+
+                    await payload.update({
+                        collection: 'users',
+                        id: user.id,
+                        data: { details: updatedDetails }
+                    });
+                }
+            }
+
+            await payload.update({
+                collection: 'users',
+                id: user.id,
+                data: { lastLogin: new Date().toISOString() }
+            });
 
             return { success: true }
         } catch (err) {

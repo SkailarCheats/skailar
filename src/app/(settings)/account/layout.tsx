@@ -1,4 +1,3 @@
-import '../../globals.css'
 import Providers from '@/components/providers'
 import { ThemeProvider } from '@/components/theme-provider'
 import { getServerSideUser } from '@/lib/payload-utils'
@@ -7,6 +6,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { Toaster } from 'sonner'
+import '../../globals.css'
 import { AccountMenuNav } from './_components/account-menu-nav'
 import { AccountNav } from './_components/account-nav'
 import { AccountdUserMenu } from './_components/account-user-menu'
@@ -74,25 +74,5 @@ export default async function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  )
-}
-
-function UserIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
   )
 }

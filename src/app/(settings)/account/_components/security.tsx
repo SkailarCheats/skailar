@@ -22,7 +22,7 @@ export const Security = ({ user }: SecurityProps) => {
 							<div>
 								<p className="text-sm font-medium">Last Login</p>
 								<p className="text-sm text-muted-foreground">
-									Last login: {formatDistanceToNow(parseISO(user.lastLogin!), { addSuffix: true })}
+									Last login: {user.lastLogin ? formatDistanceToNow(parseISO(user.lastLogin!), { addSuffix: true }) : ''}
 								</p>
 							</div>
 						</div>
@@ -56,7 +56,7 @@ export const Security = ({ user }: SecurityProps) => {
 				</Card>
 				<Card>
 					<CardHeader>
-						<CardTitle>Recent Security Events</CardTitle>
+						<CardTitle>Change Logs</CardTitle>
 					</CardHeader>
 					<CardContent className="grid gap-4">
 						{[user.passwordChanged, user.usernameChanged, user.emailChanged, user.twoFAToggled]
@@ -91,7 +91,7 @@ export const Security = ({ user }: SecurityProps) => {
 			</div>
 			<Card className="mt-7">
 				<CardHeader>
-					<CardTitle>Change Logs</CardTitle>
+					<CardTitle>Recent Security Events</CardTitle>
 				</CardHeader>
 				<LoginLogs user={user} />
 			</Card>

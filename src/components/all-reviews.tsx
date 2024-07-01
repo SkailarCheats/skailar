@@ -48,7 +48,7 @@ export default async function AllReviews({ date, description, rating, user }: Al
 					))}
 				</div>
 				<time dateTime={date} className="text-muted-foreground text-sm">
-					{formatDistanceToNow(parseISO(date), { addSuffix: true })}
+					{formatDistanceToNow(parseISO(date), { addSuffix: true }) === 'less than a minute ago' ? 'a minute ago' : formatDistanceToNow(parseISO(date), { addSuffix: true })}
 				</time>
 			</div>
 			<p className="mt-4 text-gray-700 dark:text-gray-300">

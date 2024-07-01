@@ -1,7 +1,6 @@
 "use client";
 
 import { MoreHorizontal } from "lucide-react";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +27,8 @@ import {
 import { formatDate, formatExpires } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { DropdownActions } from "./dropdown-actions";
+import { Input } from "@/components/ui/input";
+import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 
 export interface Keys {
 	id: string;
@@ -50,11 +51,34 @@ export interface ApiResponse {
 
 const ITEMS_PER_PAGE = 10;
 
+const levelLabels = {
+	All: "Filter by Level",
+	1: "Rainbow Lite",
+	2: "Rust",
+	3: "Fortnite",
+	4: "Apex Legends",
+	5: "Valorant",
+	6: "Counter-Strike 2",
+	7: "Rainbow Full",
+	10: "FULL ACCESS",
+};
+
+const statusLabels = {
+	All: "Filter by Status",
+	"Not Used": "Not Used",
+	Used: "Used",
+	Banned: "Banned",
+};
+
 export const LicensesList = () => {
 	const [keys, setKeys] = useState<Keys[]>([])
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [searchTerm, setSearchTerm] = useState<string>("");
+	const [statusFilter, setStatusFilter] = useState<string>("All");
+	const [levelFilter, setLevelFilter] = useState<string>("All");
+	const [genbyFilter, setGenbyFilter] = useState<string>("");
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -77,10 +101,19 @@ export const LicensesList = () => {
 		fetchData();
 	}, []);
 
-	const totalPages = Math.ceil(keys.length / ITEMS_PER_PAGE);
+	const filteredKeys = keys.filter((key) => {
+		return (
+			(key.key.toLowerCase().includes(searchTerm.toLowerCase())) &&
+			(statusFilter === "All" || key.status === statusFilter) &&
+			(levelFilter === "All" || key.level === levelFilter) &&
+			(genbyFilter === "" || key.genby.includes(genbyFilter))
+		);
+	});
+
+	const totalPages = Math.ceil(filteredKeys.length / ITEMS_PER_PAGE);
 	const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
 	const endIndex = startIndex + ITEMS_PER_PAGE;
-	const paginatedKeys = keys.slice(startIndex, endIndex);
+	const paginatedKeys = filteredKeys.slice(startIndex, endIndex);
 
 	const handleNextPage = () => {
 		if (currentPage < totalPages) {
@@ -103,6 +136,41 @@ export const LicensesList = () => {
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
+				<div className="flex flex-col md:flex-row gap-4 mb-4">
+					<Input
+						placeholder="Search by key"
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+					/>
+					<Select onValueChange={(value) => setStatusFilter(value)} defaultValue="All">
+						<SelectTrigger>{statusLabels[statusFilter as keyof typeof statusLabels]}</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="All">All</SelectItem>
+							<SelectItem value="Not Used">Not Used</SelectItem>
+							<SelectItem value="Used">Used</SelectItem>
+							<SelectItem value="Banned">Banned</SelectItem>
+						</SelectContent>
+					</Select>
+					<Select onValueChange={(value) => setLevelFilter(value)} defaultValue="All">
+						<SelectTrigger>{levelLabels[levelFilter as keyof typeof levelLabels]}</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="All">All</SelectItem>
+							<SelectItem value="1">Rainbow Lite</SelectItem>
+							<SelectItem value="2">Rust</SelectItem>
+							<SelectItem value="3">Fortnite</SelectItem>
+							<SelectItem value="4">Apex Legends</SelectItem>
+							<SelectItem value="5">Valorant</SelectItem>
+							<SelectItem value="6">Counter-Strike 2</SelectItem>
+							<SelectItem value="7">Rainbow Full</SelectItem>
+							<SelectItem value="10">FULL ACCESS</SelectItem>
+						</SelectContent>
+					</Select>
+					<Input
+						placeholder="Filter by Created By"
+						value={genbyFilter}
+						onChange={(e) => setGenbyFilter(e.target.value)}
+					/>
+				</div>
 				<Table>
 					<TableHeader>
 						<TableRow>

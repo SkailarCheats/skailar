@@ -1,31 +1,15 @@
-import { getPayloadClient } from "@/get-payload";
 import { getServerSideUser } from "@/lib/payload-utils";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
-interface PageProps {
-	params: {
-		username: string;
-	};
-}
+export default async function Home() {
+	const nextCookies = await cookies();
+	const { user: currentUser } = await getServerSideUser(nextCookies);
 
-export default async function Home({ params }: PageProps) {
-	const { username } = params;
+	if (!currentUser) {
+		return redirect(`/login?origin=account`)
+	}
 
-	const payload = await getPayloadClient();
-	const { docs: users } = await payload.find({
-		collection: "users",
-		where: {
-			username: {
-				equals: username,
-			}
-		}
-	});
+	redirect(`/account/${currentUser.username}`);
 
-	const [user] = users;
-
-	const nextCookies = await cookies()
-	const { user: currentUser } = await getServerSideUser(nextCookies)
-
-	if (!user || currentUser?.username !== username) return notFound();
 }

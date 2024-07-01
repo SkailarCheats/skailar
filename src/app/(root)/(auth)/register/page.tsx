@@ -101,12 +101,14 @@ const Page = () => {
             };
 
             if (isReseller) {
-                await axios.get(`https://api.skailar.com/api/seller/?sellerkey=d34917b1460d7d8b14678b10a706590d&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${value}&email=${email}`);
+                await axios.get(`https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${value}&email=${email}`);
                 router.refresh();
                 router.push('/login?as=reseller');
+                mutate(userData);
+            } else {
+                await axios.get(`https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=adduser&user=${username}&sub=default&expiry=700&pass=${password}`);
+                mutate(userData);
             }
-
-            mutate(userData);
         } catch (error) {
             toast.error('Internal Error');
         }

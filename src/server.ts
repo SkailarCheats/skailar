@@ -81,26 +81,6 @@ const start = async () => {
         }
     });
 
-    app.get('/api/create-reseller', async (req, res) => {
-        const {
-            username,
-            password,
-            level,
-            email
-        } = req.query;
-
-        if (!username || !password || !level || !email) {
-            return res.status(400).json({ error: 'Username, Password, Level and Email are required' });
-        }
-
-        try {
-            const response = await axios.get(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${level}?email=${email}`);
-            res.json(response.data);
-        } catch (error) {
-            res.status(500).json({ error: 'Failed to create reseller account' });
-        }
-    });
-
     app.get('/api/unban-license', async (req, res) => {
         const { key } = req.query;
 

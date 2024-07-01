@@ -244,6 +244,7 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 			}
 
 			toast.success('Successfully deleted license')
+			router.refresh()
 			router.refresh();
 		} catch (error) {
 			toast.error('Failed to delete Key')

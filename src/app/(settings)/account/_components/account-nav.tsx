@@ -15,7 +15,7 @@ export const AccountNav = ({ user }: { user: User }) => {
 	const menu = [
 		{ label: 'Personal Info', icon: UserIcon, href: `/account/${user?.username}`, disabled: false },
 		{ label: 'Security', icon: LockIcon, href: `/account/${user?.username}/security`, disabled: false },
-		{ label: 'Payment', icon: CreditCardIcon, href: `/account/${user?.username}/payments`, disabled: false },
+		{ label: 'Orders', icon: CreditCardIcon, href: `/account/${user?.username}/orders`, disabled: false },
 		{ label: 'Settings', icon: SettingsIcon, href: `/account/${user?.username}/settings`, disabled: false },
 	]
 
