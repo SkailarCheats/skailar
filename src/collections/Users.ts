@@ -5,11 +5,12 @@ export const Users: CollectionConfig = {
     slug: "users",
     auth: {
         verify: {
-            generateEmailHTML: ({ token }) => {
+            generateEmailHTML: ({ token, user }) => {
                 return VerifyEmailHtml({
                     actionLabel: "verify your account",
                     buttonText: "Verify Account",
-                    href: `https://skailar.com/verify-email?token=${token}`
+                    href: `https://skailar.com/verify-email?token=${token}`,
+                    user: user
                 })
             }
         }

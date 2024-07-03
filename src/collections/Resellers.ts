@@ -43,6 +43,11 @@ export const Resellers: CollectionConfig = {
 			required: true,
 		},
 		{
+			name: "username",
+			type: 'text',
+			required: true
+		},
+		{
 			name: 'payments',
 			type: 'array',
 			label: 'Payment Methods',

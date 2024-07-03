@@ -3,6 +3,7 @@
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
+import { SearchIcon } from 'lucide-react';
 
 export function SearchBar() {
 	const router = useRouter();
@@ -37,6 +38,16 @@ export function SearchBar() {
 		}
 	};
 
+	if (pathname.includes('/dashboard/licenses')) {
+		return (
+			<div>
+				<div className='relative'>
+					<h1 className='font-bold text-xl'>License Keys</h1>
+				</div>
+			</div>
+		)
+	}
+
 	return (
 		<form onSubmit={handleSearch}>
 			<div className="relative">
@@ -51,25 +62,5 @@ export function SearchBar() {
 				/>
 			</div>
 		</form>
-	);
-}
-
-function SearchIcon(props: any) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		>
-			<circle cx="11" cy="11" r="8" />
-			<path d="m21 21-4.3-4.3" />
-		</svg>
 	);
 }

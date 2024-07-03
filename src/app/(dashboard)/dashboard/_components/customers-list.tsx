@@ -27,6 +27,8 @@ import { getPayloadClient } from "@/get-payload"
 
 import { format, parseISO } from 'date-fns'
 import { DropdownActions } from "./dropdown-actions"
+import { UserDetail } from "@/payload-types"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 export default async function CustomersList() {
 	const payload = await getPayloadClient()
@@ -89,6 +91,7 @@ export default async function CustomersList() {
 							<TableHead>Username</TableHead>
 							<TableHead className="hidden lg:table-cell">Email</TableHead>
 							<TableHead>Status</TableHead>
+							<TableHead>ISP</TableHead>
 							<TableHead>Role</TableHead>
 							<TableHead>Created at</TableHead>
 							<TableHead>
@@ -107,6 +110,28 @@ export default async function CustomersList() {
 								</TableCell>
 								<TableCell className="font-medium">
 									<Badge variant="outline" className={customer.verifiedClass}>{customer._verified ? 'Verified' : 'Not Verified'}</Badge>
+								</TableCell>
+								<TableCell>
+									{(customer.details as UserDetail[]).map(detail => (
+										<TooltipProvider key={detail.id}>
+											<Tooltip>
+												<TooltipTrigger>
+													{detail.org}
+												</TooltipTrigger>
+												<TooltipContent>
+													<p className="text-sm font-medium px-2 py-1 rounded-md shadow-sm">
+														IP: {detail.ip}
+													</p>
+													<p className="text-sm font-medium px-2 py-1 rounded-md shadow-sm">
+														Loc: {detail.region} ({detail.country})
+													</p>
+													<p className="text-sm font-medium px-2 py-1 rounded-md shadow-sm">
+														Timezone: {detail.timezone}
+													</p>
+												</TooltipContent>
+											</Tooltip>
+										</TooltipProvider>
+									))}
 								</TableCell>
 								<TableCell>
 									<Badge variant="outline" className={customer.roleClass}>{customer.role?.toUpperCase()}</Badge>

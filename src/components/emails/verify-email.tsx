@@ -1,3 +1,4 @@
+import { User } from '@/payload-types'
 import {
     Body,
     Button,
@@ -17,13 +18,15 @@ import * as React from "react"
 interface VerifyEmailProps {
     actionLabel: string
     buttonText: string
-    href: string
+    href: string,
+    user: User
 }
 
 export const VerifyEmail = ({
     actionLabel,
     buttonText,
     href,
+    user
 }: VerifyEmailProps) => {
     return (
         <Html>
@@ -35,12 +38,12 @@ export const VerifyEmail = ({
                 <Container style={container}>
                     <Img
                         src={`https://cdn.skailar.com/v1/assets/img/logo.png`}
-                        width='150'
-                        height='150'
+                        width='170'
+                        height='170'
                         alt='Skailar'
                         style={logo}
                     />
-                    <Text style={paragraph}>Hi there,</Text>
+                    <Text style={paragraph}>Hi {user.username},</Text>
                     <Text style={paragraph}>
                         Welcome to Skailar, the marketplace for
                         high quality cheats. Use the button below

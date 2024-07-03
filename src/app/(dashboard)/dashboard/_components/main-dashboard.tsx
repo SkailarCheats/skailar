@@ -126,6 +126,9 @@ export async function MainDashboard() {
 		depth: 2
 	})
 
+	const [order] = orders
+	const [customer] = customers
+
 	const now = new Date();
 	const last12Months = Array.from({ length: 12 }, (_, i) => {
 		const date = subMonths(now, i);

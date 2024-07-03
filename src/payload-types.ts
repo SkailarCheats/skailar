@@ -190,6 +190,7 @@ export interface Reseller {
   discord?: string | null;
   telegram?: string | null;
   website: string;
+  username: string;
   payments?:
     | {
         method: string;
