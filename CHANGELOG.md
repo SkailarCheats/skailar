@@ -44,3 +44,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 - v1.2 [N/A]
+
+## [1.3] 07/03/2024 15:00
+
+### Added
+- v1.3 Added Reseller Details Route (e.g. /Reseller)
+- v1.3 Added FAQs Section
+
+### Changed
+- v1.3 [N/A]
+
+### Removed
+- v1.3 [N/A]
