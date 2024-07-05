@@ -30,6 +30,7 @@ import { DropdownActions } from "./dropdown-actions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PRODUCT_CATEGORY } from "@/config";
 import { Order } from '@/payload-types';
+import { useState } from 'react';
 
 export interface ProcessedProduct {
 	id: string;
@@ -49,10 +50,22 @@ export interface ProductsListClientProps {
 export function ProductsListClient({ processedProducts }: ProductsListClientProps) {
 	const searchParams = useSearchParams();
 	const searchQuery = searchParams.get('search') || '';
+	const [currentPage, setCurrentPage] = useState(1);
+	const productsPerPage = 10;
 
 	const filteredProducts = processedProducts.filter(product =>
 		searchQuery ? product.name.toLowerCase().includes(searchQuery.toLowerCase()) : true
 	);
+
+	const indexOfLastProduct = currentPage * productsPerPage;
+	const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+	const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+	const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+	const handlePageChange = (pageNumber: number) => {
+		setCurrentPage(pageNumber);
+	};
 
 	return (
 		<Card>
@@ -80,7 +93,7 @@ export function ProductsListClient({ processedProducts }: ProductsListClientProp
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{filteredProducts.map((product, index) => {
+						{currentProducts.map((product, index) => {
 							const { image } = product.images[0];
 
 							let approved = "";
@@ -152,8 +165,18 @@ export function ProductsListClient({ processedProducts }: ProductsListClientProp
 				</Table>
 			</CardContent>
 			<CardFooter>
-				<div className="text-xs text-muted-foreground">
-					Showing <strong>{filteredProducts.length}</strong> of <strong>{processedProducts.length}</strong> products
+				<div className="flex justify-between items-center w-full">
+					<div className="text-xs text-muted-foreground">
+						Showing <strong>{indexOfFirstProduct + 1}-{Math.min(indexOfLastProduct, filteredProducts.length)}</strong> of <strong>{filteredProducts.length}</strong> products
+					</div>
+					<div className="flex gap-2">
+						<Button variant="outline" size="sm" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+							Previous
+						</Button>
+						<Button variant="outline" size="sm" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+							Next
+						</Button>
+					</div>
 				</div>
 			</CardFooter>
 		</Card>

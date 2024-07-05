@@ -4,7 +4,11 @@ export const Resellers: CollectionConfig = {
 	slug: "resellers",
 	hooks: {
 		beforeChange: [({ req, data }) => {
-			return { ...data, user: req.user.id }
+			if (req.user && req.user.id) {
+				return { ...data, user: req.user.id };
+			}
+
+			return data;
 		}]
 	},
 	access: {
