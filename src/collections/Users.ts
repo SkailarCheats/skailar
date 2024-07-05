@@ -105,6 +105,21 @@ export const Users: CollectionConfig = {
             type: 'relationship',
             relationTo: 'user_details',
             hasMany: true,
+        },
+        {
+            name: 'hwidReset',
+            type: 'checkbox',
+            required: false,
+        },
+        {
+            name: 'hwidResetTime',
+            type: 'date',
+            required: false,
+        },
+        {
+            name: 'hwidDisableUntil',
+            type: 'date',
+            required: false
         }
     ],
 }

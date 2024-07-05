@@ -1,18 +1,17 @@
 "use client"
 
+import { useState, useEffect } from 'react'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { PRODUCT_CATEGORY } from "@/config"
 import { cn, formatPrice } from "@/lib/utils"
-import { Order, Product, User } from "@/payload-types"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
+import { Order, Product, User } from '@/payload-types'
 
-const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000
-const ORDERS_PER_PAGE = 10
+const ORDERS_PER_PAGE = 10;
 
 export const OrderList = ({ user, orders }: { user: User, orders: Order[] }) => {
 	const [timeRemaining, setTimeRemaining] = useState<string | null>(null)
@@ -20,49 +19,77 @@ export const OrderList = ({ user, orders }: { user: User, orders: Order[] }) => 
 	const [currentPage, setCurrentPage] = useState(1)
 
 	useEffect(() => {
-		const checkRemainingTime = () => {
-			const lastRequestTime = localStorage.getItem('lastHwidResetTime')
-			if (lastRequestTime) {
-				const timeSinceLastRequest = new Date().getTime() - parseInt(lastRequestTime)
-				if (timeSinceLastRequest < ONE_WEEK_IN_MS) {
-					const remainingTime = ONE_WEEK_IN_MS - timeSinceLastRequest
-					const days = Math.floor(remainingTime / (24 * 60 * 60 * 1000))
-					const hours = Math.floor((remainingTime % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
-					const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000))
-					setTimeRemaining(`${days}d ${hours}h ${minutes}m`)
-					setIsDisabled(true)
+		const checkRemainingTime = async () => {
+			try {
+				const response = await fetch(`/api/user-hwid-status?username=${user.username}`)
+				const data = await response.json()
+
+				if (data.hwidDisableUntil) {
+					const disableUntil = new Date(data.hwidDisableUntil)
+					const now = new Date()
+					const remainingTime = disableUntil.getTime() - now.getTime()
+
+					if (remainingTime > 0) {
+						const days = Math.floor(remainingTime / (24 * 60 * 60 * 1000))
+						const hours = Math.floor((remainingTime % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
+						const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000))
+						setTimeRemaining(`${days}d ${hours}h ${minutes}m`)
+						setIsDisabled(true)
+					} else {
+						setTimeRemaining(null)
+						setIsDisabled(false)
+					}
 				} else {
 					setTimeRemaining(null)
 					setIsDisabled(false)
 				}
+			} catch (error) {
+				console.error('Error checking HWID status:', error)
+				toast.error("Failed to check HWID status")
 			}
 		}
 
 		checkRemainingTime()
-		const interval = setInterval(checkRemainingTime, 60000)
+		const interval = setInterval(checkRemainingTime, 60000) // Check every minute
 
 		return () => clearInterval(interval)
-	}, [])
+	}, [user.username])
 
 	const resetHwid = async () => {
 		if (isDisabled) return
 
 		try {
-			const response = await fetch(`https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=resetuser&user=${user.username}`)
+			const response = await fetch('/api/reset-hwid', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ username: user.username }),
+			})
 			const data = await response.json()
 
-			if (data.success) {
-				console.log(user.username)
+			if (response.ok) {
 				toast.success("HWID reset successfully!")
-				localStorage.setItem('lastHwidResetTime', new Date().getTime().toString())
 				setIsDisabled(true)
+				// Refresh the remaining time immediately
+				const checkRemainingTime = async () => {
+					const response = await fetch(`/api/user-hwid-status?username=${user.username}`)
+					const data = await response.json()
+					if (data.hwidDisableUntil) {
+						const disableUntil = new Date(data.hwidDisableUntil)
+						const now = new Date()
+						const remainingTime = disableUntil.getTime() - now.getTime()
+						const days = Math.floor(remainingTime / (24 * 60 * 60 * 1000))
+						const hours = Math.floor((remainingTime % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
+						const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000))
+						setTimeRemaining(`${days}d ${hours}h ${minutes}m`)
+					}
+				}
+				checkRemainingTime()
 			} else {
-				console.log(user.username)
-				console.error("API Response Error:", data)
 				toast.error(data.message || "Failed to reset HWID!")
 			}
 		} catch (error) {
-			console.log(user.username)
 			console.error("Network or Server Error:", error)
 			toast.error("An error occurred while resetting HWID!")
 		}

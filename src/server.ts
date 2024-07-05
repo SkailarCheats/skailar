@@ -237,6 +237,83 @@ const start = async () => {
         }
     })
 
+    // HWID-Reset
+    app.post('/api/reset-hwid', async (req, res) => {
+        const { username } = req.body;
+
+        if (!username) {
+            return res.status(400).json({ message: 'Username is required' });
+        }
+
+        try {
+            const user = await payload.find({
+                collection: 'users',
+                where: {
+                    username: { equals: username },
+                },
+            });
+
+            if (!user.docs.length) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            const userId = user.docs[0].id;
+
+            const sevenDaysFromNow = new Date();
+            sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+
+            await payload.update({
+                collection: 'users',
+                id: userId,
+                data: {
+                    hwidReset: true,
+                    hwidResetTime: new Date().toISOString(),
+                    hwidDisableUntil: sevenDaysFromNow.toISOString(),
+                },
+            });
+
+            const apiResponse = await fetch(`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=resetuser&user=${username}`);
+            const apiData = await apiResponse.json();
+
+            if (apiData.success) {
+                return res.status(200).json({ message: 'HWID reset successfully' });
+            } else {
+                return res.status(500).json({ message: apiData.message || 'Failed to reset HWID' });
+            }
+        } catch (error) {
+            console.error('Error resetting HWID:', error);
+            return res.status(500).json({ message: 'An error occurred while resetting HWID' });
+        }
+    });
+
+    app.get('/api/user-hwid-status', async (req, res) => {
+        const { username } = req.query;
+
+        if (!username) {
+            return res.status(400).json({ message: 'Username is required' });
+        }
+
+        try {
+            const user = await payload.find({
+                collection: 'users',
+                where: {
+                    username: { equals: username },
+                },
+            });
+
+            if (!user.docs.length) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            const { hwidDisableUntil } = user.docs[0];
+
+            return res.status(200).json({ hwidDisableUntil });
+        } catch (error) {
+            console.error('Error fetching user HWID status:', error);
+            return res.status(500).json({ message: 'An error occurred while fetching user HWID status' });
+        }
+    });
+
     app.use((req, res) => nextHandler(req, res));
 
     nextApp.prepare().then(() => {
