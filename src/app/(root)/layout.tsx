@@ -33,7 +33,7 @@ export default function RootLayout({
               <Image src='https://cdn.skailar.com/favicon.ico' alt='logo' width={48} height={48} className='mx-auto h-12 w-12' />
               <h1 className="mt-4 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Site Maintenance</h1>
               <p className="mt-4 text-muted-foreground">
-                We're currently performing scheduled maintenance. The site will be back up and running shortly.
+                We&apos;re currently performing scheduled maintenance. The site will be back up and running shortly.
               </p>
             </div>
           </div>

@@ -1,11 +1,9 @@
-'use client';
-
 import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
+import { DataLength } from '@/components/data/data-length';
 import { ProductReel } from '@/components/product-reel';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { ArrowDownToLine, Headphones, RefreshCcw } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 const perks = [
   { name: "Instant Delivery", Icon: ArrowDownToLine, description: "Receive your cheats immediately after purchase for uninterrupted gameplay." },
@@ -14,12 +12,6 @@ const perks = [
 ]
 
 export default function Home() {
-  const router = useRouter()
-
-  const joinDiscord = () => {
-    window.open('https://discord.gg/skailar', '_blank')
-  }
-
   return (
     <>
       <MaxWidthWrapper>
@@ -35,14 +27,14 @@ export default function Home() {
 
           <div className='flex flex-col sm:flex-row gap-4 mt-6'>
             <Link href='/products' className={buttonVariants()}>Explore Popular Cheats</Link>
-            <Button onClick={() => joinDiscord()} variant='outline'>Connect on Discord &rarr;</Button>
+            <Link href='https://discord.gg/skailar' target='_blank' className={buttonVariants({ variant: 'outline' })}>Connect on Discord &rarr;</Link>
           </div>
         </div>
 
         <ProductReel query={{ sort: 'desc', limit: 4 }} title='Brand New' href='/products' />
       </MaxWidthWrapper>
 
-      <section className='border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950'>
+      <section className='border-t border-b border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950'>
         <MaxWidthWrapper className='py-20'>
           <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
             {perks.map((perk) => (
@@ -59,10 +51,13 @@ export default function Home() {
                 </div>
               </div>
             ))}
-
           </div>
         </MaxWidthWrapper>
       </section>
+
+      <MaxWidthWrapper className='py-20'>
+        <DataLength />
+      </MaxWidthWrapper>
     </>
   )
 }

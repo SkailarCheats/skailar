@@ -43,7 +43,7 @@ export const GenerateForm = ({ user }: { user: User }) => {
 
 	useEffect(() => {
 		fetchBalance();
-	}, []);
+	}, [fetchBalance]);
 
 	const updateBalance = async (usedBalance: { day: number, week: number, month: number }) => {
 		const url = `https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=setbalance&username=${user.username}&day=${usedBalance.day}&week=${usedBalance.week}&month=${usedBalance.month}&threemonth=0&sixmonth=0&lifetime=0`;

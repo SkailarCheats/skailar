@@ -7,7 +7,7 @@ export default async function ProductsList() {
 
 	const { docs: products } = await payload.find({
 		collection: "products",
-		depth: 2,
+		limit: 0
 	});
 
 	const processedProducts: ProcessedProduct[] = await Promise.all(products.map(async (product) => {
