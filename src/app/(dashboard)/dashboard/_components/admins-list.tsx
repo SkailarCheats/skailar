@@ -26,27 +26,27 @@ import {
 import { getPayloadClient } from "@/get-payload"
 
 import { format, parseISO } from 'date-fns'
-import { DropdownActions } from "./dropdown-actions"
 import { UserDetail } from "@/payload-types"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { DropdownActions } from "../_components/dropdown-actions"
 
-export default async function CustomersList() {
+export default async function AdminsList() {
 	const payload = await getPayloadClient()
 
-	const { docs: customers } = await payload.find({
+	const { docs: admins } = await payload.find({
 		collection: "users",
 		where: {
 			role: {
-				equals: 'customer'
+				equals: 'admin'
 			}
 		}
 	})
 
-	const processedCustomers = customers.map(customer => {
+	const processedAdmins = admins.map(admin => {
 		let roleClass = '';
 		let verifiedClass = '';
 
-		switch (customer.role) {
+		switch (admin.role) {
 			case 'admin':
 				roleClass = 'text-red-500'
 				break;
@@ -61,7 +61,7 @@ export default async function CustomersList() {
 				break;
 		}
 
-		switch (customer._verified) {
+		switch (admin._verified) {
 			case true:
 				verifiedClass = 'text-green-500'
 				break;
@@ -70,7 +70,7 @@ export default async function CustomersList() {
 		}
 
 		return {
-			...customer,
+			...admin,
 			roleClass,
 			verifiedClass,
 		};
@@ -79,9 +79,9 @@ export default async function CustomersList() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Customers</CardTitle>
+				<CardTitle>Admins</CardTitle>
 				<CardDescription>
-					Manage your customers and view their infos.
+					Manage your admins and view their infos.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -91,7 +91,7 @@ export default async function CustomersList() {
 							<TableHead>Username</TableHead>
 							<TableHead className="hidden lg:table-cell">Email</TableHead>
 							<TableHead>Status</TableHead>
-							{/* <TableHead>ISP</TableHead> */}
+							<TableHead>ISP</TableHead>
 							<TableHead>Role</TableHead>
 							<TableHead>Created at</TableHead>
 							<TableHead>
@@ -100,19 +100,19 @@ export default async function CustomersList() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{processedCustomers.map((customer, index) => (
+						{processedAdmins.map((admin, index) => (
 							<TableRow key={index}>
 								<TableCell>
-									{customer.username}
+									{admin.username}
 								</TableCell>
 								<TableCell className="hidden lg:table-cell">
-									{customer.email}
+									{admin.email}
 								</TableCell>
 								<TableCell className="font-medium">
-									<Badge variant="outline" className={customer.verifiedClass}>{customer._verified ? 'Verified' : 'Not Verified'}</Badge>
+									<Badge variant="outline" className={admin.verifiedClass}>{admin._verified ? 'Verified' : 'Not Verified'}</Badge>
 								</TableCell>
-								{/* <TableCell>
-									{(customer.details as UserDetail[]).map(detail => (
+								<TableCell>
+									{(admin.details as UserDetail[]).map(detail => (
 										<TooltipProvider key={detail.id}>
 											<Tooltip>
 												<TooltipTrigger>
@@ -132,11 +132,11 @@ export default async function CustomersList() {
 											</Tooltip>
 										</TooltipProvider>
 									))}
-								</TableCell> */}
-								<TableCell>
-									<Badge variant="outline" className={customer.roleClass}>{customer.role?.toUpperCase()}</Badge>
 								</TableCell>
-								<TableCell>{format(parseISO(customer.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
+								<TableCell>
+									<Badge variant="outline" className={admin.roleClass}>{admin.role?.toUpperCase()}</Badge>
+								</TableCell>
+								<TableCell>{format(parseISO(admin.createdAt), 'dd/MM/yyyy hh:mm a')}</TableCell>
 								<TableCell>
 									<DropdownMenu>
 										<DropdownMenuTrigger asChild>
@@ -146,7 +146,7 @@ export default async function CustomersList() {
 											</Button>
 										</DropdownMenuTrigger>
 
-										<DropdownActions customerId={customer.id ? customer.id : ''} customerUser={customer.username} customerEmail={customer.email} customerRole={customer.role!} customerVerified={customer._verified!} />
+										<DropdownActions customerId={admin.id ? admin.id : ''} customerUser={admin.username} customerEmail={admin.email} customerRole={admin.role!} customerVerified={admin._verified!} />
 									</DropdownMenu>
 								</TableCell>
 							</TableRow>
@@ -156,7 +156,7 @@ export default async function CustomersList() {
 			</CardContent>
 			<CardFooter>
 				<div className="text-xs text-muted-foreground">
-					Showing <strong>1-10</strong> of <strong>{customers ? customers.length : '[N/A]'}</strong> customers
+					Showing <strong>1-10</strong> of <strong>{admins ? admins.length : '[N/A]'}</strong> admins
 				</div>
 			</CardFooter>
 		</Card>
