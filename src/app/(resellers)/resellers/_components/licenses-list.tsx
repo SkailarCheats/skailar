@@ -4,7 +4,6 @@ import { MoreHorizontal } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { saveAs } from "file-saver";
 import {
 	Card,
 	CardContent,
@@ -25,10 +24,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { saveAs } from "file-saver";
 
 import { formatDate, formatExpires } from "@/lib/utils";
-import { useEffect, useState } from "react";
 import { User } from "@/payload-types";
+import { useEffect, useState } from "react";
 
 export interface Keys {
 	id: string;
