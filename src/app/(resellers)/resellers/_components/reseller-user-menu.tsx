@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { getServerSideUser } from "@/lib/payload-utils";
-import { CircleUserIcon } from "lucide-react"
+import { CircleUserIcon } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { LogoutUserMenu } from "./logout-user.menu";
