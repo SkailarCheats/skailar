@@ -7,8 +7,8 @@ import { Toaster } from 'sonner'
 import '../../globals.css'
 
 import { Input } from "@/components/ui/input"
-import { ResellerNav } from './_components/reseller-nav'
 import { ResellerMenuNav } from './_components/reseller-menu-nav'
+import { ResellerNav } from './_components/reseller-nav'
 import { ResellerUserMenu } from './_components/reseller-user-menu'
 
 const inter = Inter({ subsets: ['latin'] })
