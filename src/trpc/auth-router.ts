@@ -7,7 +7,7 @@ import { publicProcedure, router } from "./trpc";
 
 export const authRouter = router({
     createPayloadUser: publicProcedure.input(AuthRegisterCredentialsValidator).mutation(async ({ input }) => {
-        const { username, email, password, ip, hostname, city, region, country, loc, org, postal, timezone } = input;
+        const { username, email, password, ip, hostname, city, region, country, loc, org, postal, timezone, website } = input;
         const payload = await getPayloadClient();
 
         // Check if user exists
@@ -28,7 +28,8 @@ export const authRouter = router({
                 username,
                 email,
                 password,
-                role: 'customer',
+                role: website ? 'reseller' : 'customer',
+                resellerStore: website || ''
             }
         });
 

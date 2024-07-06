@@ -1,15 +1,22 @@
 import { CollectionConfig } from "payload/types";
 import { VerifyEmailHtml } from '../components/emails/verify-email'
+import { WelcomeResellerEmailHtml } from "../components/emails/welcome-reseller-email";
 
 export const Users: CollectionConfig = {
     slug: "users",
     auth: {
         verify: {
             generateEmailHTML: ({ token, user }) => {
-                return VerifyEmailHtml({
-                    actionLabel: "verify your account",
-                    buttonText: "Verify Account",
-                    href: `https://skailar.com/verify-email?token=${token}`,
+                if (user.role === 'customer') {
+                    return VerifyEmailHtml({
+                        actionLabel: "verify your account",
+                        buttonText: "Verify Account",
+                        href: `https://skailar.com/verify-email?token=${token}`,
+                        user: user
+                    })
+                }
+
+                return WelcomeResellerEmailHtml({
                     user: user
                 })
             }
@@ -105,6 +112,11 @@ export const Users: CollectionConfig = {
             type: 'relationship',
             relationTo: 'user_details',
             hasMany: true,
+        },
+        {
+            name: 'resellerStore',
+            type: 'text',
+            required: false,
         },
         {
             name: 'hwidReset',

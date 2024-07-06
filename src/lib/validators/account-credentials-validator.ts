@@ -13,6 +13,7 @@ export const AuthRegisterCredentialsValidator = z.object({
     org: z.string().optional(),
     postal: z.string().optional(),
     timezone: z.string().optional(),
+    website: z.string().url('Invalid URL').optional(),
 })
 
 export const AuthCredentialsValidator = z.object({

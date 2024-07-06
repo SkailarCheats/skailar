@@ -82,13 +82,14 @@ const Page = () => {
         }
     });
 
-    const onSubmit = async ({ username, email, password }: TAuthRegisterCredentialsValidator) => {
+    const onSubmit = async ({ username, email, password, website }: TAuthRegisterCredentialsValidator) => {
         try {
             const { data: ipData } = await axios.get('https://ipinfo.io/json');
             const userData = {
                 username,
                 email,
                 password,
+                ...(isReseller && website ? { website } : {}),
                 ip: ipData.ip,
                 hostname: ipData.hostname,
                 city: ipData.city,
@@ -175,50 +176,16 @@ const Page = () => {
 
                                 {isReseller && (
                                     <div className="grid gap-1 py-2">
-                                        <Label htmlFor="game">Game</Label>
-                                        <Popover open={open} onOpenChange={setOpen}>
-                                            <PopoverTrigger asChild>
-                                                <Button
-                                                    variant="outline"
-                                                    role="combobox"
-                                                    aria-expanded={open}
-                                                    className={cn("w-full justify-between", !value && 'text-muted-foreground')}
-                                                >
-                                                    {value
-                                                        ? games.find((game) => game.value === value)?.label
-                                                        : "Select game..."}
-                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-full p-0">
-                                                <Command>
-                                                    <CommandInput placeholder="Search Game..." />
-                                                    <CommandList>
-                                                        <CommandEmpty>No game found.</CommandEmpty>
-                                                        <CommandGroup>
-                                                            {games.map((game) => (
-                                                                <CommandItem
-                                                                    key={game.value}
-                                                                    value={game.value}
-                                                                    onSelect={(currentValue) => {
-                                                                        setValue(currentValue === value ? "" : currentValue)
-                                                                        setOpen(false)
-                                                                    }}
-                                                                >
-                                                                    <Check
-                                                                        className={cn(
-                                                                            "mr-2 h-4 w-4",
-                                                                            value === game.value ? "opacity-100" : "opacity-0"
-                                                                        )}
-                                                                    />
-                                                                    {game.label}
-                                                                </CommandItem>
-                                                            ))}
-                                                        </CommandGroup>
-                                                    </CommandList>
-                                                </Command>
-                                            </PopoverContent>
-                                        </Popover>
+                                        <Label htmlFor="store">Your Store Link</Label>
+                                        <Input
+                                            {...register("website")}
+                                            className={cn({
+                                                "focus-visible:ring-red-500": errors.website
+                                            })}
+                                            placeholder="https://your-domain.com"
+                                            type="text"
+                                            autoComplete="off"
+                                        />
                                     </div>
                                 )}
                                 <Button type="submit">Register</Button>

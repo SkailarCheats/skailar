@@ -1,7 +1,7 @@
 import { MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
 	Card,
 	CardContent,
@@ -29,6 +29,7 @@ import { format, parseISO } from 'date-fns'
 import { DropdownActions } from "./dropdown-actions"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { UserDetail } from "@/payload-types"
+import Link from "next/link"
 
 export default async function ResellersList() {
 	const payload = await getPayloadClient()
@@ -90,6 +91,7 @@ export default async function ResellersList() {
 						<TableRow>
 							<TableHead>Username</TableHead>
 							<TableHead className="hidden lg:table-cell">Email</TableHead>
+							<TableHead>Store</TableHead>
 							<TableHead>Status</TableHead>
 							<TableHead>ISP</TableHead>
 							<TableHead>Role</TableHead>
@@ -107,6 +109,9 @@ export default async function ResellersList() {
 								</TableCell>
 								<TableCell className="hidden lg:table-cell">
 									{reseller.email}
+								</TableCell>
+								<TableCell>
+									<Link href={`${reseller?.resellerStore}`} className={buttonVariants({ variant: 'link' })} target="_blank">{reseller?.resellerStore}</Link>
 								</TableCell>
 								<TableCell className="font-medium">
 									<Badge variant="outline" className={reseller.verifiedClass}>{reseller._verified ? 'Verified' : 'Not Verified'}</Badge>

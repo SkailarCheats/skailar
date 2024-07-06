@@ -38,6 +38,7 @@ export interface User {
   isTwoFAEnabled?: boolean | null;
   twoFAToggled?: string | null;
   details?: (string | UserDetail)[] | null;
+  resellerStore?: string | null;
   hwidReset?: boolean | null;
   hwidResetTime?: string | null;
   hwidDisableUntil?: string | null;
