@@ -16,6 +16,7 @@ import path from "path";
 import { cookies } from 'next/headers';
 import { getServerSideUser } from './lib/payload-utils';
 import { Product, User } from './payload-types';
+import { sendNewsletterEmail } from './utils/emailUtils';
 
 const app = express();
 
@@ -309,8 +310,91 @@ const start = async () => {
 
             return res.status(200).json({ hwidDisableUntil });
         } catch (error) {
-            console.error('Error fetching user HWID status:', error);
             return res.status(500).json({ message: 'An error occurred while fetching user HWID status' });
+        }
+    });
+
+    // Newsletter Route
+    app.post('/api/newsletter', async (req, res) => {
+        const { email } = req.body;
+
+        try {
+            const payload = await getPayloadClient();
+            const { docs: users } = await payload.find({
+                collection: 'users',
+                where: {
+                    email: {
+                        equals: email
+                    }
+                }
+            });
+
+            const [user] = users;
+
+            if (user) {
+                try {
+                    await payload.create({
+                        collection: 'newsletters',
+                        data: {
+                            email,
+                            username: user.username
+                        }
+                    })
+
+                    await sendNewsletterEmail(email, user?.username);
+                } catch (error) {
+                    return res.status(500).json({ message: 'Internal Error' });
+                }
+            } else {
+                try {
+                    await payload.create({
+                        collection: 'newsletters',
+                        data: {
+                            email,
+                        }
+                    })
+
+                    await sendNewsletterEmail(email);
+                } catch (error) {
+                    return res.status(500).json({ message: 'Internal Error' });
+                }
+            }
+
+            return res.status(200).json({ message: 'Email received and processed' });
+        } catch (error) {
+            console.error('Error processing email:', error);
+            return res.status(500).json({ message: 'Internal Error' });
+        }
+    });
+
+    app.post('/api/newsletter/unsubscribe', async (req, res) => {
+        const { email } = req.body;
+
+        try {
+            const payload = await getPayloadClient();
+            const { docs: newsletters } = await payload.find({
+                collection: 'newsletters',
+                where: {
+                    email: {
+                        equals: email
+                    }
+                }
+            });
+
+            if (newsletters.length > 0) {
+                const [newsletter] = newsletters;
+                await payload.delete({
+                    collection: 'newsletters',
+                    id: newsletter.id
+                });
+
+                return res.status(200).json({ message: 'Unsubscribed successfully' });
+            } else {
+                return res.status(404).json({ message: 'Email not found in newsletter list' });
+            }
+        } catch (error) {
+            console.error('Error unsubscribing:', error);
+            return res.status(500).json({ message: 'Internal Error' });
         }
     });
 

@@ -16,6 +16,7 @@ export interface Config {
     reviews: Review;
     user_details: UserDetail;
     resellers: Reseller;
+    newsletters: Newsletter;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -205,6 +206,18 @@ export interface Reseller {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletters".
+ */
+export interface Newsletter {
+  id: string;
+  email: string;
+  username?: string | null;
+  deleted?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
