@@ -17,12 +17,15 @@ export const Users: CollectionConfig = {
     auth: {
         verify: {
             generateEmailHTML: ({ token, user }) => {
-                return VerifyEmailHtml({
-                    actionLabel: "verify your account",
-                    buttonText: "Verify Account",
-                    href: `https://skailar.com/verify-email?token=${token}`,
-                    user: user
-                })
+                if (user.role !== 'reseller') {
+                    return VerifyEmailHtml({
+                        actionLabel: "verify your account",
+                        buttonText: "Verify Account",
+                        href: `https://skailar.com/verify-email?token=${token}`,
+                    });
+                }
+                return '';
+
             }
         }
     },

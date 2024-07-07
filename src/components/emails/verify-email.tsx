@@ -19,14 +19,12 @@ interface VerifyEmailProps {
     actionLabel: string
     buttonText: string
     href: string,
-    user: User
 }
 
 export const VerifyEmail = ({
     actionLabel,
     buttonText,
     href,
-    user
 }: VerifyEmailProps) => {
     return (
         <Html>
@@ -43,19 +41,17 @@ export const VerifyEmail = ({
                         alt='Skailar'
                         style={logo}
                     />
-                    <Text style={paragraph}>Hi {user.username},</Text>
+                    <Text style={paragraph}>Hi,</Text>
                     <Text style={paragraph}>
                         Welcome to Skailar, the marketplace for
                         high quality cheats. Use the button below
-                        to {user.role === 'customer' ? actionLabel : 'Get Started'}.
+                        to {actionLabel}.
                     </Text>
-                    {user.role === 'reseller' && (
-                        <Section style={btnContainer}>
-                            <Button style={button} href={href}>
-                                {buttonText}
-                            </Button>
-                        </Section>
-                    )}
+                    <Section style={btnContainer}>
+                        <Button style={button} href={href}>
+                            {buttonText}
+                        </Button>
+                    </Section>
                     <Text style={paragraph}>
                         Best,
                         <br />
