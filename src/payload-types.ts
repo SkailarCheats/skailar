@@ -89,6 +89,8 @@ export interface Product {
   price: number;
   category: 'rainbow_six' | 'cs2' | 'eft' | 'apex' | 'rust' | 'fortnite' | 'valorant';
   product_files: string | ProductFile;
+  level?: string | null;
+  expiry?: string | null;
   approvedForSale?: ('pending' | 'approved' | 'denied') | null;
   priceId?: string | null;
   stripeId?: string | null;

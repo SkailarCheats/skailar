@@ -107,6 +107,18 @@ export const Products: CollectionConfig = {
             hasMany: false,
         },
         {
+            name: 'level',
+            label: 'Key Level',
+            type: 'text',
+            required: false,
+        },
+        {
+            name: 'expiry',
+            label: 'Key Expiry in Days',
+            type: 'text',
+            required: false
+        },
+        {
             name: "approvedForSale",
             label: "Product Status",
             type: "select",

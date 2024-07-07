@@ -3,8 +3,8 @@
 import {
 	Line,
 	LineChart,
-	ResponsiveContainer,
 	Tooltip as RechartsTooltip,
+	ResponsiveContainer,
 } from 'recharts';
 
 import {
@@ -12,7 +12,22 @@ import {
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
+
+const italianMonthsToEnglish: { [key: string]: string } = {
+	'gen': 'January',
+	'feb': 'February',
+	'mar': 'March',
+	'apr': 'April',
+	'mag': 'May',
+	'giu': 'June',
+	'lug': 'July',
+	'ago': 'August',
+	'set': 'September',
+	'ott': 'October',
+	'nov': 'November',
+	'dic': 'December'
+};
 
 export const LineCharts = ({ data }: { data: object[] }) => {
 	return (
@@ -28,13 +43,20 @@ export const LineCharts = ({ data }: { data: object[] }) => {
 							<RechartsTooltip content={({ active, payload }) => {
 								if (active && payload && payload.length) {
 									const value = payload[0].value;
+									const monthAbbrev = payload[0].payload.name;
+									const month = italianMonthsToEnglish.hasOwnProperty(monthAbbrev) ? italianMonthsToEnglish[monthAbbrev] : '';
+
 									return (
 										<Tooltip>
 											<TooltipTrigger>
-												<div>Revenue: ${value}</div>
+												<div className="custom-tooltip">
+													<div>Date: {month}</div>
+													<div>Revenue: ${value}</div>
+												</div>
 											</TooltipTrigger>
 											<TooltipContent>
-												Revenue: ${value}
+												<div>Date: {month}</div>
+												<div>Revenue: ${value}</div>
 											</TooltipContent>
 										</Tooltip>
 									);

@@ -1,6 +1,5 @@
 "use client";
 
-import { MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,12 +22,13 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { MoreHorizontal } from "lucide-react";
 
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { formatDate, formatExpires } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { DropdownActions } from "./dropdown-actions";
-import { Input } from "@/components/ui/input";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 
 export interface Keys {
 	id: string;
@@ -48,8 +48,6 @@ export interface ApiResponse {
 	success: boolean;
 	keys: Keys[];
 }
-
-const ITEMS_PER_PAGE = 10;
 
 const levelLabels = {
 	All: "Filter by Level",
@@ -79,6 +77,7 @@ export const LicensesList = () => {
 	const [statusFilter, setStatusFilter] = useState<string>("All");
 	const [levelFilter, setLevelFilter] = useState<string>("All");
 	const [genbyFilter, setGenbyFilter] = useState<string>("");
+	const [itemsPerPage, setItemsPerPage] = useState<number>(10);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -110,10 +109,15 @@ export const LicensesList = () => {
 		);
 	});
 
-	const totalPages = Math.ceil(filteredKeys.length / ITEMS_PER_PAGE);
-	const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-	const endIndex = startIndex + ITEMS_PER_PAGE;
+	const totalPages = Math.ceil(filteredKeys.length / itemsPerPage);
+	const startIndex = (currentPage - 1) * itemsPerPage;
+	const endIndex = startIndex + itemsPerPage;
 	const paginatedKeys = filteredKeys.slice(startIndex, endIndex);
+
+	const handleItemsPerPageChange = (value: string) => {
+		setItemsPerPage(Number(value));
+		setCurrentPage(1);
+	};
 
 	const handleNextPage = () => {
 		if (currentPage < totalPages) {
@@ -272,6 +276,16 @@ export const LicensesList = () => {
 						Showing <strong>{startIndex + 1}-{Math.min(endIndex, keys.length)}</strong> of <strong>{keys.length}</strong> products
 					</div>
 					<div className="flex gap-2">
+						<Select value={itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+							<SelectTrigger className="w-[70px]">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="10">10</SelectItem>
+								<SelectItem value="50">50</SelectItem>
+								<SelectItem value="100">100</SelectItem>
+							</SelectContent>
+						</Select>
 						<Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
 							Previous
 						</Button>

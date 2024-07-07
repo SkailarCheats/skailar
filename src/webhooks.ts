@@ -3,7 +3,6 @@ import { Resend } from 'resend';
 import Stripe from 'stripe';
 import { ReceiptEmailHtml } from './components/emails/receipt-email';
 import { getPayloadClient } from './get-payload';
-import { getExpiryInDays, getLevel } from './lib/orders';
 import { stripe } from './lib/stripe';
 import { Product } from './payload-types';
 import { WebhookRequest } from './server';
@@ -19,10 +18,12 @@ const fetchLicenseKey = async (level: string, expiry: string): Promise<string> =
 const generateLicenseKeys = async (products: Product[]): Promise<{ [key: string]: string }> => {
     const licenseKeys: { [key: string]: string } = {};
     for (const product of products) {
-        const level = getLevel(product.name);
-        const expiryInDays = getExpiryInDays(product.name);
-        const licenseKey = await fetchLicenseKey(level, expiryInDays);
-        licenseKeys[product.id] = licenseKey;
+        if (product.level && product.expiry) {
+            const licenseKey = await fetchLicenseKey(product.level, product.expiry);
+            licenseKeys[product.id] = licenseKey;
+        } else {
+            console.warn(`Skipping license key generation for product ${product.name} due to missing level or expiry`);
+        }
     }
     return licenseKeys;
 };
