@@ -1,5 +1,5 @@
-import { BeforeChangeHook } from "payload/dist/collections/config/types";
-import { CollectionConfig } from "payload/types";
+import { BeforeChangeHook, AfterChangeHook } from "payload/dist/collections/config/types";
+import { Access, CollectionConfig } from "payload/types";
 import { PRODUCT_CATEGORY } from "../../config";
 import { stripe } from "../../lib/stripe";
 import { Product } from "../../payload-types";

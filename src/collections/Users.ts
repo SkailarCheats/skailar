@@ -1,30 +1,40 @@
-import { CollectionConfig } from "payload/types";
+import { Access, CollectionConfig } from "payload/types";
 import { VerifyEmailHtml } from '../components/emails/verify-email'
 import { WelcomeResellerEmailHtml } from "../components/emails/welcome-reseller-email";
+
+const adminsAndUser: Access = ({ req: { user } }) => {
+    if (user.role === 'admin') return true
+
+    return {
+        id: {
+            equals: user.id,
+        },
+    }
+}
 
 export const Users: CollectionConfig = {
     slug: "users",
     auth: {
         verify: {
             generateEmailHTML: ({ token, user }) => {
-                if (user.role === 'customer') {
-                    return VerifyEmailHtml({
-                        actionLabel: "verify your account",
-                        buttonText: "Verify Account",
-                        href: `https://skailar.com/verify-email?token=${token}`,
-                        user: user
-                    })
-                }
-
-                return WelcomeResellerEmailHtml({
+                return VerifyEmailHtml({
+                    actionLabel: "verify your account",
+                    buttonText: "Verify Account",
+                    href: `https://skailar.com/verify-email?token=${token}`,
                     user: user
                 })
             }
         }
     },
     access: {
-        read: () => true,
+        read: adminsAndUser,
         create: () => true,
+        update: adminsAndUser,
+        delete: adminsAndUser,
+    },
+    admin: {
+        hidden: ({ user }) => user.role !== 'admin',
+        defaultColumns: ['username'],
     },
     fields: [
         {

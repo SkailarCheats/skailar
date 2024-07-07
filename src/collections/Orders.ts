@@ -1,12 +1,12 @@
 import { Access, CollectionConfig } from "payload/types";
 
 const yourOwn: Access = ({ req: { user } }) => {
-    if (user.role === "admin") return true
+    if (user.role === 'admin') return true
 
     return {
         user: {
-            equals: user?.id
-        }
+            equals: user?.id,
+        },
     }
 }
 

@@ -47,13 +47,15 @@ export const VerifyEmail = ({
                     <Text style={paragraph}>
                         Welcome to Skailar, the marketplace for
                         high quality cheats. Use the button below
-                        to {actionLabel}.
+                        to {user.role === 'customer' ? actionLabel : 'Get Started'}.
                     </Text>
-                    <Section style={btnContainer}>
-                        <Button style={button} href={href}>
-                            {buttonText}
-                        </Button>
-                    </Section>
+                    {user.role === 'reseller' && (
+                        <Section style={btnContainer}>
+                            <Button style={button} href={href}>
+                                {buttonText}
+                            </Button>
+                        </Section>
+                    )}
                     <Text style={paragraph}>
                         Best,
                         <br />
