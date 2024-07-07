@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useEffect } from "react";
@@ -54,11 +54,9 @@ export default function UnsubscribePage({ searchParams }: PageProps) {
 						</p>
 					</div>
 					<div className="w-full max-w-sm space-y-2">
-						<Button>
-							<Link href="/" prefetch={false}>
-								Return to Home
-							</Link>
-						</Button>
+						<Link className={buttonVariants()} href="/" prefetch={false}>
+							Return to Home
+						</Link>
 					</div>
 				</div>
 			</div>
