@@ -29,13 +29,14 @@ const renderRichText = (richText: RichTextNode[]) => {
                         href={`${node.url}`}
                         target={node.newTab ? '_blank' : '_self'}
                         rel="noopener noreferrer"
-                        className={buttonVariants({ variant: 'link', className: '-ml-3' })}
+                        className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline"
                     >
                         {renderRichText(node.children || [])}
                     </Link>
                 );
+
             default:
-                return node.text ? <span key={index} className="text-base">{node.text}</span> : null;
+                return node.text ? <span key={index} className="text-base">{node.text}</span> : <br />;
         }
     });
 };
