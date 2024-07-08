@@ -18,6 +18,7 @@
     "cliui": "7.0.2"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.2",
     "@hookform/resolvers": "^3.3.2",
     "@material-tailwind/react": "^2.1.9",
     "@payloadcms/bundler-webpack": "^1.0.6",

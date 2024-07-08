@@ -52,7 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - v1.3 Added FAQs Section
 
 ### Changed
-- v1.3 [N/A]
+- v1.3 Removed Stripe Payments and added Crypto (BNB & TRX)
 
 ### Removed
 - v1.3 [N/A]
