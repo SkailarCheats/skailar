@@ -135,7 +135,8 @@ const Page = () => {
             ClearCartEffect(data.newOrder._isPaid);
             router.push(`/thank-you?orderId=${data.newOrder.id}`);
         } else {
-            toast.error(data.message);
+            if (data.message === 'Payment status is waiting') toast.warning(data.message)
+            else toast.error(data.message);
         }
         setLoading(false);
     };

@@ -5,7 +5,7 @@ import { Resend } from "resend";
 import { Product } from "@/payload-types";
 import { ReceiptEmailHtml } from "@/components/emails/receipt-email";
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 console.log(process.env.RESEND_API_KEY);
 
 const fetchLicenseKey = async (
@@ -49,10 +49,11 @@ export const checkPayment = async (id: string) => {
 	} else {
 		return {
 			success: false,
-			message: `Sorry payment status is ${d.payment_status}`,
+			message: `Payment status is ${d.payment_status}`,
 		};
 	}
 };
+
 export async function POST(req: Request) {
 	try {
 		const body = await req.json();
@@ -94,7 +95,7 @@ export async function POST(req: Request) {
 			collection: "users",
 			where: {
 				id: {
-					equals: newOrder?.user?.id,
+					equals: body.userId,
 				},
 			},
 		});
@@ -113,7 +114,7 @@ export async function POST(req: Request) {
 			data: {
 				_isPaid: true,
 				products: filterProducts.map((prod) => prod.id),
-				user: ,
+				user: user.id,
 			},
 		});
 
@@ -180,13 +181,11 @@ export async function POST(req: Request) {
 				success: true,
 				message: `Purchased successfully`,
 				newOrder,
-				// message: `Sorry payment status is ${d.payment_status}`,
 			});
 		} else {
 			return NextResponse.json({
 				success: false,
 				message: `Some error occurred`,
-				// message: `Sorry payment status is ${d.payment_status}`,
 			});
 		}
 	} catch (error: any) {
@@ -198,15 +197,3 @@ export async function POST(req: Request) {
 		);
 	}
 }
-// export async function POST(req: Request) {
-//   try {
-
-//   } catch (error: any) {
-//     return NextResponse.json(
-//       { success: false, message: error.message },
-//       {
-//         status: 400,
-//       }
-//     );
-//   }
-// }

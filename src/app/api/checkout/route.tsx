@@ -52,7 +52,7 @@ export async function POST(req: any) {
 			);
 		} else {
 			return NextResponse.json(
-				{ success: false, message: "Some error occurred while creating address" },
+				{ success: false, message: "An error occurred while creating address" },
 				{
 					status: 400,
 				}
