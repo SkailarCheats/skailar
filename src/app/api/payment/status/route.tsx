@@ -36,7 +36,7 @@ const generateLicenseKeys = async (
 	return licenseKeys;
 };
 
-export const checkPayment = async (id: string) => {
+const checkPayment = async (id: string) => {
 	const resp = await fetch(`https://api.nowpayments.io/v1/payment/${id}`, {
 		method: "GET",
 		headers: new Headers({
