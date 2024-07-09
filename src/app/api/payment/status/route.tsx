@@ -49,7 +49,7 @@ const checkPayment = async (id: string) => {
 	} else {
 		return {
 			success: false,
-			message: `Sorry payment status is ${d.payment_status}`,
+			message: `Payment status is ${d.payment_status}`,
 		};
 	}
 };
