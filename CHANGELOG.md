@@ -53,6 +53,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - v1.3 Removed Stripe Payments and added Crypto (BNB & TRX)
+- v1.3 If Product Price is less then €6, then use BNB and TRX, otherwise use LTC and BTC
 
 ### Removed
 - v1.3 [N/A]

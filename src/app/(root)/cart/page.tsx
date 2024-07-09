@@ -352,27 +352,27 @@ const Page = () => {
                                         <h4 className="text-base">Pay With</h4>
                                         <div className="mt-2 text-center flex gap-4">
                                             <button
-                                                onClick={() => setPayCurrency("BNBBSC")}
-                                                className={`${payCurrency === "BNBBSC"
+                                                onClick={() => setPayCurrency(`${cartTotal + fee < 6 ? 'BNBBSC' : 'LTC'}`)}
+                                                className={`${payCurrency === "BNBBSC" || payCurrency === 'LTC'
                                                     ? "dark:bg-background bg-black/10"
                                                     : "dark:bg-[#202020] "
                                                     } items-center gap-2 w-1/2 flex h-10 rounded-md border border-input hover:bg-black/20 dark:hover:bg-[#171717] px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                                             >
                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img src="/bnb.svg" alt="" className="w-4 h-4" />
-                                                BNB (BSC)
+                                                <img src={cartTotal + fee < 6 ? '/bnb.svg' : '/ltc.svg'} alt="" className="w-4 h-4" />
+                                                {cartTotal + fee < 6 ? 'BNB (BSC)' : 'LTC'}
                                             </button>
                                             <button
-                                                onClick={() => setPayCurrency("TRX")}
-                                                className={`${payCurrency === "TRX"
+                                                onClick={() => setPayCurrency(`${cartTotal + fee < 6 ? 'TRX' : 'BTC'}`)}
+                                                className={`${payCurrency === "TRX" || payCurrency === 'BTC'
                                                     ? "dark:bg-background bg-black/10"
                                                     : "dark:bg-[#202020] "
                                                     } items-center gap-2 w-1/2 flex h-10 rounded-md border border-input hover:bg-black/20 dark:hover:bg-[#171717] px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                                             >
                                                 {" "}
                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img src="/trx.svg" alt="" className="w-4 h-4" />
-                                                TRX
+                                                <img src={cartTotal + fee < 6 ? '/trx.svg' : '/btc.svg'} alt="" className="w-4 h-4" />
+                                                {cartTotal + fee < 6 ? 'TRX' : 'BTC'}
                                             </button>
                                         </div>
                                     </div>
