@@ -20,7 +20,7 @@ const getResponse = async (price: string, payCurrency: string) => {
 		// pay_address:"TSyfA18d3sRctDb1vCj1fbpdp6r1B9CY6P",
 		ipn_callback_url: "https://nowpayments.io",
 		order_id: "RGDBP-213142",
-		order_description: "Crypto Payment for testing",
+		order_description: `Skailar Crypto Payment`,
 	});
 	const resp = await fetch("https://api.nowpayments.io/v1/payment", {
 		method: "POST",
