@@ -1,12 +1,12 @@
-import { getPayloadClient } from "@/get-payload";
-import { NextResponse } from "next/server";
-import express from "express";
-import { Resend } from "resend";
-import { Product } from "@/payload-types";
 import { ReceiptEmailHtml } from "@/components/emails/receipt-email";
+import { getPayloadClient } from "@/get-payload";
+import { getServerSideUser } from "@/lib/payload-utils";
+import { Product, User } from "@/payload-types";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-console.log(process.env.RESEND_API_KEY);
 
 const fetchLicenseKey = async (
 	level: string,
@@ -49,13 +49,14 @@ const checkPayment = async (id: string) => {
 	} else {
 		return {
 			success: false,
-			message: `Payment status is ${d.payment_status}`,
+			message: `Sorry payment status is ${d.payment_status}`,
 		};
 	}
 };
-
 export async function POST(req: Request) {
 	try {
+		const nextCookies = cookies();
+		const { user } = await getServerSideUser(nextCookies);
 		const body = await req.json();
 		const { productIds, id } = body;
 		const paymentStatus = await checkPayment(id);
@@ -90,33 +91,44 @@ export async function POST(req: Request) {
 			},
 		});
 		const filterProducts = products.filter((prod) => Boolean(prod.priceId));
-
-		const { docs: users } = await payload.find({
-			collection: "users",
-			where: {
-				id: {
-					equals: body.userId,
-				},
-			},
-		});
-
-		const [user] = users;
-		console.log(user);
-		if (!user) {
-			return NextResponse.json(
-				{ message: "No such user exists.", success: false },
-				{ status: 404 }
-			);
-		}
-
 		const newOrder = await payload.create({
 			collection: "orders",
 			data: {
 				_isPaid: true,
 				products: filterProducts.map((prod) => prod.id),
-				user: user.id,
+				user: user?.id as string,
 			},
 		});
+
+		const isUser = (obj: any): obj is User => {
+			return obj && typeof obj === "object" && "id" in obj;
+		};
+
+		let orderUserId: string | undefined;
+
+		if (isUser(newOrder?.user)) {
+			orderUserId = newOrder.user.id;
+		} else if (typeof newOrder?.user === "string") {
+			orderUserId = newOrder.user;
+		}
+
+		const { docs: users } = await payload.find({
+			collection: "users",
+			where: {
+				id: {
+					equals: orderUserId,
+				},
+			},
+		});
+
+		const [orderUser] = users;
+		console.log(orderUser);
+		if (!orderUser) {
+			return NextResponse.json(
+				{ message: "No such user exists.", success: false },
+				{ status: 404 }
+			);
+		}
 
 		const { docs: orders } = await payload.find({
 			collection: "orders",
@@ -163,11 +175,11 @@ export async function POST(req: Request) {
 
 			const data = await resend.emails.send({
 				from: "Skailar <no-reply@skailar.com>",
-				to: [user.email],
+				to: [user?.email as string],
 				subject: "Thank you for your order! This is your receipt.",
 				html: ReceiptEmailHtml({
 					date: new Date(),
-					email: user?.email,
+					email: user?.email as string,
 					orderId: newOrder.id,
 					products: order.products as Product[],
 				}),

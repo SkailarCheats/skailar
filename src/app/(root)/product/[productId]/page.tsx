@@ -22,6 +22,7 @@ interface PageProps {
         productId: string;
     };
 }
+
 const Page = async ({ params }: PageProps) => {
     // Destructuring productId from params
     const { productId } = params;

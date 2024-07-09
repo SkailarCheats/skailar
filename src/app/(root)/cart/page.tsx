@@ -40,12 +40,6 @@ const Page = () => {
     // Initializing router
     const router = useRouter();
 
-    // Mutation hook for creating checkout session
-    // const { mutate: createCheckoutSession, isLoading } = trpc.payment.createSession.useMutation({
-    //     onSuccess: ({ url }) => {
-    //         if (url) router.push(url); // Redirecting to checkout page after successful session creation
-    //     },
-    // });
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +49,9 @@ const Page = () => {
 
     const createCheckoutSession = async () => {
         if (payCurrency === "") return toast.error("Please select currency");
+
         setIsLoading(true);
+
         try {
             const price = isMounted ? formatPrice(cartTotal + fee) : formatPrice(0);
             const json = JSON.stringify({ payCurrency, price });
@@ -129,10 +125,11 @@ const Page = () => {
         });
         const data = await res.json();
         if (data.success) {
+            setOpen(false);
             toast.success(data.message);
             localStorage.removeItem("payout-skailar.com");
             localStorage.removeItem("expiry-payout-skailar.com");
-            ClearCartEffect(data.newOrder._isPaid);
+            localStorage.removeItem('cart-storage')
             router.push(`/thank-you?orderId=${data.newOrder.id}`);
         } else {
             if (data.message === 'Payment status is waiting') toast.warning(data.message)
@@ -157,6 +154,7 @@ const Page = () => {
             }
         }
     }, [payData]);
+
     // Rendering the UI
     return (
         <div className="bg-white dark:bg-black">
