@@ -2,6 +2,7 @@ import { getServerSideUser } from "@/lib/payload-utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { GenerateForm } from "../_components/generate-form";
+import ProductsList from "../_components/reseller-products-list";
 
 export default async function Home() {
 	const nextCookies = cookies();
@@ -13,7 +14,7 @@ export default async function Home() {
 
 	return (
 		<>
-			<GenerateForm user={user} />
+			<ProductsList user={user} />
 		</>
 	)
 }

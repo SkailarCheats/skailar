@@ -118,67 +118,67 @@ export const GenerateForm = ({ user }: { user: User }) => {
 		setAmount(parseInt(e.target.value, 10));
 	};
 
+	const products = [
+		{
+			id: 1,
+			name: "Ergonomic Desk Chair",
+			description: "Comfortable and supportive office chair",
+			price: 199.99,
+		},
+		{
+			id: 2,
+			name: "Wireless Bluetooth Headphones",
+			description: "High-quality audio with long battery life",
+			price: 99.99,
+		},
+		{
+			id: 3,
+			name: "Programmable Coffee Maker",
+			description: "Brew your perfect cup of coffee every morning",
+			price: 79.99,
+		},
+		{
+			id: 4,
+			name: "Portable Bluetooth Speaker",
+			description: "Powerful sound in a compact design",
+			price: 49.99,
+		},
+		{
+			id: 5,
+			name: "Adjustable Standing Desk",
+			description: "Improve your posture and productivity",
+			price: 399.99,
+		},
+	]
+
 	return (
-		<section className="w-full py-12 md:py-16 lg:py-20">
-			<div className="container px-4 md:px-6">
-				<div className="mx-auto max-w-2xl space-y-4 text-center">
-					<h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Generate License Keys</h2>
-					<p className="text-gray-500 dark:text-gray-400 md:text-xl">
-						Create custom license keys for your products or services.
-					</p>
-				</div>
-				<div className="mx-auto mt-8 max-w-md space-y-4">
-					<form className="grid gap-4" onSubmit={handleSubmit}>
-						<div className="grid gap-2">
-							<Label htmlFor="amount">Amount</Label>
-							<Input
-								id="amount"
-								type="number"
-								min="1"
-								max="100"
-								placeholder="Enter amount"
-								value={amount}
-								onChange={handleAmountChange}
-								className="w-full"
-							/>
-						</div>
-						<div className="grid gap-2">
-							<Label htmlFor="expiry">Expiry</Label>
-							<Select value={expiry} onValueChange={(value) => setExpiry(value)}>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="Select expiry" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="1">1 day</SelectItem>
-									<SelectItem value="7">7 days</SelectItem>
-									<SelectItem value="30">30 days</SelectItem>
-								</SelectContent>
-							</Select>
-						</div>
-						<div className="grid gap-2">
-							<Label htmlFor="game">Game</Label>
-							<Select value={level} onValueChange={(value) => setLevel(value)}>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="Select expiry" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="0">Select An Option</SelectItem>
-									<SelectItem value="1">Rainbow Lite</SelectItem>
-									<SelectItem value="2">Rust</SelectItem>
-									<SelectItem value="3">Fortnite</SelectItem>
-									<SelectItem value="4">Apex Legends</SelectItem>
-									<SelectItem value="5">Valorant</SelectItem>
-									<SelectItem value="6">Counter-Strike 2</SelectItem>
-									<SelectItem value="7">Rainbow Full</SelectItem>
-								</SelectContent>
-							</Select>
-						</div>
-						<Button type="submit" className="w-full">
-							Generate
-						</Button>
-					</form>
-				</div>
+		<main className="flex-1 p-6">
+			<div className="border rounded-lg shadow-sm overflow-hidden">
+				<table className="w-full">
+					<thead className="bg-muted text-muted-foreground">
+						<tr>
+							<th className="py-3 px-4 text-left">Product</th>
+							<th className="py-3 px-4 text-left">Description</th>
+							<th className="py-3 px-4 text-right">Price</th>
+							<th className="py-3 px-4 text-right">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{products.map((product) => (
+							<tr key={product.id} className="border-b last:border-b-0 hover:bg-muted/20 transition-colors">
+								<td className="py-4 px-4 font-medium">{product.name}</td>
+								<td className="py-4 px-4 text-muted-foreground">{product.description}</td>
+								<td className="py-4 px-4 text-right font-medium">${product.price.toFixed(2)}</td>
+								<td className="py-4 px-4 text-right">
+									<Button size="sm" variant="outline">
+										Buy
+									</Button>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
-		</section>
+		</main>
 	);
 };

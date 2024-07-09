@@ -17,6 +17,7 @@ export interface Config {
     user_details: UserDetail;
     resellers: Reseller;
     newsletters: Newsletter;
+    reseller_products: ResellerProduct;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -218,6 +219,22 @@ export interface Newsletter {
   email: string;
   username?: string | null;
   deleted?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reseller_products".
+ */
+export interface ResellerProduct {
+  id: string;
+  user?: (string | null) | User;
+  name: string;
+  price: number;
+  category: 'rainbow_six' | 'cs2' | 'eft' | 'apex' | 'rust' | 'fortnite' | 'valorant';
+  level?: string | null;
+  expiry?: string | null;
+  approvedForSale?: ('pending' | 'approved' | 'denied') | null;
   updatedAt: string;
   createdAt: string;
 }
