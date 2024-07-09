@@ -105,9 +105,9 @@ const Page = () => {
         setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
     };
 
-    const copyToClipboardAmout = () => {
-        const amout = document.querySelector("#amout")?.innerHTML;
-        navigator.clipboard.writeText(amout as string);
+    const copyToClipboardAmount = () => {
+        const amount = document.querySelector("#amount")?.innerHTML;
+        navigator.clipboard.writeText(amount as string);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000) // Reset copied state after 2 seconds
     }
@@ -403,10 +403,10 @@ const Page = () => {
                                         <p className="mt-2 text-md flex gap-1 items-center">
                                             amount to pay in {payData.network.toUpperCase()}
                                             <div className="flex bg-black/10 items-center dark:bg-[#202020] text-gray-800 dark:text-white rounded-lg">
-                                                <span id="amout" className="font-mono p-2">{payData.pay_amount}</span>
+                                                <span id="amount" className="font-mono p-2">{payData.pay_amount}</span>
                                                 <button
                                                     id="copy-btn"
-                                                    onClick={copyToClipboardAmout}
+                                                    onClick={copyToClipboardAmount}
                                                     className="bg-black/30 hover:bg-black/20 dark:hover:bg-black/70 dark:bg-black/60 text-white font-bold py-2 px-2 rounded flex items-center"
                                                 >
                                                     <span id="copy-text" className="">
