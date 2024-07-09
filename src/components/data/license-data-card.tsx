@@ -13,7 +13,7 @@ export const LicensesDataCard = () => {
 		const fetchLicenses = async () => {
 			try {
 				setIsLoading(true)
-				const response = await fetch('/api/all-licenses')
+				const response = await fetch('https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=fetchallkeys&format=json')
 				if (!response.ok) {
 					throw new Error('Failed to fetch licenses')
 				}
