@@ -60,7 +60,7 @@ export const LicensesList = ({ user, active }: { user: User, active?: boolean })
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const res = await fetch('/api/all-licenses');
+				const res = await fetch('https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=fetchallkeys&format=json');
 				const data: ApiResponse = await res.json();
 
 				if (data.success) {

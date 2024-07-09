@@ -142,17 +142,6 @@ const start = async () => {
         }
     });
 
-    app.get("/api/all-licenses", async (req, res) => {
-        try {
-            const response = await axios.get(
-                `https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=fetchallkeys&format=json`
-            );
-            res.json(response.data);
-        } catch (error) {
-            res.status(500).json({ error: "Failed to get license keys" });
-        }
-    });
-
     app.get("/api/info-license", async (req, res) => {
         const { key } = req.query;
 
