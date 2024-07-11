@@ -1,6 +1,9 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
-import AllReviews from "@/components/all-reviews";
+import ReviewsPageClient from "@/components/reviews-page-client";
 import { getPayloadClient } from "@/get-payload";
+import { getServerSideUser } from "@/lib/payload-utils";
+import { cookies } from "next/headers";
+import { Suspense } from "react";
 
 const ReviewsPage = async () => {
     const payload = await getPayloadClient();
@@ -12,24 +15,48 @@ const ReviewsPage = async () => {
                 equals: true
             }
         }
-    })
+    });
+
+    const nextCookies = cookies();
+    const { user } = await getServerSideUser(nextCookies);
+
+    const { docs: orders } = await payload.find({
+        collection: 'orders',
+        where: {
+            and: [
+                {
+                    user: {
+                        equals: user?.id,
+                    },
+                },
+                {
+                    _isPaid: {
+                        equals: true,
+                    },
+                },
+            ],
+        },
+    });
+
+    const mappedReviews = reviews.map(review => ({
+        id: review.id,
+        user: review.user ? (typeof review.user === 'string' ? review.user : review.user) : null,
+        rating: review.rating,
+        createdAt: review.createdAt,
+        description: review.description,
+        featured: review.featured
+    }));
+
+    const [order] = orders;
+    const products = order ? order.products : [];
 
     return (
         <MaxWidthWrapper>
-            <section className="bg-background text-foreground">
-                <div className="container mx-auto py-12 px-4 md:px-6 lg:px-8">
-                    <div className="mb-8">
-                        <h2 className="text-3xl font-bold md:text-4xl">Reviews</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {reviews.map(review => (
-                            <AllReviews user={review.user ?? null} key={review.id} rating={review.rating} date={review.createdAt} description={review.description} />
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <Suspense>
+                <ReviewsPageClient initialReviews={mappedReviews} initialOrders={orders} initialUser={user || null} products={products} />
+            </Suspense>
         </MaxWidthWrapper>
-    )
-}
+    );
+};
 
 export default ReviewsPage;

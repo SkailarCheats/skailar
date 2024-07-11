@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { getPayloadClient } from "@/get-payload";
-import { Order, User } from "@/payload-types";
+import { Product } from "@/payload-types";
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { Star } from "lucide-react";
 import { Badge } from "./ui/badge";
@@ -9,31 +8,10 @@ interface AllReviewsProps {
 	rating: number;
 	date: string;
 	description: string;
-	user: string | User | null;
+	products: (string | Product)[]
 }
 
-export default async function AllReviews({ date, description, rating, user }: AllReviewsProps) {
-	const userId = user && typeof user === 'object' ? user.id : '';
-
-	const payload = await getPayloadClient();
-	const { docs: orders } = await payload.find({
-		collection: 'orders',
-		where: {
-			and: [
-				{
-					user: {
-						equals: userId,
-					},
-				},
-				{
-					_isPaid: {
-						equals: true,
-					},
-				},
-			],
-		},
-	});
-
+export default async function AllReviews({ date, description, rating, products }: AllReviewsProps) {
 	const MAX_RATING = 5
 
 	return (
@@ -54,6 +32,16 @@ export default async function AllReviews({ date, description, rating, user }: Al
 			<p className="mt-4 text-gray-700 dark:text-gray-300">
 				{description}
 			</p>
+
+			<div className="mt-2">
+				{products.map((product, index) => (
+					<span key={index} className="text-sm text-gray-500 dark:text-gray-400">
+						{typeof product === 'string' ? product : product.name}
+						{index !== products.length - 1 && ', '}
+					</span>
+				))}
+			</div>
+
 			<div className="flex justify-end mt-4">
 				<div className="flex items-center gap-1.5 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-full">
 					<Badge variant="outline" className="gap-1.5 text-green-500">
