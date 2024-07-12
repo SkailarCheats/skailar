@@ -27,9 +27,9 @@ export const ResellerNav = () => {
 					<span className="">Skailar</span>
 				</Link>
 
-				<div className="ml-auto">
+				{/* <div className="ml-auto">
 					<ModeToggle />
-				</div>
+				</div> */}
 			</div>
 
 			<div className="flex-1">

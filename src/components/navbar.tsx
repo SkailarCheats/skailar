@@ -46,8 +46,8 @@ export const Navbar = async () => {
                                         </div>
                                     )}
 
-                                    <span className="h-6 w-px bg-gray-200 dark:bg-gray-800" aria-hidden='true' />
-                                    <ModeToggle />
+                                    {/* <span className="h-6 w-px bg-gray-200 dark:bg-gray-800" aria-hidden='true' />
+                                    <ModeToggle /> */}
                                 </div>
                             </div>
                         </div>
