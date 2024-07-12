@@ -8,7 +8,7 @@ export const DataLength = async () => {
 		const payload = await getPayloadClient();
 
 		const [users, orders, resellers, products] = await Promise.all([
-			payload.find({ collection: 'users', limit: 0 }),
+			payload.find({ collection: 'users', where: { role: { equals: 'customer' } }, limit: 0 }),
 			payload.find({ collection: 'orders', limit: 0 }),
 			payload.find({ collection: 'users', where: { role: { equals: 'reseller' }, _verified: { equals: true } }, limit: 0 }),
 			payload.find({ collection: 'products', limit: 0, where: { approvedForSale: { equals: 'approved' } } })

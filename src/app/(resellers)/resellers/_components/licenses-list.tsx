@@ -174,9 +174,6 @@ export const LicensesList = ({ user, active }: { user: User, active?: boolean })
 								case '7':
 									game = 'Rainbow Full';
 									break;
-								case '10':
-									game = 'FULL ACCESS';
-									break;
 							}
 
 							switch (key.status) {

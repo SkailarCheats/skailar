@@ -58,7 +58,6 @@ const levelLabels = {
 	5: "Valorant",
 	6: "Counter-Strike 2",
 	7: "Rainbow Full",
-	10: "FULL ACCESS",
 };
 
 const statusLabels = {
@@ -166,7 +165,6 @@ export const LicensesList = () => {
 							<SelectItem value="5">Valorant</SelectItem>
 							<SelectItem value="6">Counter-Strike 2</SelectItem>
 							<SelectItem value="7">Rainbow Full</SelectItem>
-							<SelectItem value="10">FULL ACCESS</SelectItem>
 						</SelectContent>
 					</Select>
 					<Input
@@ -216,9 +214,6 @@ export const LicensesList = () => {
 									break;
 								case '7':
 									game = 'Rainbow Full';
-									break;
-								case '10':
-									game = 'FULL ACCESS'
 									break;
 							}
 
