@@ -184,10 +184,6 @@ const start = async () => {
 
                 const user = licenseKey.user as User;
 
-                if (!user) {
-                    console.log("No User");
-                }
-
                 const response = {
                     licenseKey: licenseKey,
                     user: user,

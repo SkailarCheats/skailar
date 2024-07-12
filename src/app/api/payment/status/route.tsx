@@ -122,7 +122,6 @@ export async function POST(req: Request) {
 		});
 
 		const [orderUser] = users;
-		console.log(orderUser);
 		if (!orderUser) {
 			return NextResponse.json(
 				{ message: "No such user exists.", success: false },
@@ -141,7 +140,6 @@ export async function POST(req: Request) {
 		});
 
 		const [order] = orders;
-		console.log(order + "order");
 		if (!order) {
 			return NextResponse.json(
 				{ message: "No such order exists.", success: false },

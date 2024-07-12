@@ -31,11 +31,6 @@ export default function UnsubscribePage({ searchParams }: PageProps) {
 					},
 					body: JSON.stringify({ email }),
 				});
-				if (response.ok) {
-					console.log("Unsubscribed successfully");
-				} else {
-					console.error("Failed to unsubscribe");
-				}
 			} catch (error) {
 				console.error("Error while unsubscribing", error);
 			}

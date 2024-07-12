@@ -38,7 +38,6 @@ export async function POST(req: any) {
 	try {
 		const body = await req.json();
 		const data = await getResponse(body.price, body.payCurrency);
-		console.log(data);
 		if (data) {
 			return NextResponse.json(
 				{
@@ -59,7 +58,6 @@ export async function POST(req: any) {
 			);
 		}
 	} catch (error: any) {
-		console.log(error + "error");
 		return NextResponse.json(
 			{ success: false, message: error.message },
 			{

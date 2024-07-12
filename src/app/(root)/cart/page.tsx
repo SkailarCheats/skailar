@@ -59,9 +59,7 @@ const Page = () => {
                 method: "POST",
                 body: json,
             });
-            console.log(res);
             const data = await res.json();
-            console.log(data);
             if (data.success) {
                 toast.success(data.message);
                 setPayData(data.payout);
@@ -114,7 +112,6 @@ const Page = () => {
 
     const handleOrder = async ({ productIds }: any) => {
         setLoading(true);
-        console.log(productIds);
         const storedData = JSON.parse(localStorage.getItem("payout-skailar.com")!);
         const time = parseInt(localStorage.getItem("expiry-payout-skailar.com")!);
         if (time - Date.now() <= 0)
