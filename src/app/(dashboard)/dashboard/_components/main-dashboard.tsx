@@ -1,12 +1,13 @@
 import {
 	ArrowUpRight,
 	CreditCard,
-	Euro
+	Euro,
+	ShoppingCart
 } from "lucide-react"
 import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
 	Card,
 	CardContent,
@@ -32,6 +33,7 @@ import { redirect } from "next/navigation"
 import { ActiveKeys } from "./active-keys"
 import { AllLicenses } from "./all-licenses"
 import { LineCharts } from "./line-chart"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export async function MainDashboard() {
 	const nextCookies = cookies();
@@ -220,24 +222,27 @@ export async function MainDashboard() {
 									</TableRow>
 								</TableHeader>
 								<TableBody>
-									{customers?.map((customer, index) => (
-										<TableRow key={index}>
-											<TableCell>
-												<div className="hidden text-sm text-muted-foreground md:inline">
-													{customer.username}
-												</div>
-											</TableCell>
-											<TableCell>
-												{customer.id}
-											</TableCell>
-											<TableCell>
-												<Badge className={cn("text-xs", customer._verified ? 'text-green-500' : 'text-red-500')} variant="outline">
-													{customer._verified ? 'Verified' : 'Not Verified'}
-												</Badge>
-											</TableCell>
-											<TableCell className="text-right">{formatDistanceToNow(parseISO(customer.createdAt), { addSuffix: true })}</TableCell>
-										</TableRow>
-									))}
+									{customers
+										.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+										.slice(0, 6)
+										.map((customer, index) => (
+											<TableRow key={index}>
+												<TableCell>
+													<div className="hidden text-sm text-muted-foreground md:inline">
+														{customer.username}
+													</div>
+												</TableCell>
+												<TableCell>
+													{customer.id}
+												</TableCell>
+												<TableCell>
+													<Badge className={cn("text-xs", customer._verified ? 'text-green-500' : 'text-red-500')} variant="outline">
+														{customer._verified ? 'Verified' : 'Not Verified'}
+													</Badge>
+												</TableCell>
+												<TableCell className="text-right">{formatDistanceToNow(parseISO(customer.createdAt), { addSuffix: true })}</TableCell>
+											</TableRow>
+										))}
 								</TableBody>
 							</Table>
 						) : (
@@ -251,25 +256,46 @@ export async function MainDashboard() {
 					</CardHeader>
 					{orders.length > 0 ? (
 						<CardContent className="grid gap-8">
-							{orders.map((order, index) => (
-								<div className="flex items-center gap-4" key={index}>
-									<div className="grid gap-1">
-										<div className="text-sm flex">
-											{(order.user as User).username ? (
-												<>
-													<p className="text-white">
-														{(order.user as User).username}
-													</p>
-													<p className="text-muted-foreground">
-														&nbsp;-&nbsp;{(order.products as Product[]).map(product => product.name)}
-													</p>
-												</>
-											) : '[N/A]'}
+							{orders.slice(-5).map((order, index) => (
+								<div className="flex items-center justify-between gap-4 w-full" key={index}>
+									<div className="flex items-center gap-4">
+										<Avatar className="hidden h-9 w-9 sm:flex">
+											<AvatarImage src="https://cdn.skailar.com/v1/assets/img/placeholder.png?width=453&height=453" />
+											<AvatarFallback className="bg-purple-500">
+												{(order.user as User).username
+													? (order.user as User).username[0].toUpperCase()
+													: ''}
+											</AvatarFallback>
+										</Avatar>
+										<div className="grid gap-1">
+											<div className="text-sm">
+												{(order.user as User).username ? (
+													<>
+														<p className="text-sm font-medium leading-none">{(order.user as User).username}</p>
+														<p className="text-sm text-muted-foreground">{(order.user as User).email}</p>
+														<span className="flex gap-1">
+															<p className="text-sm text-muted-foreground">
+																Purchased:
+															</p>
+															{(order.products as Product[]).map(product => (
+																<Link
+																	key={product.id}
+																	className={buttonVariants({ variant: 'link', size: 'custom' })}
+																	target="_blank"
+																	href={`/product/${product.id}`}
+																>
+																	{product.name}
+																</Link>
+															))}
+														</span>
+													</>
+												) : '[N/A]'}
+											</div>
 										</div>
 									</div>
-									<div className="ml-auto font-medium">
+									<div className="text-right">
 										{order.products.map((product, index) => (
-											<p key={index}>
+											<p key={index} className="font-medium">
 												{(product as Product).price ? formatPrice((product as Product).price) : '[N/A]'}
 											</p>
 										))}
@@ -278,8 +304,12 @@ export async function MainDashboard() {
 							))}
 						</CardContent>
 					) : (
-						<CardContent>
-							<h1 className="text-center font-bold text-2xl mt-2">You have no recent Sales</h1>
+						<CardContent className="flex flex-col items-center justify-center h-[300px] text-center">
+							<ShoppingCart className="w-14 h-14 text-purple-400 mb-4" />
+							<h1 className="text-2xl font-bold mb-2">No Recent Sales</h1>
+							<p className="text-muted-foreground mb-4">
+								It looks like you haven&apos;t made any sales recently.
+							</p>
 						</CardContent>
 					)}
 				</Card>
