@@ -31,10 +31,11 @@ export default buildConfig({
         meta: {
             titleSuffix: "- Skailar",
             favicon: 'https://cdn.skailar.com/favicon.ico',
+            ogImage: 'https://cdn.skailar.com/v1/assets/img/thumbnail.png'
         },
     },
     rateLimit: {
-        max: 2000,
+        max: 1500,
     },
     editor: slateEditor({}),
     db: mongooseAdapter({ url: process.env.MONGODB_URL! }),

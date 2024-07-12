@@ -2,8 +2,7 @@ import { Footer } from '@/components/footer'
 import { Navbar } from '@/components/navbar'
 import Providers from '@/components/providers'
 import { ThemeProvider } from '@/components/theme-provider'
-import { cn } from '@/lib/utils'
-import type { Metadata } from 'next'
+import { cn, constructMetadata } from '@/lib/utils'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
 import '../globals.css'
@@ -11,13 +10,7 @@ import Image from 'next/image'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: 'Skailar',
-  description: '',
-  icons: {
-    icon: 'https://cdn.skailar.com/favicon.ico'
-  }
-}
+export const metadata = constructMetadata()
 
 export default function RootLayout({
   children,
