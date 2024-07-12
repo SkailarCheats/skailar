@@ -2,6 +2,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { User } from "@/payload-types"
 import UpdatePasswordForm from "./forms/update-pass-form"
 import UpdateUserForm from "./forms/update-user-form"
+import UpdateAvatarForm from "./forms/update-avatar-form"
 
 interface PersonalInfosProps {
 	user: User
@@ -10,6 +11,13 @@ interface PersonalInfosProps {
 export const PersonalInfos = ({ user }: PersonalInfosProps) => {
 	return (
 		<div className="grid gap-6">
+			<Card>
+				<CardHeader>
+					<CardTitle>Avatar</CardTitle>
+					<CardDescription>Update your Avatar</CardDescription>
+				</CardHeader>
+				<UpdateAvatarForm user={user} />
+			</Card>
 			<Card>
 				<CardHeader>
 					<CardTitle>Personal Information</CardTitle>

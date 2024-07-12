@@ -10,6 +10,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { PRODUCT_CATEGORY } from "@/config"
 import { cn, formatPrice } from "@/lib/utils"
 import { Order, Product, User } from '@/payload-types'
+import { useRouter } from 'next/navigation'
 
 const ORDERS_PER_PAGE = 10;
 
@@ -17,6 +18,8 @@ export const OrderList = ({ user, orders }: { user: User, orders: Order[] }) => 
 	const [timeRemaining, setTimeRemaining] = useState<string | null>(null)
 	const [isDisabled, setIsDisabled] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
+
+	const router = useRouter()
 
 	useEffect(() => {
 		const checkRemainingTime = async () => {
@@ -89,6 +92,8 @@ export const OrderList = ({ user, orders }: { user: User, orders: Order[] }) => 
 			} else {
 				toast.error(data.message || "Failed to reset HWID!")
 			}
+
+			router.refresh();
 		} catch (error) {
 			console.error("Network or Server Error:", error)
 			toast.error("An error occurred while resetting HWID!")
