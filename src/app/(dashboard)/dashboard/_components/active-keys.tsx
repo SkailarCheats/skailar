@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Activity } from 'lucide-react';
+import { getSellerBaseURL } from '@/lib/urls';
 
 interface LicenseKey {
 	id: number;
@@ -32,7 +33,7 @@ export const ActiveKeys = () => {
 	useEffect(() => {
 		const fetchLicenses = async () => {
 			try {
-				const response = await fetch(`https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=fetchallkeys&format=json`);
+				const response = await fetch(`${getSellerBaseURL}&type=fetchallkeys&format=json`);
 				const data: ApiResponse = await response.json();
 
 				if (data.success && data.keys) {

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Key } from 'lucide-react'
 import { DataCard } from './data-card'
+import { getSellerBaseURL } from '@/lib/urls'
 
 export const LicensesDataCard = () => {
 	const [licenseCount, setLicenseCount] = useState<number | null>(null)
@@ -13,7 +14,7 @@ export const LicensesDataCard = () => {
 		const fetchLicenses = async () => {
 			try {
 				setIsLoading(true)
-				const response = await fetch('https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=fetchallkeys&format=json')
+				const response = await fetch(`${getSellerBaseURL}&type=fetchallkeys&format=json`)
 				if (!response.ok) {
 					throw new Error('Failed to fetch licenses')
 				}

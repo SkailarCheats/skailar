@@ -29,6 +29,7 @@ import { saveAs } from "file-saver";
 import { formatDate, formatExpires } from "@/lib/utils";
 import { User } from "@/payload-types";
 import { useEffect, useState } from "react";
+import { getSellerBaseURL } from "@/lib/urls";
 
 export interface Keys {
 	id: string;
@@ -60,7 +61,7 @@ export const LicensesList = ({ user, active }: { user: User, active?: boolean })
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const res = await fetch('https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=fetchallkeys&format=json');
+				const res = await fetch(`${getSellerBaseURL}&type=fetchallkeys&format=json`);
 				const data: ApiResponse = await res.json();
 
 				if (data.success) {

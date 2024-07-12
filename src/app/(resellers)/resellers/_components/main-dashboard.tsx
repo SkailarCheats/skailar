@@ -13,10 +13,11 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { AllLicenses } from "./all-licenses"
 import { LicensesList } from "./licenses-list"
+import { getSellerBaseURL } from "@/lib/urls"
 
 export async function MainDashboard() {
 	async function getBalance(username: string) {
-		const url = `https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=getbalance&username=${username}&appname=Skailar`;
+		const url = `${getSellerBaseURL}&type=getbalance&username=${username}&appname=Skailar`;
 
 		try {
 			const response = await fetch(url);

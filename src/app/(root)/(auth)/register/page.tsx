@@ -32,6 +32,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
+import { getSellerBaseURL } from "@/lib/urls";
 
 const Page = () => {
     const router = useRouter();
@@ -102,12 +103,12 @@ const Page = () => {
             };
 
             if (isReseller) {
-                await axios.get(`https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${value}&email=${email}`);
+                await axios.get(`${getSellerBaseURL}&type=addAccount&role=Reseller&user=${username}&pass=${password}&keylevels=${value}&email=${email}`);
                 router.refresh();
                 router.push('/login?as=reseller');
                 mutate(userData);
             } else {
-                await axios.get(`https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=adduser&user=${username}&sub=default&expiry=700&pass=${password}`);
+                await axios.get(`${getSellerBaseURL}&type=adduser&user=${username}&sub=default&expiry=700&pass=${password}`);
                 mutate(userData);
             }
         } catch (error) {

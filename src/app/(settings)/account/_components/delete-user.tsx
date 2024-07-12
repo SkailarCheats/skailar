@@ -9,6 +9,7 @@ import { User } from "@/payload-types";
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { getPayloadClient } from '@/get-payload';
+import { getSellerBaseURL } from '@/lib/urls';
 
 export const DeleteUser = ({ user }: { user: User }) => {
 	const [confirmInput, setConfirmInput] = useState('');
@@ -28,9 +29,9 @@ export const DeleteUser = ({ user }: { user: User }) => {
 		let apiUrl;
 
 		if (user.role === 'reseller') {
-			apiUrl = `https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=deleteAccount&user=${user.username}`;
+			apiUrl = `${getSellerBaseURL}&type=deleteAccount&user=${user.username}`;
 		} else {
-			apiUrl = `https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=deluser&user=${user.username}`;
+			apiUrl = `${getSellerBaseURL}&type=deluser&user=${user.username}`;
 		}
 
 		try {

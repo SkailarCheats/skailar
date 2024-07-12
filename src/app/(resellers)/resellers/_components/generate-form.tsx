@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { getSellerBaseURL } from "@/lib/urls";
 import { User } from "@/payload-types";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
@@ -25,7 +26,7 @@ export const GenerateForm = ({ user }: { user: User }) => {
 	const router = useRouter();
 
 	const fetchBalance = async () => {
-		const url = `https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=getbalance&username=${user.username}&appname=Skailar`;
+		const url = `${getSellerBaseURL}&type=getbalance&username=${user.username}&appname=Skailar`;
 
 		try {
 			const response = await fetch(url);
@@ -46,7 +47,7 @@ export const GenerateForm = ({ user }: { user: User }) => {
 	}, [fetchBalance]);
 
 	const updateBalance = async (usedBalance: { day: number, week: number, month: number }) => {
-		const url = `https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=setbalance&username=${user.username}&day=${usedBalance.day}&week=${usedBalance.week}&month=${usedBalance.month}&threemonth=0&sixmonth=0&lifetime=0`;
+		const url = `${getSellerBaseURL}&type=setbalance&username=${user.username}&day=${usedBalance.day}&week=${usedBalance.week}&month=${usedBalance.month}&threemonth=0&sixmonth=0&lifetime=0`;
 
 		try {
 			const response = await fetch(url);
@@ -89,7 +90,7 @@ export const GenerateForm = ({ user }: { user: User }) => {
 			return;
 		}
 
-		const url = `https://api.skailar.com/api/seller/?sellerkey=d9f4c224a6835b0fb6ee68a46ee2d37a&type=add&format=json&expiry=${expiry}&mask=***************&level=${level}&amount=${amount}&owner=${user.username}&character=2&note=Generated%20By%20${user.username}`;
+		const url = `${getSellerBaseURL}&type=add&format=json&expiry=${expiry}&mask=***************&level=${level}&amount=${amount}&owner=${user.username}&character=2&note=Generated%20By%20${user.username}`;
 
 		try {
 			const response = await fetch(url);

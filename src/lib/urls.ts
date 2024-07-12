@@ -1,0 +1,1 @@
+export const getSellerBaseURL = `https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}`
