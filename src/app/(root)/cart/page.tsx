@@ -178,7 +178,6 @@ const Page = () => {
                                     className="relative mb-4 h-40 w-40 text-muted-foreground"
                                     aria-hidden="true"
                                 >
-                                    {/* TODO: Change Cart Empty Image */}
                                     <Image
                                         src="https://cdn.skailar.com/v1/assets/img/cart.png"
                                         fill
@@ -313,7 +312,7 @@ const Page = () => {
                             <Button
                                 className="w-full"
                                 size="lg"
-                                disabled={items.length === 0}
+                                disabled={items.length === 0 || true}
                                 onClick={() => setOpen(true)}
                             >
                                 Checkout

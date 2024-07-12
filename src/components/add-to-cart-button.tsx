@@ -25,7 +25,7 @@ export const AddToCartButton = ({ product, isDisabled }: { product: Product, isD
             }}
             size='lg'
             className="w-full"
-            disabled={isSuccess || isDisabled}
+            disabled={isSuccess || isDisabled || true} // TODO: Remove TRUE
         >
             {isSuccess && "Added!"}
             {!isSuccess && "Add to Cart"}

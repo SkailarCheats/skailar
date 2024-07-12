@@ -26,6 +26,8 @@ export const Cart = () => {
 
     const fee = 0;
 
+    const disabled = true // TODO: Remove this
+
     return (
         <Sheet>
             <SheetTrigger className="group -m-2 flex items-center p-2">
@@ -66,7 +68,7 @@ export const Cart = () => {
 
                             <SheetFooter>
                                 <SheetTrigger asChild>
-                                    <Link href='/cart' className={buttonVariants({ className: 'w-full' })}>Continue to Checkout</Link>
+                                    <Link href={`${disabled ? '' : '/cart'}`} className={buttonVariants({ className: 'w-full' })}>Continue to Checkout</Link>
                                 </SheetTrigger>
                             </SheetFooter>
                         </div>
@@ -74,7 +76,6 @@ export const Cart = () => {
                 ) : (
                     <div className="flex h-full flex-col items-center justify-center space-y-1">
                         <div aria-hidden='true' className="relative mb-4 h-60 w-60 text-muted-foreground">
-                            {/* TODO: Change Cart Empty Image */}
                             <Image src='https://cdn.skailar.com/v1/assets/img/cart.png' fill alt="Empty Shopping Cart" />
                         </div>
                         <div className="text-xl font-semibold">Your cart is Empty</div>
