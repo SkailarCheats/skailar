@@ -83,7 +83,7 @@ const start = async () => {
 
         try {
             const response = await axios.get(
-                `https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=verify&key=${license}`
+                `https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=verify&key=${license}`
             );
             res.json(response.data);
         } catch (error) {
@@ -100,7 +100,7 @@ const start = async () => {
 
         try {
             const response = await axios.get(
-                `https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=unban&key=${key}`
+                `https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=unban&key=${key}`
             );
             res.json(response.data);
         } catch (error) {
@@ -117,7 +117,7 @@ const start = async () => {
 
         try {
             const response = await axios.get(
-                `https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=ban&key=${key}&reason=Automated%20Ban&userToo=false`
+                `https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=ban&key=${key}&reason=Automated%20Ban&userToo=false`
             );
             res.json(response.data);
         } catch (error) {
@@ -134,7 +134,7 @@ const start = async () => {
 
         try {
             const response = await axios.get(
-                `https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=del&key=${key}&userToo=false`
+                `https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=del&key=${key}&userToo=false`
             );
             res.json(response.data);
         } catch (error) {
@@ -149,7 +149,7 @@ const start = async () => {
 
         try {
             const response = await axios.get(
-                `https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=info&key=${key}`
+                `https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=info&key=${key}`
             );
             res.json(response.data);
         } catch (error) {
@@ -162,7 +162,7 @@ const start = async () => {
 
         try {
             const response = await axios.get(
-                `https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=addAccount&role=Reseller&user=${user}&pass=${pass}=&keylevels=${level}&email=${email}`
+                `https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=addAccount&role=Reseller&user=${user}&pass=${pass}=&keylevels=${level}&email=${email}`
             );
             res.json(response.data);
         } catch (error) {
@@ -284,7 +284,7 @@ const start = async () => {
             });
 
             const apiResponse = await fetch(
-                `https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=resetuser&user=${username}`
+                `https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=resetuser&user=${username}`
             );
             const apiData = await apiResponse.json();
 

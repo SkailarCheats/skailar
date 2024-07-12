@@ -13,7 +13,7 @@ const fetchLicenseKey = async (
 	expiry: string
 ): Promise<string> => {
 	const response = await fetch(
-		`https://api.skailar.com/api/seller/?sellerkey=${process.env.SKAILAR_SELLER_KEY}&type=add&format=json&expiry=${expiry}&mask=***************&level=${level}&amount=1&owner=Skailar&character=2&note=Generated%20From%20Skailar`
+		`https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=add&format=json&expiry=${expiry}&mask=***************&level=${level}&amount=1&owner=Skailar&character=2&note=Generated%20From%20Skailar`
 	);
 	const licenseKey = await response.text();
 	return licenseKey;
