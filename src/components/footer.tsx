@@ -106,7 +106,7 @@ export const Footer = () => {
                                                 href={item.href}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="text-sm leading-6 text-gray-700 hover:text-gray-900 dark:text-gray-600 hover:dark:text-gray-200"
+                                                className="text-sm leading-6 text-muted-foreground"
                                             >
                                                 {item.name}
                                             </a>
@@ -126,7 +126,7 @@ export const Footer = () => {
                                                     href={item.href}
                                                     target="_blank"
                                                     rel="noreferrer"
-                                                    className="text-sm leading-6 text-gray-700 hover:text-gray-900 dark:text-gray-600 hover:dark:text-gray-200"
+                                                    className="text-sm leading-6 text-muted-foreground"
                                                 >
                                                     {item.name}
                                                 </a>
@@ -147,7 +147,7 @@ export const Footer = () => {
                                                     href={item.href}
                                                     target="_blank"
                                                     rel="noreferrer"
-                                                    className="text-sm leading-6 text-gray-700 hover:text-gray-900 dark:text-gray-600 hover:dark:text-gray-200"
+                                                    className="text-sm leading-6 text-muted-foreground"
                                                 >
                                                     {item.name}
                                                 </a>
