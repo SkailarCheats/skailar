@@ -5,6 +5,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MaxWidthWrapper } from "./MaxWidthWrapper";
 
+const navigation = {
+    connect: [
+        {
+            name: 'Discord',
+            href: 'https://discord.skailar.com/cheats',
+        },
+        {
+            name: 'YouTube',
+            href: 'https://www.youtube.com/@steveyx17baby',
+        },
+        {
+            name: 'Telegram',
+            href: 'https://t.me/skailarcheats',
+        },
+    ],
+    company: [
+        { name: 'Status Page', href: 'https://status.skailar.com/' },
+        { name: 'Blogs', href: 'https://blog.skailar.com/' },
+        { name: 'Mail', href: 'https://mail.skailar.com/' },
+    ],
+    support: [
+        { name: 'Help Center', href: 'https://help.skailar.com/' },
+    ]
+}
+
 export const Footer = () => {
     const pathname = usePathname()
     const pathsToMinimize = [
@@ -17,52 +42,95 @@ export const Footer = () => {
     const year = new Date().getFullYear().toString()
 
     return (
-        <footer className="bg-white dark:bg-black flex-grow-0">
+        <footer
+            className="bg-white dark:bg-black flex-grow-0"
+        >
             <MaxWidthWrapper>
-                <div className="border-t border-gray-200 dark:border-gray-800">
-                    {pathsToMinimize.includes(pathname) ? null : (
-                        <div className="pb-8 pt-16">
-                            <div className="flex justify-center">
-                                <Image src='https://cdn.skailar.com/v1/assets/img/logo.png' height='48' width='48' className="h-12 w-auto" alt="Skailar" />
+                <div className="m-10 mx-auto max-w-7xl px-2">
+                    <div className="flex flex-col justify-between lg:flex-row">
+                        <div className="space-y-8">
+                            <Image
+                                priority={true}
+                                unoptimized={true}
+                                width={100}
+                                height={40}
+                                src="https://cdn.skailar.com/v1/assets/img/logo.png"
+                                alt="logo"
+                                className="h-14 w-auto"
+                            />
+                            <p className="text-md max-w-xs leading-6 text-gray-700 dark:text-gray-300">
+                                Enhance your gaming experience with our top-tier, secure, and reliable cheats.
+                            </p>
+                        </div>
+
+                        <div className="mt-16 grid grid-cols-3 gap-14 md:grid-cols-3 lg:mt-0 xl:col-span-3">
+                            <div className="md:mt-0">
+                                <h3 className="text-sm font-semibold leading-6 text-gray-900  dark:text-gray-200">
+                                    Connect
+                                </h3>
+                                <div className="mt-6 space-y-4">
+                                    {navigation.connect.map((item) => (
+                                        <div key={item.name}>
+                                            <a
+                                                href={item.href}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="text-sm leading-6 text-gray-700 hover:text-gray-900 dark:text-gray-600 hover:dark:text-gray-200"
+                                            >
+                                                {item.name}
+                                            </a>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">
+                                        Skailar
+                                    </h3>
+                                    <div className="mt-6 space-y-4">
+                                        {navigation.company.map((item) => (
+                                            <div key={item.name}>
+                                                <a
+                                                    href={item.href}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="text-sm leading-6 text-gray-700 hover:text-gray-900 dark:text-gray-600 hover:dark:text-gray-200"
+                                                >
+                                                    {item.name}
+                                                </a>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">
+                                        Support &amp; Legal
+                                    </h3>
+                                    <div className="mt-6 space-y-4">
+                                        {navigation.support.map((item) => (
+                                            <div key={item.name}>
+                                                <a
+                                                    href={item.href}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="text-sm leading-6 text-gray-700 hover:text-gray-900 dark:text-gray-600 hover:dark:text-gray-200"
+                                                >
+                                                    {item.name}
+                                                </a>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    )}
-
-                    {pathsToMinimize.includes(pathname) ? null : (
-                        <div>
-                            <div className="relative flex items-center px-6 py-6 sm:py-8 lg:mt-0">
-                                <div className="absolute inset-0 overflow-hidden rounded-lg">
-                                    <div aria-hidden='true' className="absolute bg-zinc-50 dark:bg-zinc-950 inset-0 bg-gradient-to-br bg-opacity-90" />
-                                </div>
-
-                                <div className="text-center relative mx-auto max-w-sm">
-                                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Become a Reseller</h3>
-                                    <p className="mt-2 text-sm text-muted-foreground">
-                                        If you&apos;d like to sell high-quality
-                                        cheats, you can do so in minutes.{' '}
-                                        <Link href='/register?as=reseller' className="whitespace-nowrap font-medium text-black dark:text-white hover:text-zinc-900 dark:hover:text-zinc-100">
-                                            Get started &rarr;
-                                        </Link>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                <div className="py-10 md:flex md:items-center md:justify-between">
-                    <div className="text-center md:text-left">
-                        <p className="text-sm text-muted-foreground">
-                            &copy;{year} All Rights Reserved.
-                        </p>
                     </div>
-
-                    <div className="mt-4 flex items-center justify-center md:mt-0">
-                        <div className="flex space-x-8">
-                            <Link href='/legal/terms' className="text-sm text-muted-foreground hover:text-gray-600 dark:hover:text-gray-300">Terms</Link>
-                            <Link href='https://status.skailar.com/' className="text-sm text-muted-foreground hover:text-gray-600 dark:hover:text-gray-300" target="_blank">Status</Link>
-                            <Link href='https://help.skailar.com' target="_blank" className="text-sm text-muted-foreground hover:text-gray-600 dark:hover:text-gray-300">Help Center</Link>
-                        </div>
+                    <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 dark:border-gray-100/10">
+                        <p className="text-xs leading-5 text-gray-700 dark:text-gray-300">
+                            &copy;{year} Skailar. All rights reserved.
+                        </p>
                     </div>
                 </div>
             </MaxWidthWrapper>
