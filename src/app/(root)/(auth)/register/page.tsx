@@ -91,15 +91,15 @@ const Page = () => {
                 email,
                 password,
                 ...(isReseller && website ? { website } : {}),
-                ip: ipData.ip,
-                hostname: ipData.hostname,
-                city: ipData.city,
-                region: ipData.region,
-                country: ipData.country,
-                loc: ipData.loc,
-                org: ipData.org,
-                postal: ipData.postal,
-                timezone: ipData.timezone,
+                ip: ipData.ip ?? null,
+                hostname: ipData.hostname ?? null,
+                city: ipData.city ?? null,
+                region: ipData.region ?? null,
+                country: ipData.country ?? null,
+                loc: ipData.loc ?? null,
+                org: ipData.org ?? null,
+                postal: ipData.postal ?? null,
+                timezone: ipData.timezone ?? null,
             };
 
             if (isReseller) {
@@ -112,7 +112,11 @@ const Page = () => {
                 mutate(userData);
             }
         } catch (error) {
-            toast.error('Internal Error');
+            if (axios.isAxiosError(error)) {
+                toast.error(`Request failed: ${error.response?.data?.message || error.message}`);
+            } else {
+                toast.error('Internal Error');
+            }
         }
     };
 
