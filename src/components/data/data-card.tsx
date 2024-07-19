@@ -1,5 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import Counter from '../syntaxui/text-ticker';
 
 export const DataCard = ({ title, value, Icon }: { title: string, value: number | string, Icon: LucideIcon }) => (
 	<Card>
@@ -8,7 +9,9 @@ export const DataCard = ({ title, value, Icon }: { title: string, value: number 
 			<Icon className="h-5 w-5 text-[#8c04ba]" />
 		</CardHeader>
 		<CardContent>
-			<div className="text-2xl font-bold text-purple-600">{value}</div>
+			<div className="text-2xl font-bold text-purple-600">
+				<Counter value={value as number} direction='up' />
+			</div>
 		</CardContent>
 	</Card>
 );
