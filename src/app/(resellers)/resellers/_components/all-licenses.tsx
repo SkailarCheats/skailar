@@ -59,9 +59,9 @@ export const AllLicenses = ({ user }: { user: User }) => {
 				<Key className="h-4 w-4 text-muted-foreground" />
 			</CardHeader>
 			<CardContent>
-				<div className="text-2xl font-bold">+{numLicenses}</div>
+				<div className="text-2xl font-bold blur hover:blur-none">+{numLicenses}</div>
 				<p className="text-xs text-muted-foreground">
-					You have generated a total of {numLicenses} License Keys.
+					You have generated a total of <span className="blur hover:blur-none">{numLicenses}</span> License Keys.
 				</p>
 			</CardContent>
 		</Card>

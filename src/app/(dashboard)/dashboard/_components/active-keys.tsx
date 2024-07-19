@@ -67,7 +67,7 @@ export const ActiveKeys = () => {
 				<Activity className="h-4 w-4 text-muted-foreground" />
 			</CardHeader>
 			<CardContent>
-				<div className="text-2xl font-bold">
+				<div className="text-2xl font-bold blur hover:blur-none">
 					+{numLicenses}
 				</div>
 				<p className="text-xs text-muted-foreground">

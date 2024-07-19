@@ -191,7 +191,7 @@ export const LicensesList = ({ user, active }: { user: User, active?: boolean })
 
 							return (
 								<TableRow key={key.id}>
-									<TableCell className="hidden md:table-cell">{key.key ? key.key : '[N/A]'}</TableCell>
+									<TableCell className="hidden md:table-cell blur hover:blur-none">{key.key ? key.key : '[N/A]'}</TableCell>
 									<TableCell className="hidden md:table-cell">{key.expires ? formatExpires(key.expires) : '[N/A]'}</TableCell>
 									<TableCell>
 										<Badge variant="outline" className={status}>{key.status}</Badge>

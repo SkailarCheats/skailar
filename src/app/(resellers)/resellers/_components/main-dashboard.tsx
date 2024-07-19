@@ -55,9 +55,9 @@ export async function MainDashboard() {
 						<Key className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">{balance ? balance.day : '[N/A]'}</div>
+						<div className="text-2xl font-bold blur hover:blur-none">{balance ? balance.day : '[N/A]'}</div>
 						<p className="text-xs text-muted-foreground">
-							You can generate up to {balance ? balance.day : '[N/A]'} day keys.
+							You can generate up to <span className="blur hover:blur-none">{balance ? balance.day : '[N/A]'}</span> day keys.
 						</p>
 					</CardContent>
 				</Card>
@@ -67,9 +67,9 @@ export async function MainDashboard() {
 						<Key className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">{balance ? balance.week : '[N/A]'}</div>
+						<div className="text-2xl font-bold blur hover:blur-none">{balance ? balance.week : '[N/A]'}</div>
 						<p className="text-xs text-muted-foreground">
-							You can generate up to {balance ? balance.week : '[N/A]'} week keys.
+							You can generate up to <span className="blur hover:blur-none">{balance ? balance.week : '[N/A]'}</span> week keys.
 						</p>
 					</CardContent>
 				</Card>
@@ -79,9 +79,9 @@ export async function MainDashboard() {
 						<Key className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">{balance ? balance.month : '[N/A]'}</div>
+						<div className="text-2xl font-bold blur hover:blur-none">{balance ? balance.month : '[N/A]'}</div>
 						<p className="text-xs text-muted-foreground">
-							You can generate up to {balance ? balance.month : '[N/A]'} month keys.
+							You can generate up to <span className="blur hover:blur-none">{balance ? balance.month : '[N/A]'}</span> month keys.
 						</p>
 					</CardContent>
 				</Card>

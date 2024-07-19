@@ -166,7 +166,7 @@ export async function MainDashboard() {
 						<Euro className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">{totalRevenue ? formatPrice(totalRevenue) : '[N/A]'}</div>
+						<div className="text-2xl font-bold blur hover:blur-none">{totalRevenue ? formatPrice(totalRevenue) : '[N/A]'}</div>
 						<p className="text-xs text-muted-foreground">
 							{totalRevenuePreviousMonth === 0 ? "No data for last month" : `${revenueChangePercent >= 0 ? '+' : ''}${revenueChangePercent.toFixed(2)}% from last month`}
 						</p>
@@ -180,7 +180,7 @@ export async function MainDashboard() {
 						<CreditCard className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">+{orders?.length ?? 0}</div>
+						<div className="text-2xl font-bold blur hover:blur-none">+{orders?.length ?? 0}</div>
 						<p className="text-xs text-muted-foreground">
 							{totalOrdersPreviousMonth === 0 ? "No data for last month" : `${ordersChangePercent >= 0 ? '+' : ''}${ordersChangePercent.toFixed(2)}% from last month`}
 						</p>

@@ -82,7 +82,7 @@ export const AllLicenses = () => {
 				<Key className="h-4 w-4 text-muted-foreground" />
 			</CardHeader>
 			<CardContent>
-				<div className="text-2xl font-bold">+{numLicenses}</div>
+				<div className="text-2xl font-bold blur hover:blur-none">+{numLicenses}</div>
 				<p className="text-xs text-muted-foreground">
 					{numLicensesPreviousMonth === 0
 						? "No data for last month"

@@ -88,7 +88,7 @@ export function OrdersListClient({ processedOrders }: OrdersListClientProps) {
 										<div key={index}>{product.name ? product.name : '[N/A]'}</div>
 									))}
 								</TableCell>
-								<TableCell className="hidden lg:table-cell">{order.licenseKey ? order.licenseKey : '[N/A]'}</TableCell>
+								<TableCell className="hidden lg:table-cell blur hover:blur-none">{order.licenseKey ? order.licenseKey : '[N/A]'}</TableCell>
 								<TableCell>
 									{order.createdAtFormatted}
 								</TableCell>
