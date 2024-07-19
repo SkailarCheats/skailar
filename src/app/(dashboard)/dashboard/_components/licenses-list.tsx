@@ -68,6 +68,14 @@ const statusLabels = {
 	Banned: "Banned",
 };
 
+const expirationLabels = {
+	All: "Filter by Expiration",
+	"86400": "1 Day",
+	"259200": "3 Days",
+	"604800": "1 Week",
+	"2592000": "1 Month",
+};
+
 export const LicensesList = () => {
 	const [keys, setKeys] = useState<Keys[]>([])
 	const [loading, setLoading] = useState<boolean>(true);
@@ -77,6 +85,7 @@ export const LicensesList = () => {
 	const [statusFilter, setStatusFilter] = useState<string>("All");
 	const [levelFilter, setLevelFilter] = useState<string>("All");
 	const [genbyFilter, setGenbyFilter] = useState<string>("");
+	const [expirationFilter, setExpirationFilter] = useState<string>("All");
 	const [itemsPerPage, setItemsPerPage] = useState<number>(10);
 
 	useEffect(() => {
@@ -105,7 +114,8 @@ export const LicensesList = () => {
 			(key.key.toLowerCase().includes(searchTerm.toLowerCase())) &&
 			(statusFilter === "All" || key.status === statusFilter) &&
 			(levelFilter === "All" || key.level === levelFilter) &&
-			(genbyFilter === "" || key.genby.includes(genbyFilter))
+			(genbyFilter === "" || key.genby.includes(genbyFilter)) &&
+			(expirationFilter === "All" || key.expires === expirationFilter)
 		);
 	});
 
@@ -173,6 +183,16 @@ export const LicensesList = () => {
 						value={genbyFilter}
 						onChange={(e) => setGenbyFilter(e.target.value)}
 					/>
+					<Select onValueChange={(value) => setExpirationFilter(value)} defaultValue="All">
+						<SelectTrigger>{expirationLabels[expirationFilter as keyof typeof expirationLabels]}</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="All">All</SelectItem>
+							<SelectItem value="86400">1 Day</SelectItem>
+							<SelectItem value="259200">3 Days</SelectItem>
+							<SelectItem value="604800">1 Week</SelectItem>
+							<SelectItem value="2592000">1 Month</SelectItem>
+						</SelectContent>
+					</Select>
 				</div>
 				<Table>
 					<TableHeader>
