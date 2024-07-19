@@ -46,7 +46,38 @@ export const Footer = () => {
             className="bg-white dark:bg-black flex-grow-0"
         >
             <MaxWidthWrapper>
-                <div className="m-10 mx-auto max-w-7xl px-2">
+                <div className="border-t border-gray-200 dark:border-gray-800">
+                    {pathsToMinimize.includes(pathname) ? null : (
+                        <div className="pb-8 pt-16">
+                            <div className="flex justify-center">
+                                <Image src='https://cdn.skailar.com/v1/assets/img/logo.png' height='48' width='48' className="h-12 w-auto" alt="Skailar" />
+                            </div>
+                        </div>
+                    )}
+
+                    {pathsToMinimize.includes(pathname) ? null : (
+                        <div>
+                            <div className="relative flex items-center px-6 py-6 sm:py-8 lg:mt-0">
+                                <div className="absolute inset-0 overflow-hidden rounded-lg">
+                                    <div aria-hidden='true' className="absolute bg-zinc-50 dark:bg-zinc-950 inset-0 bg-gradient-to-br bg-opacity-90" />
+                                </div>
+
+                                <div className="text-center relative mx-auto max-w-sm">
+                                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Become a Reseller</h3>
+                                    <p className="mt-2 text-sm text-muted-foreground">
+                                        If you&apos;d like to sell high-quality
+                                        cheats, you can do so in minutes.{' '}
+                                        <Link href='/register?as=reseller' className="whitespace-nowrap font-medium text-black dark:text-white hover:text-zinc-900 dark:hover:text-zinc-100">
+                                            Get started &rarr;
+                                        </Link>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                <div className="m-10 mt-16 mx-auto max-w-7xl px-2">
                     <div className="flex flex-col justify-between lg:flex-row">
                         <div className="space-y-8">
                             <Image
@@ -128,8 +159,8 @@ export const Footer = () => {
                         </div>
                     </div>
                     <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 dark:border-gray-100/10">
-                        <p className="text-xs leading-5 text-gray-700 dark:text-gray-300">
-                            &copy;{year} Skailar. All rights reserved.
+                        <p className="text-sm text-muted-foreground">
+                            &copy;{year} Skailar. All Rights Reserved.
                         </p>
                     </div>
                 </div>
