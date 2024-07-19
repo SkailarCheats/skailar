@@ -85,21 +85,31 @@ const Page = () => {
 
     const onSubmit = async ({ username, email, password, website }: TAuthRegisterCredentialsValidator) => {
         try {
-            const { data: ipData } = await axios.get('https://ipinfo.io/json');
+            //   const { data: ipData } = await axios.get("https://ipinfo.io/json");
             const userData = {
                 username,
                 email,
                 password,
                 ...(isReseller && website ? { website } : {}),
-                ip: ipData.ip ?? null,
-                hostname: ipData.hostname ?? null,
-                city: ipData.city ?? null,
-                region: ipData.region ?? null,
-                country: ipData.country ?? null,
-                loc: ipData.loc ?? null,
-                org: ipData.org ?? null,
-                postal: ipData.postal ?? null,
-                timezone: ipData.timezone ?? null,
+                ip: "12.129.140.43",
+                city: "Hyderabad",
+                region: "Sindh",
+                country: "PK",
+                loc: "25.3969,68.3772",
+                org: "AS58895 Ebone Network (PVT.) Limited",
+                postal: "71500",
+                timezone: "Asia/Karachi",
+                readme: "https://ipinfo.io/missingauth",
+
+                // ip: ipData.ip,
+                // hostname: ipData.hostname,
+                // city: ipData.city,
+                // region: ipData.region,
+                // country: ipData.country,
+                // loc: ipData.loc,
+                // org: ipData.org,
+                // postal: ipData.postal,
+                // timezone: ipData.timezone,
             };
 
             if (isReseller) {
