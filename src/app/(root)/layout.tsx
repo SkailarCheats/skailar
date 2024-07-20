@@ -7,6 +7,7 @@ import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
 import '../globals.css'
 import Image from 'next/image'
+import { Announcement } from '@/components/announcement'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -48,6 +49,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className='relative flex flex-col min-h-screen'>
+            <Announcement />
             <Providers>
               <Navbar />
               <div className="flex-grow flex-1">{children}</div>

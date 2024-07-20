@@ -26,8 +26,6 @@ export const Cart = () => {
 
     const fee = 0;
 
-    const disabled = true // TODO: Remove this
-
     return (
         <Sheet>
             <SheetTrigger className="group -m-2 flex items-center p-2">
@@ -68,7 +66,7 @@ export const Cart = () => {
 
                             <SheetFooter>
                                 <SheetTrigger asChild>
-                                    <Link href={`${disabled ? '' : '/cart'}`} className={buttonVariants({ className: 'w-full' })}>Continue to Checkout</Link>
+                                    <Link href={'/cart'} className={buttonVariants({ className: 'w-full' })}>Continue to Checkout</Link>
                                 </SheetTrigger>
                             </SheetFooter>
                         </div>
