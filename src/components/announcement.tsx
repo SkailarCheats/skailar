@@ -17,8 +17,6 @@ export const Announcement = () => {
 		setIsVisible(false)
 	}
 
-	const text = '🎉 Register on Skailar and get 50% off when it officially launches 🎉'
-
 	return (
 		<>
 			<div
