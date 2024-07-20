@@ -1,24 +1,11 @@
 "use client";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from 'react-hook-form';
@@ -26,13 +13,12 @@ import { useForm } from 'react-hook-form';
 import { AuthRegisterCredentialsValidator, TAuthRegisterCredentialsValidator } from "@/lib/validators/account-credentials-validator";
 import { trpc } from "@/trpc/client";
 
-import { games } from "@/config";
+import { getSellerBaseURL } from "@/lib/urls";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
-import { getSellerBaseURL } from "@/lib/urls";
 
 const Page = () => {
     const router = useRouter();

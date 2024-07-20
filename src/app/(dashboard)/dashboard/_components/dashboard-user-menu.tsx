@@ -19,7 +19,10 @@ export const DashboardUserMenu = async () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuLabel>{user?.username ? user?.username : '[N/A]'}</DropdownMenuLabel>
+				<DropdownMenuLabel>
+					<p className="font-medium text-sm text-black dark:text-white">{user?.username}</p>
+					<p className="font-medium text-xs text-muted-foreground">{user?.email}</p>
+				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem asChild>
 					<Link href={`/account/${user?.username}`}>Settings</Link>
