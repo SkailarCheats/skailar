@@ -27,7 +27,7 @@ export const Announcement = () => {
 			>
 				<div className="flex w-full items-center gap-x-6 bg-primary px-6 py-3 sm:px-3.5 sm:before:flex-1">
 					<div className="flex items-center text-sm font-medium leading-6 text-white">
-						<p>{text.toUpperCase()}</p>
+						<p>🎉{' '}REGISTER ON SKAILAR AND GET 50% OFF WHEN IT OFFICIALLY LAUNCHES{' '}🎉</p>
 					</div>
 					<div className="flex flex-1 justify-end">
 						<button
