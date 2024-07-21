@@ -30,7 +30,7 @@ const CookiesPage = () => {
                         </ul>
 
                         <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Managing Cookies</h2>
-                        <p className="text-gray-700 dark:text-gray-300">You can manage your cookies preferences by clicking on the "Settings" button and enabling or disabling the cookie categories on the popup according to your preferences.</p>
+                        <p className="text-gray-700 dark:text-gray-300">You can manage your cookies preferences by clicking on the &quot;Settings&quot; button and enabling or disabling the cookie categories on the popup according to your preferences.</p>
 
                         <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Contact Us</h2>
                         <p className="text-gray-700 dark:text-gray-300">If you have any questions about this Cookies Policy, You can contact us:</p>
