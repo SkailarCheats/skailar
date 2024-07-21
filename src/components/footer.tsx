@@ -4,31 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MaxWidthWrapper } from "./MaxWidthWrapper";
-
-const navigation = {
-    connect: [
-        {
-            name: 'Discord',
-            href: 'https://discord.skailar.com/cheats',
-        },
-        {
-            name: 'YouTube',
-            href: 'https://www.youtube.com/@steveyx17baby',
-        },
-        {
-            name: 'Telegram',
-            href: 'https://t.me/skailarcheats',
-        },
-    ],
-    company: [
-        { name: 'Status Page', href: 'https://status.skailar.com/' },
-        { name: 'Blogs', href: 'https://blog.skailar.com/' },
-        { name: 'Mail', href: 'https://mail.skailar.com/' },
-    ],
-    support: [
-        { name: 'Help Center', href: 'https://help.skailar.com/' },
-    ]
-}
+import { navigation } from "@/config";
 
 export const Footer = () => {
     const pathname = usePathname()
@@ -94,9 +70,9 @@ export const Footer = () => {
                             </p>
                         </div>
 
-                        <div className="mt-16 grid grid-cols-3 gap-14 md:grid-cols-3 lg:mt-0 xl:col-span-3">
+                        <div className="mt-16 grid grid-cols-2 gap-14 md:grid-cols-2 lg:grid-cols-4 lg:mt-0 xl:col-span-3">
                             <div className="md:mt-0">
-                                <h3 className="text-sm font-semibold leading-6 text-gray-900  dark:text-gray-200">
+                                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">
                                     Connect
                                 </h3>
                                 <div className="mt-6 space-y-4">
@@ -104,7 +80,7 @@ export const Footer = () => {
                                         <div key={item.name}>
                                             <a
                                                 href={item.href}
-                                                target="_blank"
+                                                target={`${item.href.startsWith('https') ? '_blank' : '_parent'}`}
                                                 rel="noreferrer"
                                                 className="text-sm leading-6 text-muted-foreground"
                                             >
@@ -124,7 +100,7 @@ export const Footer = () => {
                                             <div key={item.name}>
                                                 <a
                                                     href={item.href}
-                                                    target="_blank"
+                                                    target={`${item.href.startsWith('https') ? '_blank' : '_parent'}`}
                                                     rel="noreferrer"
                                                     className="text-sm leading-6 text-muted-foreground"
                                                 >
@@ -138,14 +114,35 @@ export const Footer = () => {
                             <div>
                                 <div>
                                     <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">
-                                        Support &amp; Legal
+                                        Legals
+                                    </h3>
+                                    <div className="mt-6 space-y-4">
+                                        {navigation.legals.map((item) => (
+                                            <div key={item.name}>
+                                                <a
+                                                    href={item.href}
+                                                    target={`${item.href.startsWith('https') ? '_blank' : '_parent'}`}
+                                                    rel="noreferrer"
+                                                    className="text-sm leading-6 text-muted-foreground"
+                                                >
+                                                    {item.name}
+                                                </a>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">
+                                        Others
                                     </h3>
                                     <div className="mt-6 space-y-4">
                                         {navigation.support.map((item) => (
                                             <div key={item.name}>
                                                 <a
                                                     href={item.href}
-                                                    target="_blank"
+                                                    target={`${item.href.startsWith('https') ? '_blank' : '_parent'}`}
                                                     rel="noreferrer"
                                                     className="text-sm leading-6 text-muted-foreground"
                                                 >

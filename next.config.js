@@ -108,16 +108,11 @@ const nextConfig = {
             },
             {
                 source: '/cookies',
-                destination: '/legal/terms',
+                destination: '/legal/cookies',
                 permanent: true
             },
             {
                 source: '/legal/tos',
-                destination: '/legal/terms',
-                permanent: true
-            },
-            {
-                source: '/legal/cookies',
                 destination: '/legal/terms',
                 permanent: true
             },

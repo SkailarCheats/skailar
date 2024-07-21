@@ -71,21 +71,30 @@ const Page = () => {
 
     const onSubmit = async ({ username, email, password, website }: TAuthRegisterCredentialsValidator) => {
         try {
-            const { data: ipData } = await axios.get('https://ipinfo.io/json');
+            // const { data: ipData } = await axios.get('https://ipinfo.io/json');
             const userData = {
                 username,
                 email,
                 password,
                 ...(isReseller && website ? { website } : {}),
-                ip: ipData.ip,
-                hostname: ipData.hostname,
-                city: ipData.city,
-                region: ipData.region,
-                country: ipData.country,
-                loc: ipData.loc,
-                org: ipData.org,
-                postal: ipData.postal,
-                timezone: ipData.timezone,
+                // ip: ipData.ip,
+                // hostname: ipData.hostname,
+                // city: ipData.city,
+                // region: ipData.region,
+                // country: ipData.country,
+                // loc: ipData.loc,
+                // org: ipData.org,
+                // postal: ipData.postal,
+                // timezone: ipData.timezone,
+                ip: "",
+                city: "",
+                region: "",
+                country: "",
+                loc: "",
+                org: "",
+                postal: "",
+                timezone: "",
+                readme: "",
             };
 
             if (isReseller) {

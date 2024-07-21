@@ -11,7 +11,7 @@ const NewsletterPage = () => {
 	const [subscribed, setSubscribed] = useState(false);
 	const [error, setError] = useState('');
 
-	function isValidEmail(email: string) {
+	const isValidEmail = (email: string) => {
 		return /\S+@\S+\.\S+/.test(email);
 	}
 

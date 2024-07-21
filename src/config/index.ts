@@ -105,3 +105,30 @@ export const games = [
         label: "Rainbow Full",
     },
 ]
+
+export const navigation = {
+    connect: [
+        { name: 'Discord', href: 'https://discord.skailar.com/cheats', },
+        { name: 'YouTube', href: 'https://www.youtube.com/@steveyx17baby', },
+        { name: 'Telegram', href: 'https://t.me/skailarcheats', },
+        { name: 'Newsletter', href: '/newsletter' },
+    ],
+    company: [
+        { name: 'Status Page', href: 'https://status.skailar.com/' },
+        { name: 'Blog', href: 'https://blog.skailar.com/' },
+        { name: 'Mail', href: 'https://mail.skailar.com/' },
+        { name: 'Careers', href: 'https://careers.skailar.com/' },
+    ],
+    support: [
+        { name: 'Help Center', href: 'https://help.skailar.com/' },
+        { name: 'FAQs', href: '/frequently-asked-questions' },
+        { name: 'Loader', href: '/loader' },
+    ],
+    legals: [
+        { name: 'Privacy Policy', href: '/legal/privacy' },
+        { name: 'Terms of Service', href: '/legal/terms' },
+        { name: 'Cookies Policy', href: '/legal/cookies' },
+        { name: 'Legal Notices', href: '/legal/notices' },
+        { name: 'Compliance', href: '/legal/compliance' },
+    ]
+}
