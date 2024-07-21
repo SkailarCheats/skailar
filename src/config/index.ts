@@ -115,9 +115,9 @@ export const navigation = {
     ],
     company: [
         { name: 'Status Page', href: 'https://status.skailar.com/' },
-        { name: 'Blog', href: 'https://blog.skailar.com/' },
-        { name: 'Mail', href: 'https://mail.skailar.com/' },
-        { name: 'Careers', href: 'https://careers.skailar.com/' },
+        { name: 'Skailar Blog', href: 'https://blog.skailar.com/' },
+        { name: 'Skailar Mail', href: 'https://mail.skailar.com/' },
+        { name: 'Skailar Careers', href: 'https://careers.skailar.com/' },
     ],
     support: [
         { name: 'Help Center', href: 'https://help.skailar.com/' },
