@@ -309,7 +309,7 @@ const Page = () => {
                             <Button
                                 className="w-full"
                                 size="lg"
-                                disabled={items.length === 0}
+                                disabled={items.length === 0 || true}  // TODO: Remove true
                                 onClick={() => setOpen(true)}
                             >
                                 Checkout
