@@ -10,7 +10,7 @@ export default function Page() {
 		},
 		{
 			question: 'How can I check the status of Skailar services?',
-			answer: <>You can check the current status of our services by visiting <Link className="text-purple-500 font-semibold hover:underline" href="https://status.skailar.com/status/cheats">Skailar Status</Link>.</>
+			answer: <>You can check the current status of our services by visiting <Link className="text-purple-500 font-semibold hover:underline" href="https://status.skailar.com/">Skailar Status</Link>.</>
 		},
 		{
 			question: 'How do I purchase Skailar products?',

@@ -61,6 +61,7 @@
     "express": "^4.19.2",
     "file-saver": "^2.0.5",
     "input-otp": "^1.2.4",
+    "jszip": "^3.10.1",
     "lucide-react": "^0.400.0",
     "next": "14.0.1",
     "next-themes": "^0.3.0",

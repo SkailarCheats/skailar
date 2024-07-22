@@ -1,35 +1,29 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
-import { ProductReel } from "@/components/product-reel";
 import { PRODUCT_CATEGORY } from "@/config";
+import Image from "next/image";
+import Link from "next/link";
 
-type Param = string | string[] | undefined;
-
-interface ProductsPageProps {
-    searchParams: { [key: string]: Param };
+export default function Category() {
+	return (
+		<MaxWidthWrapper>
+			<div className="container p-5">
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+					{PRODUCT_CATEGORY.map(category => (
+						<Link href={`/products/${category.value}`} key={category.value} className="block bg-black rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
+							<Image
+								src={category.img}
+								alt={category.label}
+								className="w-full h-48 object-cover"
+								width={192}
+								height={192}
+							/>
+							<div className="p-4">
+								<h3 className="text-lg font-semibold">{category.label}</h3>
+							</div>
+						</Link>
+					))}
+				</div>
+			</div>
+		</MaxWidthWrapper >
+	)
 }
-
-const parse = (param: Param) => {
-    return typeof param === "string" ? param : undefined;
-};
-
-const ProductsPage = ({ searchParams }: ProductsPageProps) => {
-    const sort = parse(searchParams.sort);
-    const category = parse(searchParams.category);
-
-    const label = PRODUCT_CATEGORY.find(({ value }) => value === category)?.label;
-
-    return (
-        <MaxWidthWrapper>
-            <ProductReel
-                title={label ?? "Browse high-quality cheats"}
-                query={{
-                    category,
-                    limit: 40,
-                    sort: sort === "desc" || sort === "asc" ? sort : undefined,
-                }}
-            />
-        </MaxWidthWrapper>
-    );
-};
-
-export default ProductsPage;

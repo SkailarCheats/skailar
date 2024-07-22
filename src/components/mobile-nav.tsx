@@ -13,7 +13,7 @@ export const MobileNav = ({ user }: { user: User | null }) => {
         { title: 'Home', href: '/' },
         { title: 'Products', href: '/products' },
         { title: 'Reviews', href: '/reviews' },
-        { title: 'Status', href: 'https://status.skailar.com/status/cheats', target: '_blank' },
+        { title: 'Status', href: 'https://status.skailar.com/', target: '_blank' },
         { title: 'Discord', href: 'https://discord.gg/skailar', target: '_blank' }
     ]
 

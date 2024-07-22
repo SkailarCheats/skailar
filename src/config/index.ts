@@ -1,17 +1,14 @@
 export const PRODUCT_CATEGORY = [
     {
-        label: "Rainbow Six",
-        value: "rainbow_six" as const,
+        label: "Rainbow Six Full",
+        value: "rainbow_six_full" as const,
         featured: [
             {
-                name: "Skailar Lite", // 3000 3000 3000 3000
+                name: "Skailar Full", // 3000 3000 3000 3000
                 href: "",
             },
-            {
-                name: "Skailar Full", // 3000 3000 3000 3000
-                href: ""
-            }
-        ]
+        ],
+        img: "https://cdn.skailar.com/v1/assets/products/img/R6Full.png"
     },
     {
         label: "Counter-Strike 2",
@@ -21,47 +18,8 @@ export const PRODUCT_CATEGORY = [
                 name: "Skailar", // 3000 3000 3000 3000
                 href: "",
             }
-        ]
-    },
-    {
-        label: "Escape From Tarkov",
-        value: "eft" as const,
-        featured: [
-            {
-                name: "Skailar", // 3000 3000 3000 3000
-                href: "",
-            }
-        ]
-    },
-    {
-        label: "Apex Legends",
-        value: "apex" as const,
-        featured: [
-            {
-                name: "Skailar", // 3000 3000 3000 3000
-                href: "",
-            }
-        ]
-    },
-    {
-        label: "Rust",
-        value: "rust" as const,
-        featured: [
-            {
-                name: "Skailar", // 3000 3000 3000 3000
-                href: "",
-            }
-        ]
-    },
-    {
-        label: "Fortnite",
-        value: "fortnite" as const,
-        featured: [
-            {
-                name: "Skailar", // 3000 3000 3000 3000
-                href: "",
-            }
-        ]
+        ],
+        img: "https://cdn.skailar.com/v1/assets/products/img/CS2.png"
     },
     {
         label: "Valorant",
@@ -71,8 +29,53 @@ export const PRODUCT_CATEGORY = [
                 name: "Skailar", // 3000 3000 3000 3000
                 href: "",
             }
-        ]
-    }
+        ],
+        img: "https://cdn.skailar.com/v1/assets/products/img/VALORANT.png"
+    },
+    {
+        label: "Apex Legends",
+        value: "apex" as const,
+        featured: [
+            {
+                name: "Skailar", // 3000 3000 3000 3000
+                href: "",
+            }
+        ],
+        img: "https://cdn.skailar.com/v1/assets/products/img/APEX.png"
+    },
+    {
+        label: "Fortnite",
+        value: "fortnite" as const,
+        featured: [
+            {
+                name: "Skailar", // 3000 3000 3000 3000
+                href: "",
+            }
+        ],
+        img: "https://cdn.skailar.com/v1/assets/products/img/FORTNITE.png"
+    },
+    {
+        label: "Rust",
+        value: "rust" as const,
+        featured: [
+            {
+                name: "Skailar", // 3000 3000 3000 3000
+                href: "",
+            }
+        ],
+        img: "https://cdn.skailar.com/v1/assets/products/img/RUST.png"
+    },
+    {
+        label: "Rainbow Six Lite",
+        value: "rainbow_six_lite" as const,
+        featured: [
+            {
+                name: "Skailar Lite", // 3000 3000 3000 3000
+                href: "",
+            },
+        ],
+        img: "https://cdn.skailar.com/v1/assets/products/img/R6Lite.png"
+    },
 ]
 
 export const games = [
@@ -116,7 +119,7 @@ export const navigation = {
     company: [
         { name: 'Status Page', href: 'https://status.skailar.com/' },
         { name: 'Skailar Blog', href: 'https://blog.skailar.com/' },
-        { name: 'Skailar Mail', href: 'https://mail.skailar.com/' },
+        { name: 'Skailar Mail', href: 'https://start.skailar.com/' },
         { name: 'Skailar Careers', href: 'https://careers.skailar.com/' },
     ],
     support: [

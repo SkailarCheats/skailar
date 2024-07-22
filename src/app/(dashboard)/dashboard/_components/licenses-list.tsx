@@ -31,6 +31,9 @@ import { useEffect, useState } from "react";
 import { DropdownActions } from "./dropdown-actions";
 import { getSellerBaseURL } from "@/lib/urls";
 
+import { saveAs } from "file-saver";
+import DownloadButtons from "@/components/download-buttons";
+
 export interface Keys {
 	id: string;
 	key: string;
@@ -144,10 +147,13 @@ export const LicensesList = () => {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Licenses</CardTitle>
-				<CardDescription>
-					Manage your licenses.
-				</CardDescription>
+				<div className="flex flex-col">
+					<CardTitle>Licenses</CardTitle>
+					<CardDescription>
+						Manage your licenses.
+					</CardDescription>
+				</div>
+				<DownloadButtons filteredKeys={filteredKeys} />
 			</CardHeader>
 			<CardContent>
 				<div className="flex flex-col md:flex-row gap-4 mb-4">
