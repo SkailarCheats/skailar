@@ -54,7 +54,7 @@ const handleDownload = async (keys: Key[], fileType: 'txt' | 'json') => {
 	const groupedKeys: { [path: string]: Key[] } = {};
 
 	keys.forEach(key => {
-		if (key.genby === 'Skailar' && key.status === 'Not Used') {
+		if (key.genby === 'SkailarResell' && key.status === 'Not Used') {
 			const expirationFolder = getExpirationFolder(key.expires);
 			const gameFolder = gameFolders[key.level];
 			const filePath = `${gameFolder}/${expirationFolder}`;
@@ -82,15 +82,18 @@ const handleDownload = async (keys: Key[], fileType: 'txt' | 'json') => {
 };
 
 const DownloadButtons: React.FC<DownloadButtonsProps> = ({ filteredKeys }) => {
-	const keysToDownload = filteredKeys.filter(key => key.status === 'Not Used' && key.genby === 'Skailar');
+	const keysToDownload = filteredKeys.filter(key => key.status === 'Not Used' && key.genby === 'SkailarResell');
 
 	const handleDownloadTxt = () => handleDownload(keysToDownload, 'txt');
 	const handleDownloadJson = () => handleDownload(keysToDownload, 'json');
 
 	return (
-		<div className='flex ml-auto'>
-			<Button variant="outline" size="sm" className="mr-2" onClick={handleDownloadTxt}>Download TXT</Button>
-			<Button variant="outline" size="sm" onClick={handleDownloadJson}>Download JSON</Button>
+		<div className="flex flex-col items-end space-y-2">
+			<p className="text-sm font-semibold">Download Reseller Keys (Only for Billgang)</p>
+			<div className="flex space-x-2">
+				<Button variant="outline" size="sm" className="mr-2" onClick={handleDownloadTxt}>Download TXT</Button>
+				<Button variant="outline" size="sm" onClick={handleDownloadJson}>Download JSON</Button>
+			</div>
 		</div>
 	);
 };
