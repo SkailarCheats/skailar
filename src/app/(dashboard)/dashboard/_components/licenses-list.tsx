@@ -118,7 +118,8 @@ export const LicensesList = () => {
 			(statusFilter === "All" || key.status === statusFilter) &&
 			(levelFilter === "All" || key.level === levelFilter) &&
 			(genbyFilter === "" || key.genby.includes(genbyFilter)) &&
-			(expirationFilter === "All" || key.expires === expirationFilter)
+			(expirationFilter === "All" || key.expires === expirationFilter) &&
+			(key.genby !== 'SkailarResell')
 		);
 	});
 
