@@ -5,15 +5,15 @@ import dotenv from "dotenv";
 import path from "path";
 import { buildConfig } from "payload/config";
 import { Media } from "./collections/Media";
+import { Newsletter } from "./collections/Newsletter";
 import { Orders } from "./collections/Orders";
 import { ProductFile } from "./collections/ProductFile";
 import { Products } from "./collections/Products/Products";
-import { Users } from "./collections/Users";
+import ResellerProducts from "./collections/Products/ResellerProducts";
+import { Resellers } from "./collections/Resellers";
 import { Reviews } from "./collections/Reviews";
 import { UserDetails } from "./collections/UserDetails";
-import { Resellers } from "./collections/Resellers";
-import { Newsletter } from "./collections/Newsletter";
-import ResellerProducts from "./collections/Products/ResellerProducts";
+import { Users } from "./collections/Users";
 
 dotenv.config({
     path: path.resolve(__dirname, '../.env')

@@ -17,17 +17,16 @@ export const Users: CollectionConfig = {
     auth: {
         verify: {
             generateEmailHTML: ({ token, user }) => {
-                if (user.role !== 'reseller') {
-                    return VerifyEmailHtml({
-                        actionLabel: "verify your account",
-                        buttonText: "Verify Account",
-                        href: `https://skailar.com/verify-email?token=${token}`,
-                    });
-                }
-                return '';
-
+                return user.role === 'reseller' ? '' : VerifyEmailHtml({
+                    actionLabel: "verify your account",
+                    buttonText: "Verify Account",
+                    href: `https://skailar.com/verify-email?token=${token}`,
+                });
             }
-        }
+        },
+        tokenExpiration: 31536000, // 1 Year
+        maxLoginAttempts: 3,
+        lockTime: 600 * 1000,
     },
     access: {
         read: adminsAndUser,
