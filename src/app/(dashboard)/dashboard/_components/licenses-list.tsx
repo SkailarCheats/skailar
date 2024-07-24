@@ -119,7 +119,7 @@ export const LicensesList = ({ user }: { user: string }) => {
 			(levelFilter === "All" || key.level === levelFilter) &&
 			(genbyFilter === "" || key.genby.includes(genbyFilter)) &&
 			(expirationFilter === "All" || key.expires === expirationFilter) &&
-			(key.genby === user)
+			(key.genby === 'Skailar')
 		);
 	});
 
