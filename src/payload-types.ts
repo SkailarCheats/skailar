@@ -89,7 +89,7 @@ export interface Product {
       }[]
     | null;
   price: number;
-  category: 'rainbow_six' | 'cs2' | 'eft' | 'apex' | 'rust' | 'fortnite' | 'valorant';
+  category: 'rainbow_six_full' | 'cs2' | 'valorant' | 'apex' | 'fortnite' | 'rust' | 'rainbow_six_lite';
   product_files: string | ProductFile;
   level?: string | null;
   expiry?: string | null;
@@ -231,7 +231,7 @@ export interface ResellerProduct {
   user?: (string | null) | User;
   name: string;
   price: number;
-  category: 'rainbow_six' | 'cs2' | 'eft' | 'apex' | 'rust' | 'fortnite' | 'valorant';
+  category: 'rainbow_six_full' | 'cs2' | 'valorant' | 'apex' | 'fortnite' | 'rust' | 'rainbow_six_lite';
   level?: string | null;
   expiry?: string | null;
   approvedForSale?: ('pending' | 'approved' | 'denied') | null;

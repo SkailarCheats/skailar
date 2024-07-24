@@ -30,6 +30,7 @@ import { formatDate, formatExpires } from "@/lib/utils";
 import { User } from "@/payload-types";
 import { useEffect, useState } from "react";
 import { getSellerBaseURL } from "@/lib/urls";
+import DownloadButtons from "@/components/download-buttons";
 
 export interface Keys {
 	id: string;
@@ -100,18 +101,6 @@ export const LicensesList = ({ user, active }: { user: User, active?: boolean })
 		}
 	};
 
-	const handleDownloadTxt = () => {
-		const keysToDownload = filteredKeys.map(key => key.key).join('\n');
-		const blob = new Blob([keysToDownload], { type: 'text/plain;charset=utf-8' });
-		saveAs(blob, 'licenses.txt');
-	};
-
-	const handleDownloadJson = () => {
-		const keysToDownload = JSON.stringify(filteredKeys, null, 2);
-		const blob = new Blob([keysToDownload], { type: 'application/json;charset=utf-8' });
-		saveAs(blob, 'licenses.json');
-	};
-
 	return (
 		<Card>
 			<CardHeader className="flex justify-between">
@@ -122,14 +111,7 @@ export const LicensesList = ({ user, active }: { user: User, active?: boolean })
 					</CardDescription>
 				</div>
 				{!active && (
-					<div className="flex ml-auto">
-						<Button onClick={handleDownloadTxt} variant="outline" size="sm" className="mr-2">
-							Save as TXT
-						</Button>
-						<Button onClick={handleDownloadJson} variant="outline" size="sm">
-							Save as JSON
-						</Button>
-					</div>
+					<DownloadButtons filteredKeys={filteredKeys} user={user.username} />
 				)}
 			</CardHeader>
 			<CardContent>

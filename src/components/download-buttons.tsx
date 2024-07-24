@@ -14,6 +14,7 @@ interface Key {
 
 interface DownloadButtonsProps {
 	filteredKeys: Key[];
+	user: string;
 }
 
 const getExpirationFolder = (timestamp: string): string => {
@@ -36,7 +37,7 @@ const getExpirationFolder = (timestamp: string): string => {
 	}
 };
 
-const handleDownload = async (keys: Key[], fileType: 'txt' | 'json') => {
+const handleDownload = async (keys: Key[], fileType: 'txt' | 'json', user: string) => {
 	const zip = new JSZip();
 	const folder = zip.folder('licenses');
 	if (!folder) return;
@@ -54,7 +55,7 @@ const handleDownload = async (keys: Key[], fileType: 'txt' | 'json') => {
 	const groupedKeys: { [path: string]: Key[] } = {};
 
 	keys.forEach(key => {
-		if (key.genby === 'SkailarResell' && key.status === 'Not Used') {
+		if (key.genby === user && key.status === 'Not Used') {
 			const expirationFolder = getExpirationFolder(key.expires);
 			const gameFolder = gameFolders[key.level];
 			const filePath = `${gameFolder}/${expirationFolder}`;
@@ -81,15 +82,17 @@ const handleDownload = async (keys: Key[], fileType: 'txt' | 'json') => {
 	saveAs(content, 'licenses.zip');
 };
 
-const DownloadButtons: React.FC<DownloadButtonsProps> = ({ filteredKeys }) => {
-	const keysToDownload = filteredKeys.filter(key => key.status === 'Not Used' && key.genby === 'SkailarResell');
+const DownloadButtons: React.FC<DownloadButtonsProps> = ({ filteredKeys, user }) => {
+	const keysToDownload = filteredKeys.filter(key => key.status === 'Not Used' && key.genby === user);
 
-	const handleDownloadTxt = () => handleDownload(keysToDownload, 'txt');
-	const handleDownloadJson = () => handleDownload(keysToDownload, 'json');
+	const handleDownloadTxt = () => handleDownload(keysToDownload, 'txt', user);
+	const handleDownloadJson = () => handleDownload(keysToDownload, 'json', user);
 
 	return (
 		<div className="flex flex-col items-end space-y-2">
-			<p className="text-sm font-semibold">Download Reseller Keys (Only for Billgang)</p>
+			{user === 'Skailar' && (
+				<p className="text-sm font-semibold">Download Reseller Keys (Only for Billgang)</p>
+			)}
 			<div className="flex space-x-2">
 				<Button variant="outline" size="sm" className="mr-2" onClick={handleDownloadTxt}>Download TXT</Button>
 				<Button variant="outline" size="sm" onClick={handleDownloadJson}>Download JSON</Button>

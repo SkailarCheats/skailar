@@ -26,7 +26,7 @@ export default async function Home() {
 					</div>
 				</div>
 			) : (
-				<LicensesList />
+				<LicensesList user={user.username} />
 			)}
 		</>
 	)

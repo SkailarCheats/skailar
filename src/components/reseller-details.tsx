@@ -109,13 +109,17 @@ export const ResellerDetails = ({ reseller }: { reseller: Reseller }) => {
 									discord.gg/{reseller.name.toLowerCase()}
 								</Link>
 							</div>
-							<Separator />
-							<div className="flex items-center justify-between">
-								<div className="text-sm text-muted-foreground">Website</div>
-								<Link href={`${reseller.website}`} target="_blank" className={buttonVariants({ variant: 'link' })} prefetch={false}>
-									{reseller.website}
-								</Link>
-							</div>
+							{reseller.website && (
+								<>
+									<Separator />
+									<div className="flex items-center justify-between">
+										<div className="text-sm text-muted-foreground">Website</div>
+										<Link href={`${reseller.website}`} target="_blank" className={buttonVariants({ variant: 'link' })} prefetch={false}>
+											{reseller.website}
+										</Link>
+									</div>
+								</>
+							)}
 						</CardContent>
 					</Card>
 				</div>

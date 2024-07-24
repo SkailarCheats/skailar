@@ -6,6 +6,7 @@ import { HomeIcon, Key, ShoppingCartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CheckLicenseForm } from "./check-license-form";
 // import { CheckLicense } from "./check-license";
 
 export const links = [
@@ -15,7 +16,7 @@ export const links = [
 	{ title: 'Licenses', icon: Key, href: '/resellers/licenses' }
 ]
 
-export const ResellerNav = () => {
+export const ResellerNav = ({ currentReseller }: { currentReseller: string }) => {
 	const currentRoute = usePathname();
 	const active = 'bg-muted text-primary hover:text-primary'
 
@@ -45,6 +46,9 @@ export const ResellerNav = () => {
 						</Link>
 					))}
 				</nav>
+			</div>
+			<div className="mt-auto p-4">
+				<CheckLicenseForm currentReseller={currentReseller} />
 			</div>
 		</div>
 	)

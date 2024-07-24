@@ -79,7 +79,7 @@ const expirationLabels = {
 	"2592000": "1 Month",
 };
 
-export const LicensesList = () => {
+export const LicensesList = ({ user }: { user: string }) => {
 	const [keys, setKeys] = useState<Keys[]>([])
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
@@ -119,7 +119,7 @@ export const LicensesList = () => {
 			(levelFilter === "All" || key.level === levelFilter) &&
 			(genbyFilter === "" || key.genby.includes(genbyFilter)) &&
 			(expirationFilter === "All" || key.expires === expirationFilter) &&
-			(key.genby !== 'SkailarResell')
+			(key.genby === user)
 		);
 	});
 
@@ -154,7 +154,7 @@ export const LicensesList = () => {
 						Manage your licenses.
 					</CardDescription>
 				</div>
-				<DownloadButtons filteredKeys={filteredKeys} />
+				<DownloadButtons filteredKeys={filteredKeys} user={user} />
 			</CardHeader>
 			<CardContent>
 				<div className="flex flex-col md:flex-row gap-4 mb-4">
