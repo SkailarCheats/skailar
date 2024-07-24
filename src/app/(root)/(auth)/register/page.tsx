@@ -19,12 +19,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Page = () => {
     const router = useRouter();
 
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState("")
+    const [showPassword, setShowPassword] = useState(false);
 
     const searchParams = useSearchParams();
     const isReseller = searchParams.get("as") === "reseller";
@@ -156,15 +158,23 @@ const Page = () => {
                                 </div>
                                 <div className="grid gap-1 py-2">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input
-                                        {...register("password")}
-                                        className={cn({
-                                            "focus-visible:ring-red-500": errors.password
-                                        })}
-                                        placeholder="••••••••"
-                                        type="password"
-                                        autoComplete="off"
-                                    />
+                                    <div className="relative">
+                                        <Input
+                                            {...register("password")}
+                                            className={cn({
+                                                "focus-visible:ring-red-500": errors.password
+                                            })}
+                                            placeholder="••••••••"
+                                            type={showPassword ? "text" : "password"}
+                                            autoComplete="off"
+                                        />
+                                        <span
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                        >
+                                            {showPassword ? <FaEyeSlash className="w-4 h-4 text-muted-foreground" /> : <FaEye className="w-4 h-4 text-muted-foreground" />}
+                                        </span>
+                                    </div>
                                     {errors?.password && (
                                         <p className="text-sm text-red-500">{errors.password.message}</p>
                                     )}
