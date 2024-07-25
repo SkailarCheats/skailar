@@ -24,6 +24,7 @@ import { MoreHorizontal } from "lucide-react"
 
 import { format, parseISO } from 'date-fns'
 import { Badge } from "@/components/ui/badge"
+import { DropdownRequestsActions } from "./dropdown-requests-actions"
 
 export const BanRequests = ({ allBanRequests }: { allBanRequests: Banrequest[] }) => {
 	return (
@@ -43,6 +44,7 @@ export const BanRequests = ({ allBanRequests }: { allBanRequests: Banrequest[] }
 							<TableHead>Email</TableHead>
 							<TableHead>Key</TableHead>
 							<TableHead>Reason</TableHead>
+							<TableHead>Status</TableHead>
 							<TableHead>Created At</TableHead>
 							<TableHead>
 								<span className="sr-only">Actions</span>
@@ -50,43 +52,67 @@ export const BanRequests = ({ allBanRequests }: { allBanRequests: Banrequest[] }
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{allBanRequests.map(request => (
-							<TableRow key={request.id}>
-								<TableCell className="hidden lg:table-cell">
-									{request.id}
-								</TableCell>
-								<TableCell>
-									<Badge variant="outline" className="text-primary">
-										{(request.username as User).username}
-									</Badge>
-								</TableCell>
-								<TableCell>
-									{(request.username as User).email}
-								</TableCell>
-								<TableCell>
-									{request.key}
-								</TableCell>
-								<TableCell>
-									{request.reason}
-								</TableCell>
-								<TableCell>
-									{format(parseISO(request.createdAt), 'dd/MM/yyyy hh:mm a')}
-								</TableCell>
+						{allBanRequests.map(request => {
+							let approved = "";
 
-								<TableCell>
-									<DropdownMenu>
-										<DropdownMenuTrigger asChild>
-											<Button aria-haspopup="true" size="icon" variant="ghost">
-												<MoreHorizontal className="h-4 w-4" />
-												<span className="sr-only">Toggle menu</span>
-											</Button>
-										</DropdownMenuTrigger>
+							switch (request.status) {
+								case "approved":
+									approved = "text-green-500";
+									break;
+								case "pending":
+									approved = "text-yellow-500";
+									break;
+								case "denied":
+									approved = "text-red-500";
+									break;
+								default:
+									approved = "";
+									break;
+							}
+							return (
+								<TableRow key={request.id}>
+									<TableCell className="hidden lg:table-cell">
+										{request.id}
+									</TableCell>
+									<TableCell>
+										<Badge variant="outline" className="text-primary">
+											{(request.username as User).username}
+										</Badge>
+									</TableCell>
+									<TableCell>
+										{(request.username as User).email}
+									</TableCell>
+									<TableCell>
+										{request.key}
+									</TableCell>
+									<TableCell>
+										{request.reason}
+									</TableCell>
+									<TableCell>
+										<Badge variant="outline" className={`${approved}`}>
+											{request.status ? request.status?.toUpperCase() : '[N/A]'}
+										</Badge>
+									</TableCell>
+									<TableCell>
+										{format(parseISO(request.createdAt), 'dd/MM/yyyy hh:mm a')}
+									</TableCell>
 
-										{/* <DropdownActions customerId={reseller.id ? reseller.id : ''} customerUser={reseller.username} customerEmail={reseller.email} /> */}
-									</DropdownMenu>
-								</TableCell>
-							</TableRow>
-						))}
+									<TableCell>
+										<DropdownMenu>
+											<DropdownMenuTrigger asChild>
+												<Button aria-haspopup="true" size="icon" variant="ghost">
+													<MoreHorizontal className="h-4 w-4" />
+													<span className="sr-only">Toggle menu</span>
+												</Button>
+											</DropdownMenuTrigger>
+
+											{/* <DropdownActions customerId={reseller.id ? reseller.id : ''} customerUser={reseller.username} customerEmail={reseller.email} /> */}
+											<DropdownRequestsActions license={request.key} />
+										</DropdownMenu>
+									</TableCell>
+								</TableRow>
+							)
+						})}
 					</TableBody>
 				</Table>
 			</CardContent>

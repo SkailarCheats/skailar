@@ -201,10 +201,6 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 		try {
 			const response = await fetch(`/api/ban-license?key=${license?.key}`)
 
-			if (!response.ok) {
-				throw new Error('Failed to Ban key')
-			}
-
 			toast.success('Successfully banned license')
 			router.refresh();
 		} catch (error) {
@@ -218,11 +214,7 @@ export const DropdownActions = ({ orderId, userEmail, licenseKey, productId, cus
 		if (!confirmed) return;
 
 		try {
-			const response = await fetch(`/api/unban-license?key=${license?.key}`)
-
-			if (!response.ok) {
-				throw new Error('Failed to Unban key')
-			}
+			const response = await fetch(`https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=unban&key=${license?.key}`)
 
 			toast.success('Successfully unbanned license')
 			router.refresh();

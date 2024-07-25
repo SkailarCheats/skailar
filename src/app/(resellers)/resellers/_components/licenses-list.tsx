@@ -82,7 +82,7 @@ export const LicensesList = ({ user, active }: { user: User, active?: boolean })
 	}, []);
 
 	const filteredKeys = active
-		? keys.filter(key => key.genby === user.username && key.status === 'Used')
+		? keys.filter(key => key.genby === user.username && (key.status === 'Used' || key.status === 'Banned'))
 		: keys.filter(key => key.genby === user.username && key.status === 'Not Used');
 
 	const totalPages = Math.ceil(filteredKeys.length / ITEMS_PER_PAGE);

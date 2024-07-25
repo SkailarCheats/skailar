@@ -49,7 +49,7 @@ export const DashboardNav = ({ banRequests }: { banRequests: Banrequest[] }) => 
 						>
 							{<link.icon className="h-4 w-4" />}
 							{link.title}
-							{link.title === 'Ban Requests' && (
+							{link.title === 'Ban Requests' && banRequests.length > 0 && (
 								<Badge className="-ml-1.5 px-1.5">
 									{banRequests.length}
 								</Badge>

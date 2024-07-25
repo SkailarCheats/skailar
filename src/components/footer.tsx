@@ -156,9 +156,21 @@ export const Footer = () => {
                         </div>
                     </div>
                     <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 dark:border-gray-100/10">
-                        <p className="text-sm text-muted-foreground">
-                            &copy;{year} Skailar. All Rights Reserved.
-                        </p>
+                        <div className="md:flex items-center justify-between">
+                            <p className="text-sm text-muted-foreground">
+                                &copy;{year} Skailar. All Rights Reserved.
+                            </p>
+                            <iframe
+                                src="https://status.skailar.com/embed-status/ab98f0b9/dark-sm"
+                                width="230"
+                                height="40"
+                                frameBorder="0"
+                                scrolling="no"
+                                style={{ border: "none" }}
+                                className="w-[230px] rounded-full"
+                            >
+                            </iframe>
+                        </div>
                     </div>
                 </div>
             </MaxWidthWrapper>

@@ -30,7 +30,12 @@ export default async function RootLayout({
 }) {
 	const payload = await getPayloadClient();
 	const { docs: banRequests } = await payload.find({
-		collection: 'banrequest'
+		collection: 'banrequest',
+		where: {
+			status: {
+				equals: 'pending'
+			}
+		}
 	})
 
 	return (

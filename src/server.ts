@@ -118,7 +118,22 @@ const start = async () => {
         try {
             const response = await axios.get(
                 `https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=ban&key=${key}&reason=Automated%20Ban&userToo=false`
-            );
+            )
+
+            const payload = await getPayloadClient();
+
+            await payload.update({
+                collection: 'banrequest',
+                where: {
+                    key: {
+                        equals: key,
+                    },
+                },
+                data: {
+                    status: 'approved',
+                }
+            });
+
             res.json(response.data);
         } catch (error) {
             res.status(500).json({ error: "Failed to ban license key" });
@@ -397,6 +412,32 @@ const start = async () => {
             })
 
             return res.status(201).json({ message: "Request Ban Created" })
+        } catch (error) {
+            return res.status(500).json({ message: "Internal Error" })
+        }
+    })
+
+    // Refuse ban request
+    app.post("/api/refuse-ban", async (req, res) => {
+        const { licenseKey } = req.body;
+
+        try {
+            const response = await axios.get(
+                `https://api.skailar.com/api/seller/?sellerkey=${process.env.NEXT_PUBLIC_SKAILAR_SELLER_KEY}&type=unban&key=${licenseKey}`
+            );
+
+            const payload = await getPayloadClient()
+            await payload.update({
+                collection: 'banrequest',
+                where: {
+                    key: {
+                        equals: licenseKey,
+                    },
+                },
+                data: {
+                    status: 'denied',
+                }
+            })
         } catch (error) {
             return res.status(500).json({ message: "Internal Error" })
         }

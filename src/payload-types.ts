@@ -248,6 +248,7 @@ export interface Banrequest {
   username: string | User;
   key: string;
   reason: string;
+  status?: ('pending' | 'approved' | 'denied') | null;
   updatedAt: string;
   createdAt: string;
 }
