@@ -18,6 +18,7 @@ export interface Config {
     resellers: Reseller;
     newsletters: Newsletter;
     reseller_products: ResellerProduct;
+    banrequest: Banrequest;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -235,6 +236,18 @@ export interface ResellerProduct {
   level?: string | null;
   expiry?: string | null;
   approvedForSale?: ('pending' | 'approved' | 'denied') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banrequest".
+ */
+export interface Banrequest {
+  id: string;
+  username: string | User;
+  key: string;
+  reason: string;
   updatedAt: string;
   createdAt: string;
 }

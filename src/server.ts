@@ -381,6 +381,27 @@ const start = async () => {
         }
     });
 
+    // Ban Request
+    app.post("/api/ban-request", async (req, res) => {
+        const { userId, licenseKey, reason } = req.body;
+
+        try {
+            const payload = await getPayloadClient()
+            await payload.create({
+                collection: 'banrequest',
+                data: {
+                    username: userId,
+                    key: licenseKey,
+                    reason: reason
+                }
+            })
+
+            return res.status(201).json({ message: "Request Ban Created" })
+        } catch (error) {
+            return res.status(500).json({ message: "Internal Error" })
+        }
+    })
+
     app.post("/api/newsletter/unsubscribe", async (req, res) => {
         const { email } = req.body;
 

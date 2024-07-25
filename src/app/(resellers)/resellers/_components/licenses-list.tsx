@@ -31,6 +31,7 @@ import { User } from "@/payload-types";
 import { useEffect, useState } from "react";
 import { getSellerBaseURL } from "@/lib/urls";
 import DownloadButtons from "@/components/download-buttons";
+import { ResellerActions } from "./reseller-actions";
 
 export interface Keys {
 	id: string;
@@ -198,7 +199,7 @@ export const LicensesList = ({ user, active }: { user: User, active?: boolean })
 													<span className="sr-only">Toggle menu</span>
 												</Button>
 											</DropdownMenuTrigger>
-											{/* <DropdownActions license={key} /> */}
+											<ResellerActions license={key} user={user} />
 										</DropdownMenu>
 									</TableCell>
 								</TableRow>

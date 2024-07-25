@@ -2,11 +2,13 @@
 
 import { ModeToggle } from "@/components/toggle";
 import { cn } from "@/lib/utils";
-import { DollarSign, HomeIcon, Key, PackageIcon, Shield, ShoppingCartIcon, Star, UsersIcon } from "lucide-react";
+import { DollarSign, HomeIcon, Key, PackageIcon, Shield, ShoppingCartIcon, Star, UsersIcon, Ban } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CheckLicense } from "./check-license";
+import { Banrequest } from "@/payload-types";
+import { Badge } from "@/components/ui/badge";
 
 export const links = [
 	{ title: 'Dashboard', icon: HomeIcon, href: '/dashboard' },
@@ -16,12 +18,13 @@ export const links = [
 	{ title: 'Resellers', icon: DollarSign, href: '/dashboard/resellers' },
 	{ title: 'Admins', icon: Shield, href: '/dashboard/admins' },
 	{ title: 'Reviews', icon: Star, href: '/dashboard/reviews' },
-	{ title: 'Licenses', icon: Key, href: '/dashboard/licenses' }
-]
+	{ title: 'Ban Requests', icon: Ban, href: '/dashboard/ban-requests' },
+	{ title: 'Licenses', icon: Key, href: '/dashboard/licenses' },
+];
 
-export const DashboardNav = () => {
+export const DashboardNav = ({ banRequests }: { banRequests: Banrequest[] }) => {
 	const currentRoute = usePathname();
-	const active = 'bg-muted text-primary hover:text-primary'
+	const active = 'bg-muted text-primary hover:text-primary';
 
 	return (
 		<div className="flex h-full max-h-screen flex-col gap-2">
@@ -46,6 +49,11 @@ export const DashboardNav = () => {
 						>
 							{<link.icon className="h-4 w-4" />}
 							{link.title}
+							{link.title === 'Ban Requests' && (
+								<Badge className="-ml-1.5 px-1.5">
+									{banRequests.length}
+								</Badge>
+							)}
 						</Link>
 					))}
 				</nav>
@@ -54,5 +62,5 @@ export const DashboardNav = () => {
 				<CheckLicense />
 			</div>
 		</div>
-	)
-}
+	);
+};

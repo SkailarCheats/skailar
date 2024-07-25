@@ -11,6 +11,7 @@ import { DashboardMenuNav } from "./_components/dashboard-menu-nav"
 import { DashboardNav } from "./_components/dashboard-nav"
 import { DashboardUserMenu } from "./_components/dashboard-user-menu"
 import { SearchBar } from '@/components/search-bar'
+import { getPayloadClient } from '@/get-payload'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,11 +23,16 @@ export const metadata: Metadata = {
 	}
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode
 }) {
+	const payload = await getPayloadClient();
+	const { docs: banRequests } = await payload.find({
+		collection: 'banrequest'
+	})
+
 	return (
 		<html lang="en" className='h-full'>
 			<head>
@@ -44,7 +50,7 @@ export default function RootLayout({
 							<div className="flex-grow flex-1">
 								<div className="grid min-h-screen h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
 									<div className="hidden border-r bg-muted/40 md:block">
-										<DashboardNav />
+										<DashboardNav banRequests={banRequests} />
 									</div>
 									<div className="flex flex-col h-screen">
 										<header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 fixed top-0 left-0 md:left-[220px] lg:left-[280px] right-0 z-10 ">
