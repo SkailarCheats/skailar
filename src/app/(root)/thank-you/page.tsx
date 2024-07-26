@@ -93,8 +93,8 @@ const Page = async ({ searchParams }: PageProps) => {
                                     return (
                                         <li key={product.id} className="flex space-x-6 py-6">
                                             <div className="relative h-24 w-24">
-                                                {typeof image !== "string" && image.url && (
-                                                    <Image fill src={image.url} alt={`${product.name} image`} className="flex-none rounded-md bg-gray-100 dark:bg-gray-900 object-cover object-center" />
+                                                {typeof image !== "string" && image && (
+                                                    <Image fill src={image} alt={`${product.name} image`} className="flex-none rounded-md bg-gray-100 dark:bg-gray-900 object-cover object-center" />
                                                 )}
                                             </div>
 

@@ -64,7 +64,7 @@ const Page = async ({ params }: PageProps) => {
 
     // Valid image URLs for the product
     const validUrls = product.images
-        .map(({ image }) => (typeof image === "string" ? image : image.url))
+        .map(({ image }) => (typeof image === "string" ? image : image))
         .filter(Boolean) as string[];
 
     // Rendering product description

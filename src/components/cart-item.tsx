@@ -16,9 +16,9 @@ export const CartItem = ({ product }: { product: Product }) => {
             <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center space-x-4">
                     <div className="relative aspect-square h-16 w-16 min-w-fit overflow-hidden rounded">
-                        {typeof image !== "string" && image.url ? (
+                        {typeof image !== "string" && image ? (
                             <Image
-                                src={image.url} alt={product.name} fill className="absolute object-cover"
+                                src={image} alt={product.name} fill className="absolute object-cover"
                             />
                         ) : (
                             <div className="flex h-full items-center justify-center bg-secondary">

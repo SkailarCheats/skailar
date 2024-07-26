@@ -98,15 +98,13 @@ export const ReceiptEmail = ({ date, email, orderId, products }: ReceiptEmailPro
                         return (
                             <Section key={product.id}>
                                 <Column style={{ width: '64px' }}>
-                                    {typeof image !== 'string' && image.url && (
-                                        <Img
-                                            src={image.url}
-                                            width='64'
-                                            height='64'
-                                            alt="Product Image"
-                                            style={productIcon}
-                                        />
-                                    )}
+                                    <Img
+                                        src={image}
+                                        width='64'
+                                        height='64'
+                                        alt="Product Image"
+                                        style={productIcon}
+                                    />
                                 </Column>
                                 <Column style={{ paddingLeft: '22px' }}>
                                     <Text style={productTitle}>
