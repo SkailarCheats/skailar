@@ -107,7 +107,7 @@ export async function CTA() {
 						</div>
 						<div className="z-10 mt-4 flex flex-col items-center text-center text-black dark:text-white">
 							<h1 className="text-3xl font-bold lg:text-4xl">
-								Skailar - Your Ultimate Gaming Partner.
+								Skailar
 							</h1>
 							<p className="mt-2">
 								Elevate your gaming experience with Skailar. Start your journey today.
@@ -119,7 +119,7 @@ export async function CTA() {
 										size: "lg",
 										variant: "outline",
 									}),
-									"group mt-4 rounded-[2rem] px-6",
+									"group mt-4 px-6",
 								)}
 							>
 								Discover Products
