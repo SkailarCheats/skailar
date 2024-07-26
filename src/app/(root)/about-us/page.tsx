@@ -1,6 +1,9 @@
+"use client"
+
 import { CTA } from "@/components/cta";
 import { Jumbotron } from "@/components/jumbotron";
 import { SphereMask } from "@/components/sphere-mask";
+import Stepper from "@/components/syntaxui/dotted-stepper";
 import { TeamMembers } from "@/components/team-members";
 import Image from "next/image";
 
@@ -55,6 +58,7 @@ export default function AboutUs() {
 					</div>
 				</div>
 			</section>
+			<Stepper />
 			<CTA />
 		</>
 	)

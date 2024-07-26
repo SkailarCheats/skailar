@@ -1,8 +1,8 @@
-import Marquee from "@/components/magicui/marquee";
 import { buttonVariants } from "@/components/ui/button";
-import { PRODUCT_CATEGORY } from "@/config";
 import { cn } from "@/lib/utils";
-import { ChevronRight, Package2 } from "lucide-react";
+import Marquee from "@/components/magicui/marquee";
+import { ChevronRight, HeartHandshake, Package2, ShoppingBag } from "lucide-react";
+import { PRODUCT_CATEGORY } from "@/config";
 import Image from "next/image";
 
 const ReviewCard = ({
@@ -119,7 +119,7 @@ export async function CTA() {
 										size: "lg",
 										variant: "outline",
 									}),
-									"group mt-4 px-6",
+									"group mt-4 rounded-[2rem] px-6",
 								)}
 							>
 								Discover Products
