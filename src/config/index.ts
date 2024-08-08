@@ -117,7 +117,6 @@ export const navigation = {
         { name: 'Newsletter', href: '/newsletter' },
     ],
     company: [
-        { name: 'About Us', href: '/about-us' },
         { name: 'Status Page', href: 'https://status.skailar.com/' },
         { name: 'Skailar Blog', href: 'https://blog.skailar.com/' },
         { name: 'Skailar Careers', href: 'https://careers.skailar.com/' },
