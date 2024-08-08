@@ -50,11 +50,26 @@ const Page = async ({ params }: PageProps) => {
     // Returning a not found page if no product is found
     if (!product) return notFound();
 
+    // Capitalize Category
+    const capitalizeCategory = (category: string) => {
+        if (category === 'cs2')
+            return category.toUpperCase();
+        else if (category === 'rainbow_six_full')
+            return 'Rainbow Six Full'
+        else if (category === 'rainbow_six_lite')
+            return 'Rainbow Six Lite'
+        else
+            return category
+                .split('_')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ')
+    }
+
     // Breadcrumbs for navigation
     const BREADCRUMBS = [
         { id: 1, name: "Home", href: "/" },
         { id: 2, name: "Products", href: "/products" },
-        { id: 3, name: `${product.name}`, href: `/product/${product.id}` },
+        { id: 3, name: `${capitalizeCategory(product.category)}`, href: `/products/${product.category}` },
     ];
 
     // Finding the label for the product category
