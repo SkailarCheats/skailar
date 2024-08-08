@@ -1,7 +1,9 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
+import { CTA } from "@/components/cta";
 import { DataLength } from "@/components/data/data-length";
 import { ProductReel } from "@/components/product-reel";
 import { buttonVariants } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { ArrowDownToLine, Headphones, RefreshCcw } from "lucide-react";
 import Link from "next/link";
 
@@ -61,6 +63,20 @@ export default function Home() {
         />
       </MaxWidthWrapper>
 
+      {/* TODO: Uncomment for new launch
+      
+      <Jumbotron />
+
+      <SphereMask />
+
+      <MaxWidthWrapper>
+        <ProductReel
+          query={{ sort: "desc", limit: 4 }}
+          title="Brand New"
+          href="/products"
+        />
+      </MaxWidthWrapper> */}
+
       <section className="border-t border-b border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950">
         <MaxWidthWrapper className="py-20">
           <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
@@ -90,8 +106,15 @@ export default function Home() {
       </section>
 
       <MaxWidthWrapper className="py-20">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 sm:text-3xl mb-4">
+          Skailar Statistics
+        </h1>
         <DataLength />
       </MaxWidthWrapper>
+
+      <Separator />
+
+      <CTA />
     </>
   );
 }
