@@ -118,12 +118,12 @@ export function ProductsListClient({ processedProducts }: ProductsListClientProp
 							return (
 								<TableRow key={index}>
 									<TableCell className="hidden sm:table-cell">
-										{typeof image !== "string" && image.url ? (
+										{typeof image === "string" && image ? (
 											<Image
 												alt="Product image"
 												className="aspect-square rounded-md object-cover"
 												height="64"
-												src={image.url}
+												src={image}
 												width="64"
 											/>
 										) : (

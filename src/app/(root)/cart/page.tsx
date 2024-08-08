@@ -207,7 +207,7 @@ const Page = () => {
                                         <li key={product.id} className="flex py-6 sm:py-10">
                                             <div className="flex-shrink-0">
                                                 <div className="relative h-24 w-24">
-                                                    {typeof image !== "string" && image ? (
+                                                    {typeof image === "string" && image ? (
                                                         <Image
                                                             fill
                                                             src={image}
