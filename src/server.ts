@@ -476,6 +476,11 @@ const start = async () => {
         }
     });
 
+    app.get('/api/problems', (req, res) => {
+        const maintenance = false;
+        res.json(maintenance);
+    });
+
     app.use((req, res) => nextHandler(req, res));
 
     nextApp.prepare().then(() => {

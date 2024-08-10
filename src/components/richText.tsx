@@ -69,7 +69,6 @@ const renderRichText = (richText: RichTextNode[]): React.ReactNode => {
                             alt={node.text || 'Image'}
                             width={600}
                             height={400}
-                            layout="responsive"
                             objectFit="cover"
                             className="rounded-lg"
                         />

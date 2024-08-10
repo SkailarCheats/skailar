@@ -352,8 +352,13 @@ const Page = () => {
                                                     : "dark:bg-[#202020] "
                                                     } items-center gap-2 w-1/2 flex h-10 rounded-md border border-input hover:bg-black/20 dark:hover:bg-[#171717] px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                                             >
-                                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img src={cartTotal + fee < 6 ? '/bnb.svg' : '/ltc.svg'} alt="" className="w-4 h-4" />
+                                                <Image
+                                                    src={cartTotal + fee < 6 ? 'https://cdn.skailar.com/v1/assets/upload/bnb.svg' : 'https://cdn.skailar.com/v1/assets/upload/ltc.svg'}
+                                                    alt="crypto icon"
+                                                    className="w-4 h-4"
+                                                    height={16}
+                                                    width={16}
+                                                />
                                                 {cartTotal + fee < 6 ? 'BNB (BSC)' : 'LTC'}
                                             </button>
                                             <button
@@ -364,8 +369,13 @@ const Page = () => {
                                                     } items-center gap-2 w-1/2 flex h-10 rounded-md border border-input hover:bg-black/20 dark:hover:bg-[#171717] px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                                             >
                                                 {" "}
-                                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img src={cartTotal + fee < 6 ? '/trx.svg' : '/btc.svg'} alt="" className="w-4 h-4" />
+                                                <Image
+                                                    src={cartTotal + fee < 6 ? 'https://cdn.skailar.com/v1/assets/upload/trx.svg' : 'https://cdn.skailar.com/v1/assets/upload/btc.svg'}
+                                                    alt="crypto icon"
+                                                    className="w-4 h-4"
+                                                    height={16}
+                                                    width={16}
+                                                />
                                                 {cartTotal + fee < 6 ? 'TRX' : 'BTC'}
                                             </button>
                                         </div>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function ClientSection() {
 	return (
 		<section
@@ -7,39 +9,54 @@ export default function ClientSection() {
 			<div className="py-14">
 				<div className="mx-auto max-w-screen-xl px-4 md:px-8">
 					<h2 className="text-center text-sm font-semibold text-gray-600">
-						TRUSTED BY TEAMS FROM AROUND THE WORLD
+						SUPPORTED GAMES ACROSS ALL MAJOR PLATFORMS
 					</h2>
 					<div className="mt-6">
 						<ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-16 [&_path]:fill-white">
 							<li>
-								<img
-									src={`https://cdn.magicui.design/companies/Google.svg`}
+								<Image
+									src={'https://cdn.skailar.com/v1/assets/upload/rainbow.svg'}
 									className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+									width={112}
+									height={32}
+									alt="Rainbow Six Image"
 								/>
 							</li>
 							<li>
-								<img
-									src={`https://cdn.magicui.design/companies/Microsoft.svg`}
+								<Image
+									src={'https://cdn.skailar.com/v1/assets/upload/cs2.svg'}
 									className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+									width={112}
+									height={32}
+									alt="CS2 Image"
 								/>
 							</li>
 							<li>
-								<img
-									src={`https://cdn.magicui.design/companies/GitHub.svg`}
+								<Image
+									src={'https://cdn.skailar.com/v1/assets/upload/valorant.svg'}
 									className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
-								/>
-							</li>
-
-							<li>
-								<img
-									src={`https://cdn.magicui.design/companies/Uber.svg`}
-									className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+									width={112}
+									height={32}
+									alt="Valorant Image"
 								/>
 							</li>
 							<li>
-								<img
-									src={`https://cdn.magicui.design/companies/Notion.svg`}
+								<Image
+									src={'https://cdn.skailar.com/v1/assets/upload/fortnite.svg'}
 									className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+									width={112}
+									height={32}
+									alt="Fortnite Image"
+								/>
+							</li>
+							{/* TODO: ADD APEX */}
+							<li>
+								<Image
+									src={'https://cdn.skailar.com/v1/assets/upload/rust.svg'}
+									className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+									width={112}
+									height={32}
+									alt="Rust Image"
 								/>
 							</li>
 						</ul>

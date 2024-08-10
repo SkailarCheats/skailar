@@ -11,17 +11,19 @@ export const Jumbotron = () => (
 		id="hero"
 		className="relative mx-auto mt-32 max-w-[80rem] px-6 text-center md:px-8"
 	>
-		<AnimatedGradientText>
-			🎉 <hr className="mx-2 h-4 w-[1px] shrink-0 bg-gray-300" />{" "}
-			<span
-				className={cn(
-					`inline animate-gradient bg-gradient-to-r from-[#9c40ff] to-[#D8BFD8] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
-				)}
-			>
-				Skailar is coming
-			</span>
-			<ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
-		</AnimatedGradientText>
+		<Link href='https://discord.gg/skailar' target="_blank">
+			<AnimatedGradientText>
+				🎉 <hr className="mx-2 h-4 w-[1px] shrink-0 bg-gray-300" />{" "}
+				<span
+					className={cn(
+						`inline animate-gradient bg-gradient-to-r from-[#9c40ff] to-[#D8BFD8] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
+					)}
+				>
+					Skailar is coming
+				</span>
+				<ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
+			</AnimatedGradientText>
+		</Link>
 		<h1 className="bg-gradient-to-br dark:from-white from-black from-30% dark:to-white/40 to-black/40 bg-clip-text py-6 text-5xl font-medium leading-none tracking-tighter text-transparent text-balance sm:text-6xl md:text-7xl lg:text-8xl translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
 			Your one-stop shop for
 			<br className="hidden md:block" /> premium{' '}

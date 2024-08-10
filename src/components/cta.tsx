@@ -25,7 +25,7 @@ const ReviewCard = ({
 			)}
 		>
 			<div className="relative h-40 w-full overflow-hidden rounded-xl">
-				<Image className="object-cover" src={img} alt={name} layout="fill" />
+				<Image className="object-cover" src={img} alt={name} fill />
 			</div>
 			<div className="mt-4 flex flex-col items-start">
 				<figcaption className="text-base font-semibold dark:text-white">
