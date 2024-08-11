@@ -52,7 +52,7 @@ export default function ClientSection() {
 							{/* TODO: ADD APEX */}
 							<li>
 								<Image
-									src={'https://cdn.skailar.com/v1/assets/upload/rust.svg'}
+									src={'https://cdn.skailar.com/v1/assets/upload/warzone.png'}
 									className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
 									width={112}
 									height={32}

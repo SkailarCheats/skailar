@@ -5,7 +5,7 @@ export const PRODUCT_CATEGORY = [
         featured: [
             {
                 name: "Skailar Full", // 3000 3000 3000 3000
-                href: "",
+                href: "https://skailar.com/products/rainbow_six_full",
             },
         ],
         img: "https://cdn.skailar.com/v1/assets/products/img/R6Full.png"
@@ -16,7 +16,7 @@ export const PRODUCT_CATEGORY = [
         featured: [
             {
                 name: "Skailar", // 3000 3000 3000 3000
-                href: "",
+                href: "https://skailar.com/products/cs2",
             }
         ],
         img: "https://cdn.skailar.com/v1/assets/products/img/CS2.png"
@@ -27,7 +27,7 @@ export const PRODUCT_CATEGORY = [
         featured: [
             {
                 name: "Skailar", // 3000 3000 3000 3000
-                href: "",
+                href: "https://skailar.com/products/valorant",
             }
         ],
         img: "https://cdn.skailar.com/v1/assets/products/img/VALORANT.png"
@@ -38,7 +38,7 @@ export const PRODUCT_CATEGORY = [
         featured: [
             {
                 name: "Skailar", // 3000 3000 3000 3000
-                href: "",
+                href: "https://skailar.com/products/apex",
             }
         ],
         img: "https://cdn.skailar.com/v1/assets/products/img/APEX.png"
@@ -49,7 +49,7 @@ export const PRODUCT_CATEGORY = [
         featured: [
             {
                 name: "Skailar", // 3000 3000 3000 3000
-                href: "",
+                href: "https://skailar.com/products/fortnite",
             }
         ],
         img: "https://cdn.skailar.com/v1/assets/products/img/FORTNITE.png"
@@ -60,7 +60,7 @@ export const PRODUCT_CATEGORY = [
         featured: [
             {
                 name: "Skailar", // 3000 3000 3000 3000
-                href: "",
+                href: "https://skailar.com/products/rust",
             }
         ],
         img: "https://cdn.skailar.com/v1/assets/products/img/RUST.png"
@@ -71,10 +71,21 @@ export const PRODUCT_CATEGORY = [
         featured: [
             {
                 name: "Skailar Lite", // 3000 3000 3000 3000
-                href: "",
+                href: "https://skailar.com/products/rainbow_six_lite",
             },
         ],
         img: "https://cdn.skailar.com/v1/assets/products/img/R6Lite.png"
+    },
+    {
+        label: "Warzone",
+        value: "warzone" as const,
+        featured: [
+            {
+                name: "Skailar", // 3000 3000 3000 3000
+                href: "https://skailar.com/products/warzone",
+            }
+        ],
+        img: "https://cdn.skailar.com/v1/assets/upload/Warzone.jpg"
     },
 ]
 
@@ -107,6 +118,10 @@ export const games = [
         value: "7",
         label: "Rainbow Full",
     },
+    {
+        value: "8",
+        label: "Warzone"
+    }
 ]
 
 export const navigation = {
